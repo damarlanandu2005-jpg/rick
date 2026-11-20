@@ -140,14 +140,17 @@ def main():
             for fx in sh.get("fx", []):
                 def pt(key):
                     if key in fx: return Vector(fx[key])
+                    sk = key + "_screen"
+                    if sk in fx:   # screen space: (x -1..1, y -1..1 of the half frame, depth m) so a prop is visible whatever the lens is
+                        sx, sy, dp = fx[sk]; lens_ = float(sh["cam"].get("lens", 30)); tv = 12.0 / lens_; sc.frame_set(f0); bpy.context.view_layer.update(); return cam.matrix_world @ Vector((sx * dp * tv * 720 / 1280, sy * dp * tv, -dp))
                     ck = key + "_cam"
                     if ck in fx:   # camera-space (right, up, forward) at the shot's start
                         r, u, fwd = fx[ck]; sc.frame_set(f0); bpy.context.view_layer.update(); mw = cam.matrix_world; return mw @ Vector((r, u, -fwd))
                     die("fx %s needs '%s' or '%s_cam'" % (fx.get("type"), key, key))
                 pa, pb = pt("from"), pt("to"); d = (pb - pa)
                 if fx["type"] == "bullet":
-                    mb = SC.MB("Bullet", [M.get("brass", color=(214, 128, 62)), M.get("matte", color=(255, 170, 70), rough=.4)]); mb.cyl((0, 0, 0), .035, .12, 0, 12, rot=(0, 0, 0)); mb.cyl((0, 0, .09), .035, .07, 0, 12, r2=.004); me = mb.mesh()
-                    mo = SC.MB("Streak", [M.get("matte", color=(255, 190, 90), rough=.4)]); mo.cyl((0, 0, -.6), .03, 1.1, 0, 10, r2=.002, rot=(math.pi, 0, 0)); sm = mo.mesh()
+                    mb = SC.MB("Bullet", [M.get("brass", color=(214, 128, 62)), M.get("matte", color=(255, 170, 70), rough=.4)]); mb.cyl((0, 0, 0), .05, .2, 0, 12, rot=(0, 0, 0)); mb.cyl((0, 0, .15), .05, .1, 0, 12, r2=.006); me = mb.mesh()
+                    mo = SC.MB("Streak", [M.get("matte", color=(255, 190, 90), rough=.4)]); mo.cyl((0, 0, -.9), .045, 1.6, 0, 10, r2=.003, rot=(math.pi, 0, 0)); sm = mo.mesh()
                     for mesh_, nm in ((me, "Bullet"), (sm, "Streak")):
                         ob = bpy.data.objects.new(nm, mesh_); sc.collection.objects.link(ob); ob.rotation_euler = d.normalized().to_track_quat("Z", "Y").to_euler()
                         ob.location = pa; ob.keyframe_insert("location", frame=f0); ob.location = pb; ob.keyframe_insert("location", frame=f1)
