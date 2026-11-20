@@ -5,6 +5,7 @@
 import * as C from '../vector2d_characters/code/char2d.mjs';
 import { heldSvg as heldGrip } from '../vector2d_characters/code/grips.mjs';
 import { formChar } from '../vector2d_characters/code/bodies.mjs';
+import { buildChar } from '../vector2d_characters/code/castkit.mjs';   // fulltest hook: a cast spec (hat, moustache, outfit) can dress a rig puppet
 import { MEMES } from '../vector2d_characters/code/memes.mjs';
 import { BLINKS, memes2Defs } from '../vector2d_characters/code/memes2.mjs';
 
@@ -37,7 +38,7 @@ export function makeChar(form = 'standard', opt = {}) {
   const a = S0.arms({ cx: 0, view: 'front', dir: 1, turn: 0 }).front[1], m = /M\s*([-\d.]+)[ ,]+([-\d.]+)/.exec(a.d);
   const sh = [+m[1], +m[2]], armL = (a.len0 ?? Math.hypot(a.hand[0] - sh[0], a.hand[1] - sh[1])) * 1.24;   // len0: the cast-size arms are drawn long now (bodies.mjs castArms); the film keeps its approved length
     // CB 2026-11-15 (gold mine clip): arms a little LONGER, a hanging hand almost at the body's bottom edge (was x1.06)
-  return { form, bodyTop, bodyBot, ground, K, hipY, legL, sh, armL, handX: Math.abs(a.hand[0]), hy: bodyTop - 100 * K * .78, coat: opt.coat };
+  return { spec: opt.spec, form, bodyTop, bodyBot, ground, K, hipY, legL, sh, armL, handX: Math.abs(a.hand[0]), hy: bodyTop - 100 * K * .78, coat: opt.coat };
 }
 
 // one elbow curve shoulder -> hand (same construction as poses.mjs arm())
@@ -60,7 +61,7 @@ function armCurve(sh, hand, L, bias, bow = .5) {
 //   arms: [{ s, c, h, behind, over }] = editor arms in world coords (shoulder, curve control, hand) replacing the computed ones; an arm not behind draws ON TOP of the body, as in the editor }
 export function drawPose(ch, P) {
   const view = P.view || 'side', dir = P.dir || 1, side = view === 'side';
-  const S = formChar(ch.form, 0, view, dir); S.x = 0; S.view = view; S.dir = dir; S.noLegs = true;
+  const S = ch.spec ? buildChar(ch.spec, 0) : formChar(ch.form, 0, view, dir); S.x = 0; S.view = view; S.dir = dir; S.noLegs = true;
   if (ch.coat) S.coat = ch.coat;
   // face
   delete S.meme; S.face = { expr: 'standard' };
