@@ -1,0 +1,253 @@
+{
+ "name": "passA_second_draw_0_14s_intent",
+ "fps": 30,
+ "place": "western_noon",
+ "seed": 3,
+ "cast": {
+  "red": {
+   "spec": "red",
+   "height_m": 1.8
+  },
+  "calm": {
+   "spec": "calm",
+   "height_m": 1.8
+  }
+ },
+ "render": {
+  "preview_res_pct": 50,
+  "preview_samples": 16,
+  "frame_stride": 2,
+  "still_samples": 24,
+  "sun_dir": [
+   0.5,
+   -0.3,
+   0.8
+  ]
+ },
+ "transitions": [
+  {
+   "between": [
+    8,
+    9
+   ],
+   "type": "dissolve",
+   "sec": 0.5
+  }
+ ],
+ "grade": "day",
+ "shots": [
+  {
+   "id": 1,
+   "sec": 1.0,
+   "note": "RED medium, aims revolver",
+   "size": "medium",
+   "subject": "red",
+   "focus": "chest",
+   "side": "left",
+   "lead": "right",
+   "cast": [
+    {
+     "id": "red",
+     "at": "left",
+     "dist": "near",
+     "move": "aim_gun"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "sec": 1.0,
+   "note": "bullet POV, low, toward camera",
+   "size": "ewide",
+   "angle": "low",
+   "lens": "wide",
+   "move": "push",
+   "amount": "medium",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "far",
+     "move": "idle"
+    }
+   ],
+   "fx": [
+    {
+     "type": "bullet",
+     "path": "toward"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "sec": 1.0,
+   "note": "CALM full-ish, bullet foreground",
+   "size": "full",
+   "subject": "calm",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "mid",
+     "move": "idle"
+    }
+   ],
+   "fx": [
+    {
+     "type": "bullet",
+     "path": "across"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "sec": 1.0,
+   "note": "extreme close, belt, bullet passes",
+   "size": "ecu",
+   "subject": "calm",
+   "focus": "belt",
+   "side": "right",
+   "lens": "tele",
+   "move": "push",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "mid",
+     "move": "idle"
+    }
+   ],
+   "fx": [
+    {
+     "type": "bullet",
+     "path": "across"
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "sec": 1.0,
+   "note": "low angle head",
+   "size": "cu",
+   "subject": "calm",
+   "focus": "face",
+   "angle": "low",
+   "move": "tilt_up",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "mid",
+     "move": "idle"
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "sec": 1.0,
+   "note": "extreme wide, CALM tiny",
+   "size": "ewide",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "vfar",
+     "move": "idle"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "sec": 1.0,
+   "note": "RED foreground left, CALM far",
+   "size": "wide",
+   "cast": [
+    {
+     "id": "red",
+     "at": "left",
+     "dist": "near",
+     "move": "emo_scared"
+    },
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "far",
+     "move": "idle"
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "sec": 1.0,
+   "note": "low wide, tumbleweed crosses",
+   "size": "wide",
+   "angle": "low",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "far",
+     "move": "idle"
+    }
+   ],
+   "fx": [
+    {
+     "type": "tumbleweed"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "sec": 1.5,
+   "note": "extreme close, belt, slow push",
+   "size": "ecu",
+   "subject": "calm",
+   "focus": "belt",
+   "lens": "tele",
+   "move": "push",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "mid",
+     "move": "idle"
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "sec": 2.5,
+   "note": "medium, slow dolly in",
+   "size": "medium",
+   "subject": "calm",
+   "focus": "chest",
+   "move": "push",
+   "amount": "medium",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "mid",
+     "move": "idle"
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "sec": 2.0,
+   "note": "medium, static",
+   "size": "medium",
+   "subject": "calm",
+   "focus": "face",
+   "side": "right",
+   "cast": [
+    {
+     "id": "calm",
+     "at": "center",
+     "dist": "mid",
+     "move": "idle"
+    }
+   ]
+  }
+ ]
+}

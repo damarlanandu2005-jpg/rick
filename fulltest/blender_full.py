@@ -22,22 +22,11 @@ def gl_verdict(g):
     return "SOFTWARE" if any(k in t for k in ("llvmpipe", "softpipe", "swrast", "software")) else ("NVIDIA_GPU" if "nvidia" in t else "GPU_OTHER" if t else "UNKNOWN")
 
 def fit_camera(spec, shot_chars, cast, vfov_of):
-    """returns (pos0, aim0, pos1, aim1, lens). Target mode frames a character by visible_frac / center_frac of its height; pos/aim mode is explicit."""
-    lens = float(spec.get("lens", 30)); vfov = vfov_of(lens); push = float(spec.get("push", 0)); dz = float(spec.get("aim_dz", 0))
-    adx = float(spec.get("aim_dx", 0))
-    if "target" in spec:
-        c = next((x for x in shot_chars if x["id"] == spec["target"]), None)
-        if c is None: die("camera target '%s' is not in this shot's chars" % spec["target"])
-        H = cast[c["id"]].get("height_m", 1.8); base = Vector((c["pos"][0], c["pos"][1], 0.0))
-        A0 = base + Vector((0, 0, spec.get("center_frac", .6) * H)) + Vector((math.cos(math.radians(spec.get("az", 0))), math.sin(math.radians(spec.get("az", 0))), 0)) * adx; V = spec.get("visible_frac", .8) * H; d0 = V / (2 * math.tan(vfov / 2))
-        az, el = math.radians(spec.get("az", 0)), math.radians(spec.get("el", 0))
-        dirv = Vector((math.sin(az) * math.cos(el), -math.cos(az) * math.cos(el), math.sin(el)))
-        A1 = A0 + Vector((0, 0, dz * H)); d1 = d0 * (1 - push)
-        return A0 + dirv * d0, A0, A1 + dirv * d1, A1, lens
-    if "pos" in spec and "aim" in spec:
-        p, a = Vector(spec["pos"]), Vector(spec["aim"]); f = (a - p).normalized()
-        return p, a, p + f * push, a + Vector((0, 0, dz)), lens
-    die("camera spec needs 'target' or both 'pos' and 'aim': %s" % json.dumps(spec))
+    """thin wrapper: the maths lives in shotmath.py (shared with validate_plan.py, so the validator and the renderer cannot disagree)"""
+    import shotmath as SM
+    try: r = SM.fit_camera(spec, shot_chars, cast)
+    except ValueError as e: die(str(e))
+    return Vector(r["pos0"]), Vector(r["aim0"]), Vector(r["pos1"]), Vector(r["aim1"]), r["lens"]
 
 def look_euler(pos, aim, prev=None):
     q = (aim - pos).to_track_quat("-Z", "Y"); return q.to_euler("XYZ", prev) if prev is not None else q.to_euler("XYZ")
@@ -69,14 +58,10 @@ def main():
     cam = bpy.data.objects.new("Cam", cd); sc.collection.objects.link(cam); sc.camera = cam
     vfov_of = lambda lens: 2 * math.atan(12.0 / lens)
 
-    # 2b. characters placed by screen position (pos/aim shots): {"screen": [sx -1..1, depth m]} -> world position in front of that shot's camera
-    for sh in shots:
-        for c in sh.get("chars", []):
-            if "screen" in c:
-                cs = sh["cam"]
-                if "pos" not in cs: die("shot %s: a char 'screen' placement needs the shot camera in pos/aim mode" % sh["id"])
-                p, aim = Vector(cs["pos"]), Vector(cs["aim"]); fwd = Vector((aim.x - p.x, aim.y - p.y, 0)).normalized(); right = Vector((fwd.y, -fwd.x, 0)); sx, dp = c["screen"]
-                tvh = 12.0 / float(cs.get("lens", 30)) * 720 / 1280; w = p + fwd * dp + right * (sx * dp * tvh); c["pos"] = [w.x, w.y]
+    # 2b. characters placed by screen position -> world position (shotmath, same as the validator)
+    import shotmath as SM
+    try: SM.resolve_screen_chars(shots)
+    except ValueError as e: die(str(e))
     # 3. street (keep grass off the places characters stand)
     stands = [(c["pos"][0], c["pos"][1], 1.0) for s in shots for c in s.get("chars", [])]
     st = street_kit.build(sc, S.get("street", {}), keep_clear=stands, log=lambda m: print(m, flush=True)); R["street"] = st

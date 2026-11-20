@@ -24,7 +24,7 @@ def stream(cmd, log, env=None):
     rc = p.wait(); Path(log).write_text("".join(lines)); return rc, "".join(lines)
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--blender", required=True); ap.add_argument("--gpu-backend", default="opengl"); ap.add_argument("--out", default=str(HERE / "out"))
-    ap.add_argument("--mode", choices=["stills", "preview", "both"], default="stills"); ap.add_argument("--script", default=str(HERE / "script_passA.json")); ap.add_argument("--stride", type=int, default=0); ap.add_argument("--res-pct", type=int, default=0)
+    ap.add_argument("--mode", choices=["stills", "preview", "both"], default="stills"); ap.add_argument("--script", default=""); ap.add_argument("--intent", default=str(HERE / "intent_passA.json")); ap.add_argument("--stride", type=int, default=0); ap.add_argument("--res-pct", type=int, default=0)
     a = ap.parse_args(); T0 = time.time(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True); lock = out / "lock"
     miss = [f for f in NEED if not (ROOT / f).is_file()]
     if miss: fail("missing repo files (is this the ricks-2d-core branch?): " + ", ".join(miss))
@@ -32,6 +32,14 @@ def main():
         if not shutil.which(tool): fail("%s not found on PATH" % tool)
     if not os.access(a.blender, os.X_OK): fail("blender binary not executable: %s" % a.blender)
     rep = {"checks": []}; ck = lambda n, ok, d="": (rep["checks"].append((n, ok, d)), print("  [%s] %s %s" % ("PASS" if ok else "FAIL", n, d)))
+    print("== 0. plan: intent -> compiled script -> validation (no Blender needed)")
+    if not a.script:
+        rc, txt = stream([sys.executable, str(HERE / "compile_intent.py"), a.intent, str(out / "script.json")], out / "compile.log"); print(txt.strip().splitlines()[-1] if txt.strip() else "")
+        if rc != 0: fail("intent compile failed, see %s" % (out / "compile.log"))
+        a.script = str(out / "script.json")
+    rc, txt = stream([sys.executable, str(HERE / "validate_plan.py"), a.script], out / "validate.log"); print(txt)
+    if rc != 0: fail("plan validation found errors (above). Fix the intent spec, not the renderer. Nothing was rendered.")
+    ck("plan validated (camera, framing, props, characters)", True, "")
     print("== 1. cards (existing Ricks rig + cast outfits -> PNG sequences)")
     rc, txt = stream(["node", str(HERE / "make_cards_multi.mjs"), a.script, str(lock)], out / "cards.log", node_env())
     if rc != 0: fail("card generation failed, see %s" % (out / "cards.log"))
