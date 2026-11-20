@@ -158,7 +158,7 @@ def main():
                     die("fx %s needs '%s' or '%s_cam'" % (fx.get("type"), key, key))
                 pa, pb = pt("from"), pt("to"); d = (pb - pa); fs_ = float(fx.get("scale", 1.0))
                 if fx["type"] == "bullet":
-                    mb = SC.MB("Bullet", [M.get("brass", color=(214, 128, 62)), M.get("matte", color=(255, 170, 70), rough=.4)]); mb.cyl((0, 0, 0), .05, .2, 0, 12, rot=(0, 0, 0)); mb.cyl((0, 0, .15), .05, .1, 0, 12, r2=.006); me = mb.mesh()
+                    mb = SC.MB("Bullet", [M.get("matte", color=(226, 138, 66), rough=.35), M.get("matte", color=(255, 190, 90), rough=.4)]); mb.cyl((0, 0, 0), .05, .2, 0, 12, rot=(0, 0, 0)); mb.cyl((0, 0, .15), .05, .1, 0, 12, r2=.006); me = mb.mesh()
                     mo = SC.MB("Streak", [M.get("matte", color=(255, 190, 90), rough=.4)]); mo.cyl((0, 0, -.9), .045, 1.6, 0, 10, r2=.003, rot=(math.pi, 0, 0)); sm = mo.mesh()
                     for mesh_, nm in ((me, "Bullet"), (sm, "Streak")):
                         ob = bpy.data.objects.new(nm, mesh_); sc.collection.objects.link(ob); ob.rotation_euler = d.normalized().to_track_quat("Z", "Y").to_euler()
