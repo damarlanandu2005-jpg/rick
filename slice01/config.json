@@ -1,11 +1,29 @@
 {
   "name": "slice01",
   "fps": 30,
-  "puppet": { "form": "standard", "px_scale": 1.0 },
+  "puppet": {
+    "form": "standard",
+    "px_scale": 1.0
+  },
   "segments": [
-    { "move": "templates/motion_styles/moves/emo_think.mjs",  "style": "C", "seconds": 4, "note": "confused scratch, front view, in place" },
-    { "move": "templates/motion_styles/moves/emo_happy.mjs",  "style": "A", "seconds": 4, "note": "happy dance, front view, in place" },
-    { "move": "templates/motion_styles/moves/emo_scared.mjs", "style": "A", "seconds": 4, "note": "knocking knees, front view, in place" }
+    {
+      "move": "templates/motion_styles/moves/emo_think.mjs",
+      "style": "C",
+      "seconds": 4,
+      "note": "confused scratch, front view, in place"
+    },
+    {
+      "move": "templates/motion_styles/moves/emo_happy.mjs",
+      "style": "A",
+      "seconds": 4,
+      "note": "happy dance, front view, in place"
+    },
+    {
+      "move": "templates/motion_styles/moves/emo_scared.mjs",
+      "style": "A",
+      "seconds": 4,
+      "note": "knocking knees, front view, in place"
+    }
   ],
   "blender": {
     "camera_name": null,
@@ -13,11 +31,36 @@
     "preview_res_pct": 50,
     "preview_samples": 16,
     "frame_stride": 2,
-    "character_materials": ["Skin", "EyeWhite", "Pupil", "Brow", "Mouth", "Teeth", "Hair", "Shirt", "Jacket", "Lapel", "Limb", "Tie", "Badge"],
+    "character_materials": [
+      "Skin",
+      "EyeWhite",
+      "Pupil",
+      "Brow",
+      "Mouth",
+      "Teeth",
+      "Hair",
+      "Shirt",
+      "Jacket",
+      "Lapel",
+      "Limb",
+      "Tie",
+      "Badge"
+    ],
     "floor_material": "Carpet",
     "height_factor": 1.0,
-    "offset": [0.0, 0.0, 0.0],
+    "offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
     "self_lit": 0.5,
-    "emit": 1.0
+    "emit": 1.0,
+    "contact_shadow": {
+      "enabled": true,
+      "width_m": 0.75,
+      "depth_m": 0.35,
+      "strength": 0.6,
+      "lift_m": 0.004
+    }
   }
 }

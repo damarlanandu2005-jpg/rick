@@ -122,6 +122,31 @@ def main():
     except Exception as e: die("cannot import templates/blender_look/from_lock.py: %r" % (e,))
     try: K = FL.card(sc, A.lock, "hero", cam, self_lit=float(B.get("self_lit", .5)), emit=float(B.get("emit", 1.0)))
     except Exception: print(traceback.format_exc()); die("from_lock.card() failed (traceback above)")
+    # 5b. soft contact shadow under the card's feet (plain Blender mesh + shader; non-fatal if it fails)
+    CS = B.get("contact_shadow", {})
+    if CS.get("enabled", False):
+        try:
+            w, dpt, strength = float(CS.get("width_m", .7)), float(CS.get("depth_m", .35)), float(CS.get("strength", .55))
+            me = bpy.data.meshes.new("ContactShadow"); me.from_pydata([(-w/2, -dpt/2, 0), (w/2, -dpt/2, 0), (w/2, dpt/2, 0), (-w/2, dpt/2, 0)], [], [(0, 1, 2, 3)]); me.update()
+            uv = me.uv_layers.new(name="UVMap")
+            for l, p in zip(me.loops, [(0, 0), (1, 0), (1, 1), (0, 1)]): uv.data[l.index].uv = p
+            sh = bpy.data.objects.new("ContactShadow", me); sc.collection.objects.link(sh)
+            sh.location = (cx, cy, cz + float(CS.get("lift_m", .004))); sh.visible_shadow = False
+            m = bpy.data.materials.new("ContactShadowMat"); m.use_nodes = True; nt = m.node_tree; nt.nodes.clear()
+            def N(t, **kw):
+                n = nt.nodes.new(t)
+                for a, v in kw.items(): setattr(n, a, v)
+                return n
+            tc = N("ShaderNodeTexCoord"); sub = N("ShaderNodeVectorMath", operation="SUBTRACT"); sub.inputs[1].default_value = (.5, .5, 0)
+            ln = N("ShaderNodeVectorMath", operation="LENGTH"); mr = N("ShaderNodeMapRange"); mr.inputs[1].default_value = 0; mr.inputs[2].default_value = .5; mr.inputs[3].default_value = 1; mr.inputs[4].default_value = 0
+            sq = N("ShaderNodeMath", operation="POWER"); sq.inputs[1].default_value = 2; ml = N("ShaderNodeMath", operation="MULTIPLY"); ml.inputs[1].default_value = strength
+            tr = N("ShaderNodeBsdfTransparent"); em = N("ShaderNodeEmission"); em.inputs[0].default_value = (0, 0, 0, 1); mix = N("ShaderNodeMixShader"); out = N("ShaderNodeOutputMaterial")
+            Lk = nt.links.new
+            Lk(tc.outputs["UV"], sub.inputs[0]); Lk(sub.outputs[0], ln.inputs[0]); Lk(ln.outputs["Value"], mr.inputs[0]); Lk(mr.outputs[0], sq.inputs[0]); Lk(sq.outputs[0], ml.inputs[0])
+            Lk(ml.outputs[0], mix.inputs[0]); Lk(tr.outputs[0], mix.inputs[1]); Lk(em.outputs[0], mix.inputs[2]); Lk(mix.outputs[0], out.inputs[0])
+            me.materials.append(m); R["contact_shadow"] = {"width_m": w, "depth_m": dpt, "strength": strength, "at": [cx, cy, cz]}
+        except Exception as e:
+            print(traceback.format_exc()); R["warnings"].append("contact shadow failed: %r" % (e,))
     R["card"] = {"object": K["object"].name, "metres_per_px": k, "card_px": I["px"], "frames": nframes, "drawings": I["images"], "runs": len(I["runs"])}
 
     # 6. low-cost preview settings (casino lights, materials and world are untouched)
