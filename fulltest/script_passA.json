@@ -20,7 +20,7 @@
     {
       "id": 1,
       "sec": 1.0,
-      "note": "RED medium, shaking fury",
+      "note": "RED medium, aims revolver sideways",
       "cam": {
         "target": "red",
         "visible_frac": 0.98,
@@ -36,8 +36,8 @@
             -1.0,
             8.0
           ],
-          "move": "emo_angry",
-          "style": "C"
+          "move": "aim_gun",
+          "style": "A"
         }
       ]
     },
@@ -386,5 +386,16 @@
       -0.3,
       0.8
     ]
-  }
+  },
+  "transitions": [
+    {
+      "between": [
+        8,
+        9
+      ],
+      "type": "dissolve",
+      "sec": 0.5
+    }
+  ],
+  "grade": "day"
 }

@@ -16,7 +16,7 @@ const rig = await import(pathToFileURL(path.join(ROOT, 'templates/motion_styles/
 const { WESTERN } = await import(pathToFileURL(path.join(HERE, 'cast_western.mjs')).href).catch(e => die('cannot load cast_western.mjs: ' + e.message.split('\n')[0]));
 const { makeChar, drawPose, G } = rig;
 const MOVES = 'templates/motion_styles/moves/';
-const loadMove = async (name, style) => { const f = path.join(ROOT, MOVES, name + '.mjs'); if (!fs.existsSync(f)) die(`move "${name}" not found in ${MOVES}`);
+const loadMove = async (name, style) => { const own = path.join(HERE, 'moves', name + '.mjs'), f = fs.existsSync(own) ? own : path.join(ROOT, MOVES, name + '.mjs'); if (!fs.existsSync(f)) die(`move "${name}" not found in fulltest/moves or ${MOVES}`);
   const mod = (await import(pathToFileURL(f).href)).default; const st = mod?.styles?.find(x => x.key === style); if (!st) die(`style "${style}" not in move ${name} (has ${(mod?.styles || []).map(x => x.key).join(',')})`); return { mod, st }; };
 function parts(st, t, ch) {
   const out = st.pose(t, ch), poses = Array.isArray(out.poses) ? out.poses : [out]; const defs = []; let ids = 0;

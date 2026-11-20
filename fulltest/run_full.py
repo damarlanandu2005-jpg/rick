@@ -8,7 +8,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
 NEED = ["templates/motion_styles/rig.mjs", "templates/motion_styles/moves/idle.mjs", "templates/motion_styles/moves/emo_angry.mjs", "templates/motion_styles/moves/emo_scared.mjs",
         "templates/vector2d_characters/code/sheets/sheet05.mjs", "templates/blender_look/from_lock.py", "templates/blender_look/materials.py", "templates/blender_look/look.py",
-        "fulltest/make_cards_multi.mjs", "fulltest/cast_western.mjs", "fulltest/street_kit.py", "fulltest/blender_full.py", "fulltest/script_passA.json"]
+        "fulltest/make_cards_multi.mjs", "fulltest/post.py", "fulltest/moves/aim_gun.mjs", "templates/blender_look/grade.py", "fulltest/cast_western.mjs", "fulltest/street_kit.py", "fulltest/blender_full.py", "fulltest/script_passA.json"]
 def fail(m): print("FULL_ERROR " + m); sys.exit(1)
 def node_env():
     env = os.environ.copy(); pw = ROOT / "slice01" / "node_modules" / "playwright"
@@ -53,8 +53,11 @@ def main():
         ck("contact sheet written", (out / "contact_sheet.jpg").is_file())
     if "preview" in R:
         fps = R["preview"]["timing"]["preview"]; fr = 30 / max(1, fps["stride"])
-        rc = subprocess.run(["ffmpeg", "-y", "-v", "error", "-framerate", str(fr), "-i", str(out / "frames" / "f_%04d.png"), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "veryfast", str(out / "preview.mp4")]).returncode
-        ck("preview.mp4 encoded (silent)", rc == 0 and (out / "preview.mp4").is_file())
+        enc = lambda src, dst: subprocess.run(["ffmpeg", "-y", "-v", "error", "-framerate", str(fr), "-i", str(src), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "veryfast", str(dst)]).returncode
+        ck("preview_raw.mp4 encoded (no dissolve, no grade)", enc(out / "frames" / "f_%04d.png", out / "preview_raw.mp4") == 0)
+        pr = subprocess.run([sys.executable, str(HERE / "post.py"), "--script", a.script, "--frames", str(out / "frames"), "--out", str(out / "frames_post"), "--stride", str(fps["stride"])], capture_output=True, text=True)
+        print(pr.stdout.strip(), pr.stderr.strip()[-500:]); ck("post (dissolves + existing Ricks grade)", pr.returncode == 0, pr.stdout.strip()[-200:])
+        if pr.returncode == 0: ck("preview.mp4 encoded (silent)", enc(out / "frames_post" / "p_%04d.png", out / "preview.mp4") == 0 and (out / "preview.mp4").is_file())
         ck("all planned frames rendered", R["preview"]["frames_on_disk"] == len(range(1, R["preview"]["frames"] + 1, fps["stride"])), "%s of %s" % (R["preview"]["frames_on_disk"], len(range(1, R["preview"]["frames"] + 1, fps["stride"]))))
     lines = ["# fulltest Pass A report", "", "| check | result | detail |", "|---|---|---|"] + ["| %s | %s | %s |" % (n, "PASS" if ok else "FAIL", d) for n, ok, d in rep["checks"]]
     for m, r in R.items():
