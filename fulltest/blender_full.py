@@ -35,10 +35,10 @@ def main():
     A = parse(); S = json.load(open(A.script)); FPS = S.get("fps", 30); RS = S.get("render", {}); cast = S["cast"]; shots = S["shots"]
     stride = A.stride or RS.get("frame_stride", 2); res_pct = A.res_pct or RS.get("preview_res_pct", 50); samples = A.samples or (RS.get("still_samples", 24) if A.mode == "stills" else RS.get("preview_samples", 16))
     os.makedirs(A.out, exist_ok=True); R = {"blender": bpy.app.version_string, "mode": A.mode, "warnings": [], "script": S.get("name")}
-    sys.path.insert(0, os.path.join(A.repo, "templates")); sys.path.insert(0, os.path.join(A.repo, "fulltest"))
+    sys.path.insert(0, os.path.join(A.repo, "templates")); sys.path.insert(0, os.path.join(A.repo, "fulltest")); sys.path.insert(0, A.repo)
     try:
         from blender_look import look as LOOK, materials as M, render as RN, from_lock as FL, scatter as SC
-        import street_kit
+        from kit import build_set as street_kit
     except Exception as e: die("cannot import the Ricks blender_look modules / street_kit: %r" % (e,))
     bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene
     # frame table
@@ -64,7 +64,7 @@ def main():
     except ValueError as e: die(str(e))
     # 3. street (keep grass off the places characters stand)
     stands = [(c["pos"][0], c["pos"][1], 1.0) for s in shots for c in s.get("chars", [])]
-    st = street_kit.build(sc, S.get("street", {}), keep_clear=stands, log=lambda m: print(m, flush=True)); R["street"] = st
+    cfg_ = dict(S.get("street", {})); cfg_.setdefault("tex_dir", os.path.join(A.out, "kit_tex")); st = street_kit.build(sc, cfg_, keep_clear=stands, log=lambda m: print(m, flush=True)); R["street"] = st
     R["warnings"] += ["street: " + e for e in st["errors"]]
     if "ground" not in st["parts"]: die("the street ground failed to build, see STREET_STEP_FAILED above")
 
@@ -189,7 +189,7 @@ def main():
     R["timing"] = {"frames_rendered": len(rows), "first_s": ts[0] if ts else None, "mean_excl_first_s": round(statistics.mean(rest), 3) if rest else None, "max_s": max(ts) if ts else None, "per_frame": rows,
                    "preview": {"res_pct": res_pct, "px": [720 * res_pct // 100, 1280 * res_pct // 100], "samples": samples, "stride": stride}}
     json.dump(R, open(os.path.join(A.out, "full_report_%s.json" % A.mode), "w"), indent=1, default=str)
-    print("FULL_REPORT " + json.dumps({k: v for k, v in R.items() if k not in ("timing", "street")} | {"street": {"parts": R["street"]["parts"], "errors": R["street"]["errors"]}} | {"timing": {k: v for k, v in R["timing"].items() if k != "per_frame"}}, default=str))
+    print("FULL_REPORT " + json.dumps({k: v for k, v in R.items() if k not in ("timing", "street")} | {"street": {"parts": R["street"]["parts"], "errors": R["street"]["errors"], "kinds": R["street"]["tally"]["types"], "instances": R["street"]["tally"]["instances"]}} | {"timing": {k: v for k, v in R["timing"].items() if k != "per_frame"}}, default=str))
 
 try: main()
 except SystemExit: raise

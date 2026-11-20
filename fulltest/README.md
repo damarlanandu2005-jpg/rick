@@ -18,3 +18,6 @@ It renders one still per shot first (contact sheet, about 1 min), then the 14 s 
 
 ## Known gaps (documented, not hidden)
 No audio or lip-sync; hard cuts only (the reference dissolves at 8 s); no revolver or aiming pose (RED uses the angry emote); no depth of field; props are simple. Blender steps were exercised only with a fake `bpy` here, so the first Colab run is the real test.
+
+## Kit (since commit "real environment kit")
+The set now comes from `kit/` (rules `KIT_SPEC.md`, parts `parts.py`, recipe `recipes/western_noon.json`, builder `build_set.py`, sign textures `textures.py`, pre-check `set_check.py`). The old thin `street_kit.py` is removed. The run report ends with a usage meter (measured seconds per step; Colab compute units are an assumed-rate estimate).

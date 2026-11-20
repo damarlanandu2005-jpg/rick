@@ -5,10 +5,12 @@ Steps: preflight -> cards (Node, existing Ricks puppet rig, existing cast outfit
 Never a final-quality render. Failures print FULL_ERROR with the cause."""
 import argparse, json, os, shutil, subprocess, sys, time
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent)); from usage_meter import Meter
+METER = Meter()
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parent
 NEED = ["templates/motion_styles/rig.mjs", "templates/motion_styles/moves/idle.mjs", "templates/motion_styles/moves/emo_angry.mjs", "templates/motion_styles/moves/emo_scared.mjs",
         "templates/vector2d_characters/code/sheets/sheet05.mjs", "templates/blender_look/from_lock.py", "templates/blender_look/materials.py", "templates/blender_look/look.py",
-        "fulltest/make_cards_multi.mjs", "fulltest/post.py", "fulltest/moves/aim_gun.mjs", "templates/blender_look/grade.py", "fulltest/cast_western.mjs", "fulltest/street_kit.py", "fulltest/blender_full.py", "fulltest/script_passA.json"]
+        "fulltest/make_cards_multi.mjs", "fulltest/post.py", "fulltest/moves/aim_gun.mjs", "templates/blender_look/grade.py", "fulltest/cast_western.mjs", "kit/build_set.py", "kit/parts.py", "kit/kitlib.py", "kit/textures.py", "kit/recipes/western_noon.json", "fulltest/blender_full.py", "fulltest/script_passA.json"]
 def fail(m): print("FULL_ERROR " + m); sys.exit(1)
 def node_env():
     env = os.environ.copy(); pw = ROOT / "slice01" / "node_modules" / "playwright"
@@ -16,12 +18,12 @@ def node_env():
     elif Path("/opt/npm-tools/node_modules").is_dir(): env.setdefault("NODE_PATH", "/opt/npm-tools/node_modules")
     return env
 def stream(cmd, log, env=None):
-    print("[run] " + " ".join(map(str, cmd)), flush=True); lines = []
+    print("[run] " + " ".join(map(str, cmd)), flush=True); lines = []; _t = time.time(); label = next((("blender " + cmd[cmd.index("--mode") + 1]) for c in cmd if "blender_full.py" in str(c)), None) or Path(str(cmd[1])).name if len(cmd) > 1 else str(cmd[0])
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors="replace", bufsize=1, env=env)
     for l in p.stdout:
         lines.append(l)
         if any(k in l for k in ("FULL_", "STREET_STEP", "Error", "Traceback", "FRAME 1 ", "GL_INFO")) or l.startswith("  "): print(l.rstrip(), flush=True)
-    rc = p.wait(); Path(log).write_text("".join(lines)); return rc, "".join(lines)
+    rc = p.wait(); Path(log).write_text("".join(lines)); METER.add(label, time.time() - _t); return rc, "".join(lines)
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--blender", required=True); ap.add_argument("--gpu-backend", default="opengl"); ap.add_argument("--out", default=str(HERE / "out"))
     ap.add_argument("--mode", choices=["stills", "preview", "both"], default="stills"); ap.add_argument("--script", default=""); ap.add_argument("--intent", default=str(HERE / "intent_passA.json")); ap.add_argument("--stride", type=int, default=0); ap.add_argument("--res-pct", type=int, default=0)
@@ -40,6 +42,12 @@ def main():
     rc, txt = stream([sys.executable, str(HERE / "validate_plan.py"), a.script], out / "validate.log"); print(txt)
     if rc != 0: fail("plan validation found errors (above). Fix the intent spec, not the renderer. Nothing was rendered.")
     ck("plan validated (camera, framing, props, characters)", True, "")
+    place = json.loads(Path(a.script).read_text()).get("street", {}).get("preset", "western_noon")
+    rc, txt = stream([sys.executable, str(ROOT / "kit" / "set_check.py"), place], out / "set_check.log"); print(txt.strip())
+    if rc != 0: fail("set recipe check failed (above): the set cannot meet the density gates by design")
+    ck("set recipe check", True, place)
+    print("== 0b. kit textures (signs, posters; PIL, drawn from scratch)")
+    rc, txt = stream([sys.executable, str(ROOT / "kit" / "textures.py"), str(out / "kit_tex")], out / "textures.log"); ck("kit textures written", rc == 0 and (out / "kit_tex" / "sign_saloon.png").is_file(), txt.strip()[-120:])
     print("== 1. cards (existing Ricks rig + cast outfits -> PNG sequences)")
     rc, txt = stream(["node", str(HERE / "make_cards_multi.mjs"), a.script, str(lock)], out / "cards.log", node_env())
     if rc != 0: fail("card generation failed, see %s" % (out / "cards.log"))
@@ -54,6 +62,7 @@ def main():
         if rc != 0: print("--- last log lines ---\n" + "".join(txt.splitlines(True)[-25:])); break
         R[m] = json.loads((out / ("full_report_%s.json" % m)).read_text())
         ck("GPU (not software)", R[m].get("gl_verdict") in ("NVIDIA_GPU", "GPU_OTHER"), str(R[m].get("gl_verdict")))
+        tl = R[m].get("street", {}); ck("DENSITY GATE kinds >= 30 (Ricks DENSITY_RULES)", tl.get("kinds", 0) >= 30, "%s kinds" % tl.get("kinds")); ck("DENSITY GATE objects >= 600", tl.get("instances", 0) >= 600, "%s objects" % tl.get("instances"))
         ck("no decoration steps failed", not R[m]["warnings"], "; ".join(R[m]["warnings"])[:400])
     if "stills" in R:
         n = len(R["stills"].get("stills", [])); ck("one still per shot rendered", n == len(json.loads(Path(a.script).read_text())["shots"]), "%d stills" % n)
@@ -71,6 +80,7 @@ def main():
     for m, r in R.items():
         t = r["timing"]; lines += ["", "## Timing (%s, measured)" % m, "- %d renders, first %.2fs, mean excl. first %.3fs, max %.2fs%s" % (t["frames_rendered"], t["first_s"] or 0, t["mean_excl_first_s"] or 0, t["max_s"] or 0, ", wall %ss" % r["wall_s"] if "wall_s" in r else ""), "- settings: %s" % json.dumps(t["preview"])]
         lines += ["- camera: " + json.dumps(r["camera"])] if m == "stills" else []
+    nfr = R.get("preview", {}).get("frames_on_disk", 0); um = METER.report(nfr, out); METER.save(out / "usage.json"); lines += ["", "```", um, "```"]
     lines += ["", "Total wall time: %.0fs. Output folder: %s" % (time.time() - T0, out)]; (out / "full_report.md").write_text("\n".join(lines)); print("\n" + "\n".join(lines))
     sys.exit(0 if all(ok for _, ok, _ in rep["checks"]) else 1)
 main()
