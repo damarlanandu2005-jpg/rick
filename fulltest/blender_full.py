@@ -24,11 +24,12 @@ def gl_verdict(g):
 def fit_camera(spec, shot_chars, cast, vfov_of):
     """returns (pos0, aim0, pos1, aim1, lens). Target mode frames a character by visible_frac / center_frac of its height; pos/aim mode is explicit."""
     lens = float(spec.get("lens", 30)); vfov = vfov_of(lens); push = float(spec.get("push", 0)); dz = float(spec.get("aim_dz", 0))
+    adx = float(spec.get("aim_dx", 0))
     if "target" in spec:
         c = next((x for x in shot_chars if x["id"] == spec["target"]), None)
         if c is None: die("camera target '%s' is not in this shot's chars" % spec["target"])
         H = cast[c["id"]].get("height_m", 1.8); base = Vector((c["pos"][0], c["pos"][1], 0.0))
-        A0 = base + Vector((0, 0, spec.get("center_frac", .6) * H)); V = spec.get("visible_frac", .8) * H; d0 = V / (2 * math.tan(vfov / 2))
+        A0 = base + Vector((0, 0, spec.get("center_frac", .6) * H)) + Vector((math.cos(math.radians(spec.get("az", 0))), math.sin(math.radians(spec.get("az", 0))), 0)) * adx; V = spec.get("visible_frac", .8) * H; d0 = V / (2 * math.tan(vfov / 2))
         az, el = math.radians(spec.get("az", 0)), math.radians(spec.get("el", 0))
         dirv = Vector((math.sin(az) * math.cos(el), -math.cos(az) * math.cos(el), math.sin(el)))
         A1 = A0 + Vector((0, 0, dz * H)); d1 = d0 * (1 - push)
@@ -68,6 +69,14 @@ def main():
     cam = bpy.data.objects.new("Cam", cd); sc.collection.objects.link(cam); sc.camera = cam
     vfov_of = lambda lens: 2 * math.atan(12.0 / lens)
 
+    # 2b. characters placed by screen position (pos/aim shots): {"screen": [sx -1..1, depth m]} -> world position in front of that shot's camera
+    for sh in shots:
+        for c in sh.get("chars", []):
+            if "screen" in c:
+                cs = sh["cam"]
+                if "pos" not in cs: die("shot %s: a char 'screen' placement needs the shot camera in pos/aim mode" % sh["id"])
+                p, aim = Vector(cs["pos"]), Vector(cs["aim"]); fwd = Vector((aim.x - p.x, aim.y - p.y, 0)).normalized(); right = Vector((fwd.y, -fwd.x, 0)); sx, dp = c["screen"]
+                tvh = 12.0 / float(cs.get("lens", 30)) * 720 / 1280; w = p + fwd * dp + right * (sx * dp * tvh); c["pos"] = [w.x, w.y]
     # 3. street (keep grass off the places characters stand)
     stands = [(c["pos"][0], c["pos"][1], 1.0) for s in shots for c in s.get("chars", [])]
     st = street_kit.build(sc, S.get("street", {}), keep_clear=stands, log=lambda m: print(m, flush=True)); R["street"] = st
@@ -147,13 +156,13 @@ def main():
                     if ck in fx:   # camera-space (right, up, forward) at the shot's start
                         r, u, fwd = fx[ck]; sc.frame_set(f0); bpy.context.view_layer.update(); mw = cam.matrix_world; return mw @ Vector((r, u, -fwd))
                     die("fx %s needs '%s' or '%s_cam'" % (fx.get("type"), key, key))
-                pa, pb = pt("from"), pt("to"); d = (pb - pa)
+                pa, pb = pt("from"), pt("to"); d = (pb - pa); fs_ = float(fx.get("scale", 1.0))
                 if fx["type"] == "bullet":
                     mb = SC.MB("Bullet", [M.get("brass", color=(214, 128, 62)), M.get("matte", color=(255, 170, 70), rough=.4)]); mb.cyl((0, 0, 0), .05, .2, 0, 12, rot=(0, 0, 0)); mb.cyl((0, 0, .15), .05, .1, 0, 12, r2=.006); me = mb.mesh()
                     mo = SC.MB("Streak", [M.get("matte", color=(255, 190, 90), rough=.4)]); mo.cyl((0, 0, -.9), .045, 1.6, 0, 10, r2=.003, rot=(math.pi, 0, 0)); sm = mo.mesh()
                     for mesh_, nm in ((me, "Bullet"), (sm, "Streak")):
                         ob = bpy.data.objects.new(nm, mesh_); sc.collection.objects.link(ob); ob.rotation_euler = d.normalized().to_track_quat("Z", "Y").to_euler()
-                        ob.location = pa; ob.keyframe_insert("location", frame=f0); ob.location = pb; ob.keyframe_insert("location", frame=f1)
+                        ob.scale = (fs_, fs_, fs_); ob.location = pa; ob.keyframe_insert("location", frame=f0); ob.location = pb; ob.keyframe_insert("location", frame=f1)
                         ob.hide_render = True; ob.keyframe_insert("hide_render", frame=1); ob.hide_render = False; ob.keyframe_insert("hide_render", frame=f0); ob.hide_render = True; ob.keyframe_insert("hide_render", frame=f1 + 1)
                         for fc in FL._fcurves(ob.animation_data.action):
                             for kp in fc.keyframe_points: kp.interpolation = "CONSTANT" if "hide" in fc.data_path else "LINEAR"
