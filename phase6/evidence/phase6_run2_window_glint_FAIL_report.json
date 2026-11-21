@@ -1,0 +1,160 @@
+{
+ "frames": "0-59",
+ "renderer": "cpu",
+ "stage_wall_s": {
+  "phase5_cpu_gate_s": 182.5,
+  "pipeline_s": 382.4
+ },
+ "gates": {
+  "P5 CPU gate (recipe, density, named objects, flight, QA)": true,
+  "P6 pipeline end to end (exit 0)": false,
+  "P6 stage C1-C3": true,
+  "P6 stage 1 plan": true,
+  "P6 stage 2 base": true,
+  "P6 stage 3 lock": true,
+  "P6 stage 4 flight": true,
+  "P6 stage 5a visible": true,
+  "P6 stage 5 layers": false
+ },
+ "pipeline": [
+  {
+   "stage": "C1-C3",
+   "kind": "creative",
+   "status": "INPUT",
+   "seconds": 0.0,
+   "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+  },
+  {
+   "stage": "1 plan",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 0.25,
+   "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+  },
+  {
+   "stage": "2 base",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 265.55,
+   "note": "60 frames, cpu, 4.43 s/frame"
+  },
+  {
+   "stage": "3 lock",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 43.12,
+   "note": ""
+  },
+  {
+   "stage": "4 flight",
+   "kind": "scripted",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "no flight in range"
+  },
+  {
+   "stage": "5a visible",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 5.64,
+   "note": "window_glint: named objects seen, rays per frame [25, 25, 23, 23, 20, 28, 31, 25, 30, 28]"
+  },
+  {
+   "stage": "5 layers",
+   "kind": "scripted",
+   "status": "FAIL",
+   "seconds": 67.67,
+   "note": "window_glint gates {\"A\": true, \"B\": false, \"D\": true, \"E\": false}"
+  }
+ ],
+ "layer_report": {
+  "layer": "window_glint",
+  "type": "reflection",
+  "frames": [
+   0,
+   9
+  ],
+  "gates": {
+   "A outside the named mask nothing changes": true,
+   "B mean luminance added in mask <= 0.06": false,
+   "D steady-state s/frame <= 15": true,
+   "E layer edges register with base (<= 0.50 px) and camera fov matches": false
+  },
+  "PASS": false,
+  "C visual contribution": "REVIEW before_after_sheet.png (Ricks: kept only if it clearly adds; never auto-passed)",
+  "blender_wall_s": 63.63,
+  "steady_s_per_frame": 0.661,
+  "cold_first_frame_s": 49.446,
+  "metrics": {
+   "dims": {
+    "base": [
+     720,
+     1280
+    ],
+    "layer": [
+     720,
+     1280
+    ]
+   },
+   "A_max_outside_diff_8bit_all_frames": 0,
+   "A_outside_changed_px_total": 0,
+   "B_mean_lum_added_in_mask_max_over_frames": 0.0686,
+   "B_mean_over_frames": 0.0664,
+   "camera": {
+    "render_s": 0.859,
+    "blender_fov_v_deg": 73.74,
+    "baked_fov_v_deg": 73.74,
+    "blender_pos": [
+     0.7749,
+     -1.9217,
+     0.91
+    ],
+    "baked_pos": [
+     0.7749,
+     -1.9217,
+     0.91
+    ],
+    "res": [
+     720,
+     1280
+    ],
+    "aspect": 0.5625,
+    "aspect_baked": 0.5625,
+    "sensor_fit": "VERTICAL",
+    "fov_diff_deg": 0.0
+   },
+   "E_align_pass_edge_shift_px": {
+    "hero_bbox": [
+     -0.06,
+     -0.8,
+     0.206
+    ],
+    "full": [
+     -2.08,
+     -3.91,
+     0.095
+    ],
+    "right_half": [
+     2.01,
+     -3.9,
+     0.116
+    ]
+   },
+   "E_align_pass_ncc0": {
+    "hero_bbox": 0.428,
+    "full": 0.32,
+    "right_half": 0.292
+   },
+   "E_layer_alpha_edges_vs_base_edges_hero_bbox_shift_px": [
+    -0.01,
+    -3.7,
+    0.061
+   ],
+   "E_layer_alpha_vs_base_ncc0": 0.039
+  },
+  "inputs_sha1": "be4250fb4b52268ec0519d881311fcd209200196"
+ },
+ "qa": null,
+ "PHASE56": "FAIL",
+ "C": "layer visual contribution: review before_after_sheet.png (auto-accepted for this test run, flagged in review.json)"
+}

@@ -55,14 +55,10 @@
     "kind": "lock_nodes",
     "place": "platform",
     "nodes": [
-     "window_saloon",
-     "window_general",
-     "window_barber",
-     "window_bank",
-     "window_livery",
-     "window_undertaker",
-     "window_hotel",
-     "window_jail",
+     "lamp_post",
+     "lamp_foot",
+     "lamp_neck",
+     "lamp_drum",
      "water_tower_tank",
      "windmill_hub"
     ]

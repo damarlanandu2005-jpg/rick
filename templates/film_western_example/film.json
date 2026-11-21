@@ -741,22 +741,18 @@
  ],
  "layers": [
   {
-   "id": "window_glint",
+   "id": "lamp_reflect",
    "type": "reflection",
    "place": "platform",
    "objects": [
-    "window_saloon",
-    "window_general",
-    "window_barber",
-    "window_bank",
-    "window_livery",
-    "window_undertaker",
-    "window_hotel",
-    "window_jail"
+    "lamp_post",
+    "lamp_foot",
+    "lamp_neck",
+    "lamp_drum"
    ],
    "frames": [
-    0,
-    9
+    201,
+    210
    ],
    "gain": 0.5
   }
