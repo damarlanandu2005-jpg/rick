@@ -43,7 +43,10 @@ def run(ep, lid, blender, gpu, W, H):
     t = time.perf_counter(); cmd = [blender, "-b", "--factory-startup", "--python-exit-code", "1"] + (["--gpu-backend", gpu] if gpu else []) + ["-P", str(SCRIPTS[0]), "--", str(ROOT), str(ep), str(od), lid, str(W), str(H)]
     p = subprocess.run(cmd, capture_output=True, text=True, errors="replace"); (od / "blender.log").write_text(p.stdout + p.stderr)
     if p.returncode: print((p.stdout + p.stderr)[-1500:]); raise SystemExit("blender failed")
-    blender_s = round(time.perf_counter() - t, 2); al = next(od.glob("align_*.png"))
+    return evaluate(ep, lid, od, W, H, round(time.perf_counter() - t, 2))
+def evaluate(ep, lid, od, W, H, blender_s):
+    """CPU half of run(): composite the layer PNGs in <od> onto the base stills, apply the per-type gate, write layer_report.json + manifest.json (also used by the QA fixtures and by a layer rendered elsewhere)"""
+    ep = Path(ep); od = Path(od); S = spec_of(ep, lid); f0, f1 = S["frames"]; ih = inputs_hash(ep, lid, W, H); al = next(od.glob("align_*.png")); mp = od / "manifest.json"
     cp = subprocess.run([sys.executable, str(ROOT / "phase1b/compose_1b.py"), "--base", str(ep / "out/stills"), "--layer", str(od), "--align", str(al), "--camera", str(od / "align_camera.json"), "--out", str(od / "result"), "--frames", "%d-%d" % (f0, f1)], capture_output=True, text=True)
     if cp.returncode: print(cp.stderr[-1500:]); raise SystemExit("composite failed")
     C = json.load(open(od / "result/compose_report.json")); T = json.load(open(od / "layer_timing.json")); g = GATES[S["type"]]; sh = C["E_layer_alpha_edges_vs_base_edges_hero_bbox_shift_px"]

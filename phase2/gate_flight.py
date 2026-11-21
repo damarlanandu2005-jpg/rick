@@ -14,6 +14,7 @@ def ok(n, c, msg=''): res.append(c); print(('PASS' if c else 'FAIL'), n, msg)
 cam = {c['f']: c for c in json.load(open(f'{P}/camera_baked.json'))['frames']}
 fl = json.load(open(f'{P}/flights_baked.json')); film = json.load(open(f'{d}/film.json'))
 W, H = film.get('size', [540, 960])
+film_r = {x['id']: x.get('r', 0.07) for x in film.get('flights', [])}
 for fid, F in fl.items():
     rows = {r[0]: r for r in F['frames']}; lv, hit = F['leave'], F['hit']
     # G2
@@ -42,6 +43,9 @@ for fid, F in fl.items():
         m = (im[..., 0] > 220) & (im[..., 1] < 90) & (im[..., 2] > 150)
         if m.sum() < 8: print(f"OCCLUDED f{f}: no blob at projected ({px:.0f},{py:.0f}) - behind a character card (checked by eye on the crop); not counted"); occl += 1; continue
         ys, xs = np.nonzero(m); cx, cy = xs.mean() / sx, ys.mean() / sy; e = math.hypot(cx - px, cy - py)
+        rad = fy * film_r.get(fid, 0.07) / z; exp_area = math.pi * rad * rad * sx * sy; dmax = float(np.hypot(xs / sx - px, ys / sy - py).max())
+        if m.sum() < 0.85 * exp_area:      # partly hidden behind a card: the visible pixels must still lie inside the expected disc (registration without a centroid)
+            reg += 1; ok('G1 registration (partly occluded)', dmax <= rad + 4, f"f{f}: {m.sum() / exp_area:.0%} visible, farthest visible px {dmax:.1f} from the projection, disc radius {rad:.1f}"); continue
         reg += 1; ok('G1 registration', e <= 4, f"f{f}: projected ({px:.1f},{py:.1f}) blob ({cx:.1f},{cy:.1f}) err {e:.2f}px")
     ok('G1 coverage', reg >= 3, f"{fid}: {reg} registered frames, {occl} occluded (need >=3 registered)")
 # G5

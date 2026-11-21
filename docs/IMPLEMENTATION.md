@@ -17,3 +17,15 @@ Branch `ricks-2d-core`. Phase 1C (`phase1c/`) is the frozen baseline: three.js b
 - **Tests:** `phase3/test_layers_cpu.py` (CPU, no Blender): spec gate, deterministic bake, MISSING/FRESH/STALE/STALE-LOCK, named objects in the glb.
 - **Not done / open:** three.js-owned character matte (characters are still Holdout cards in Blender; the card head offset seen in Phase 1 is undiagnosed); only the reflection type is gated.
 - **Run:** `python3 phase3/run_phase3.py --blender <blender> --out <dir>` (Colab: `phase3/colab_phase3.ipynb`).
+
+## Phase 3 result (Colab T4, gate PASS)
+Generic path reproduced Phase 1C: A outside mask 0, B +0.0472 (<= 0.06), steady 0.774 s/frame (cold 51.2 s), layer edges vs base 0.03/0.05 px, second run cache hit (0.01 s), status FRESH, registry OK. C (visual) stays a manual look at `before_after_sheet.png`.
+
+## Phase 4: hybrid QA (gate PASS, CPU)
+- **Reused:** `film_plan.py check` (plan stage), `phase2/gate_flight.py`, `layers.py` status/hashes, `tools/check_film.py` (camera, plan-vs-picture, frozen/flicker, faces/captions; only on a full-film video because its plan numbers are whole-film), `tools/frame_checks/check.mjs` (optional `--frame-checks`, needs the GPU path).
+- **New (the hybrid-only seams):** `tools/final_video.py` (base + every FRESH, PASSED layer -> `out/final/frames`, `final.mp4`, `final_manifest.json` with sha1 of every input), `tools/qa_hybrid.py` (5 stages: plan, three.js, blender, composite, video; reads the actual composite and decodes the actual mp4).
+- **What the composite stage proves:** final frame == base + layer x alpha recomputed from the CURRENT inputs (hash-checked); outside every layer's named mask the final frame == the base; the decoded video frames equal the composite PNGs (PSNR >= 35 dB).
+- **Tests:** `phase4/test_qa.py`: Q1 real flight range, Q2 layer range (synthetic layer: mechanism test), and six negative cases that must be caught (pixel outside mask, layer PNG changed after assembly, base still changed, flight changed after lock, video not the composite, blank base frame). All PASS.
+- **Fixed on the way:** `gate_flight.py` treated a coin partly hidden behind a card as misregistered (centroid of the visible part); it now checks the visible pixels lie inside the expected disc (partial occlusion) and reports it.
+- **Limitations:** `check_film.py` and `frame_checks` were not run on a hybrid full-film video yet (Phase 6 test Short); no audio checks (silent); the layer in the QA test is synthetic.
+- **Run:** `python3 tools/final_video.py <ep> [--frames a-b]` then `python3 tools/qa_hybrid.py <ep>`.
