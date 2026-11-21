@@ -1,0 +1,167 @@
+{
+ "command": "/usr/local/bin/python3 /home/claude/rick/tools/pipeline.py /tmp/p7_local/ep --frames all --renderer cpu --res 720x1280 --accept-layers",
+ "pipeline_rc": 1,
+ "total_pipeline_wall_s": 959.6,
+ "resolution": [
+  720,
+  1280
+ ],
+ "stages": [
+  {
+   "stage": "C1-C3",
+   "kind": "creative",
+   "status": "INPUT",
+   "seconds": 0.0,
+   "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+  },
+  {
+   "stage": "1 plan",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 0.22,
+   "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+  },
+  {
+   "stage": "2 base",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 846.84,
+   "note": "460 frames, cpu, 1.84 s/frame"
+  },
+  {
+   "stage": "3 lock",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 32.93,
+   "note": ""
+  },
+  {
+   "stage": "4 flight",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 0.45,
+   "note": "GATE PASS"
+  },
+  {
+   "stage": "5 layers",
+   "kind": "scripted",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "lamp_reflect: no --blender (layer will be omitted from the final)"
+  },
+  {
+   "stage": "7 final",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 21.08,
+   "note": "final.mp4, layers []"
+  },
+  {
+   "stage": "8 qa",
+   "kind": "scripted",
+   "status": "FAIL",
+   "seconds": 57.77,
+   "note": "- **FAIL** 5 VIDEO | check_film.py on the final video | RESULT: 2 FAIL, 2 WARN of 19 gates -> /tmp/p7_local/ep/out/qa/film_check/film_check.md "
+  }
+ ],
+ "base": {
+  "frames": 460,
+  "cold_start_s_process_to_first_still": 5.5,
+  "per_frame_s": {
+   "mean": 1.834,
+   "median": 1.816,
+   "p90": 2.104,
+   "max": 2.764
+  },
+  "stage_s": 846.84
+ },
+ "qa": {
+  "PASS": false,
+  "n_checks": 15,
+  "n_pass": 13,
+  "n_fail": 1,
+  "n_skip": 1,
+  "n_warn": 0,
+  "non_pass": [
+   {
+    "stage": "5 VIDEO",
+    "name": "check_film.py on the final video",
+    "status": "FAIL",
+    "value": "RESULT: 2 FAIL, 2 WARN of 19 gates -> /tmp/p7_local/ep/out/qa/film_check/film_check.md",
+    "note": ""
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "frame_checks/check.mjs (head cut, body side, face covered, feet)",
+    "status": "SKIP",
+    "value": "",
+    "note": "needs the GPU render path; run with --frame-checks on a GPU machine"
+   }
+  ]
+ },
+ "plan_warns": [
+  "  WARN camera   word stations not at rest on their word                    1              target 0: key nouns land with the camera at rest, 0-6 f before the word (CB's rule)",
+  "  WARN framing  face frames where the whole body fits, %                   56.0           target >= 65 (Rick 68)",
+  "  WARN acting   effects per 10 s                                           2.6            target 1-2, on the action noun or verb (Rick)",
+  "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in /tmp/p7_local/ep/out/plan"
+ ],
+ "temporal": {
+  "frames": 460,
+  "mean_luma_series_step_max": 9.481,
+  "frame_diff_mean": 7.857,
+  "frame_diff_p99": 28.913,
+  "largest_frame_diffs": [
+   [
+    342,
+    35.77
+   ],
+   [
+    341,
+    34.51
+   ],
+   [
+    343,
+    33.08
+   ],
+   [
+    173,
+    29.21
+   ],
+   [
+    344,
+    29.01
+   ],
+   [
+    172,
+    28.84
+   ],
+   [
+    174,
+    28.19
+   ],
+   [
+    171,
+    28.13
+   ],
+   [
+    345,
+    27.55
+   ],
+   [
+    340,
+    26.68
+   ],
+   [
+    175,
+    26.56
+   ],
+   [
+    379,
+    26.16
+   ]
+  ]
+ },
+ "layer_lamp_reflect": "not rendered (no --blender)",
+ "mp4_decode_errors": "none",
+ "mp4_bytes": 5157170
+}

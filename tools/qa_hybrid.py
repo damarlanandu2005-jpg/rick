@@ -92,6 +92,7 @@ def main():
     full = f0 == 0 and f1 == len(json.load(open(ep / "out/plan/camera_baked.json"))["frames"]) - 1
     if a.no_film_check or not full: add("5 VIDEO", "check_film.py (camera, plan vs picture, frozen/flicker, faces)", None, "", "needs the full-film video (the plan numbers are whole-film); this video is frames %d-%d" % (f0, f1) if not full else "disabled")
     else:
+        if not (ep / "out/plan/visibility.json").exists(): subprocess.run(["node", str(HERE.parent / "templates/threejs_film/render.mjs"), str(ep / "film.json"), "--visibility"], capture_output=True, text=True)   # Phase 7: check_film's face/caption gates need it (engine gap found by the first full-film run)
         c = subprocess.run([sys.executable, str(HERE / "check_film.py"), str(mp4), "--film", str(ep / "film.json"), "--out", str(qa / "film_check")], capture_output=True, text=True); add("5 VIDEO", "check_film.py on the final video", c.returncode == 0, c.stdout.strip().splitlines()[-1] if c.stdout.strip() else c.stderr[-200:])
     if a.frame_checks:
         c = subprocess.run(["node", str(HERE / "frame_checks/check.mjs"), str(ep / "film.json"), "--frames", "%d-%d" % (f0, f1)], capture_output=True, text=True); add("5 VIDEO", "frame_checks/check.mjs (head cut, body side, face covered, feet)", c.returncode == 0, c.stdout.strip().splitlines()[-1] if c.stdout.strip() else c.stderr[-200:])
