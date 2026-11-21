@@ -29,7 +29,7 @@ def _sha(p): return hashlib.sha1(open(p, "rb").read()).hexdigest()
 
 def read(ep):
     plan, lock = os.path.join(ep, "out", "plan"), os.path.join(ep, "out", "lock"); L = _j(os.path.join(lock, "lock.json"))
-    for name in ("camera_baked.json", "performance_baked.json"):
+    for name in (L.get("sha1") or {}):                      # every file the lock hashed (camera, performance and, since hybrid Phase 2, flights_baked.json)
         want = (L.get("sha1") or {}).get(name)
         if want and _sha(os.path.join(plan, name)) != want: raise RuntimeError("%s changed after the lock was exported. Re-run: node templates/threejs_film/render.mjs film.json --export-lock (and get the animatic re-approved if the picture changed)" % name)
     cam = _j(os.path.join(plan, "camera_baked.json")); return L, cam["frames"], plan, lock

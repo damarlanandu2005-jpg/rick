@@ -143,7 +143,8 @@ if (has('--export-lock')) {
   const hl = await page.evaluate(() => window.exportHighlights()); fs.writeFileSync(path.join(LOCK, 'highlights.json'), JSON.stringify(hl)); console.log(`highlights: ${hl.length}`);
   fs.writeFileSync(path.join(LOCK, 'lock.json'), JSON.stringify({ kit: 'threejs_film', lock_version: 2, lights, motion: 'motion/<place>.json', highlights: 'highlights.json', overlay: 'out/overlay/o_#####.png (render.mjs --overlay --scale 1)', title: film.title || null, fps: info.fps, frames: info.frames, size: [FW, FH],
     coords: 'plan coordinates: metres, Z up, Y away from the opening camera. The .glb files are Y up (three.js); the Blender glTF importer turns them back into plan coordinates. Frame numbers start at 0.',
-    places, cards, card_info, sha1: { 'camera_baked.json': sha('camera_baked.json'), 'performance_baked.json': sha('performance_baked.json') } }, null, 1));
+    places, cards, card_info, sha1: { 'camera_baked.json': sha('camera_baked.json'), 'performance_baked.json': sha('performance_baked.json'), ...(fs.existsSync(path.join(plan, 'flights_baked.json')) ? { 'flights_baked.json': sha('flights_baked.json') } : {}) } }, null, 1));
+  if (fs.existsSync(path.join(plan, 'flights_baked.json'))) fs.copyFileSync(path.join(plan, 'flights_baked.json'), path.join(LOCK, 'flights.json'));   // hybrid Phase 2: the flights, frozen with the lock
   console.log('lock ->', LOCK);
 }
 await browser.close(); server.close();

@@ -153,6 +153,42 @@ def bake_camera(F):
     apply_clings(F, cam); apply_looks(F, cam)
     return cam, takes
 
+# ------------------------------------------------------------------ flights (2026-11-21, hybrid Phase 2)
+# film.json "flights": [{ id, leave: <time>, fly: frames, from: [x,y,z] | {char, dx, dy, h}, to: [x,y,z] | {char, dx, dy, h}, arc: m, after: "stay" | "hide" }]
+# The numbers are the ones pieces/fx/fly_and_hit.js already uses (leave frame, frames of flight, arc, from, to). They are evaluated HERE, once, and baked to
+# out/plan/flights_baked.json; three.js (flights.js) and the Blender lock consumer only PLAY that file, so the object, the camera that follows it
+# ("follow": "flight:<id>"), the hit frame and the fx at the hit cannot disagree. A {char} target is resolved on the HIT frame (a moving target is led).
+def _fpt(F, spec, f, perf):
+    if isinstance(spec, dict) and "char" in spec:
+        p = perf_at(perf[spec["char"]], f)["pos"]; return [p[0] + spec.get("dx", 0.0), p[1] + spec.get("dy", 0.0), p[2] + spec.get("h", 1.2)]
+    return [float(v) for v in spec]
+def bake_flights(F, perf):
+    out = {}
+    for fl in F.get("flights", []):
+        leave = fr(F, fl["leave"]); fly = max(1, int(fl.get("fly", 5))); hit = leave + fly; src = _fpt(F, fl["from"], leave, perf); dst = _fpt(F, fl["to"], hit, perf)
+        arc = float(fl.get("arc", 0.0)); after = fl.get("after", "stay"); tgt = fl["to"] if isinstance(fl["to"], dict) and "char" in fl["to"] else None
+        tpos_hit = perf_at(perf[tgt["char"]], hit)["pos"] if tgt else None; rows = []
+        for f in range(0, F["_end"] + 1):
+            if f < leave: p, vis = src, 0
+            elif f < hit:
+                u = (f - leave) / float(fly); p = vlerp(src, dst, u); p = [p[0], p[1], p[2] + arc * 4.0 * u * (1 - u)]; vis = 1
+            else:
+                p, vis = dst, 1 if after == "stay" else 0
+                if tgt and after == "stay": q = perf_at(perf[tgt["char"]], f)["pos"]; p = [dst[0] + q[0] - tpos_hit[0], dst[1] + q[1] - tpos_hit[1], dst[2] + q[2] - tpos_hit[2]]   # stuck to a moving target
+            rows.append([f, round(p[0], 5), round(p[1], 5), round(p[2], 5), vis])
+        out[fl["id"]] = dict(id=fl["id"], leave=leave, fly=fly, hit=hit, **{"from": [round(v, 5) for v in src]}, to=[round(v, 5) for v in dst], fps=F["fps"], frames=rows)
+    return out
+def flights_of(F, perf):
+    if "_flights" not in F: F["_flights"] = bake_flights(F, perf) if F.get("flights") else {}
+    return F["_flights"]
+def follow_pos(F, perf, key, f):
+    """where the followed thing is on frame f, or None: a character (performance) or "flight:<id>" (baked flight)"""
+    if not key: return None
+    if key in perf: return perf_at(perf[key], f)["pos"]
+    if isinstance(key, str) and key.startswith("flight:") and key[7:] in flights_of(F, perf):
+        rows = flights_of(F, perf)[key[7:]]["frames"]; r = rows[max(0, min(len(rows) - 1, f))]; return [r[1], r[2], r[3]]
+    return None
+
 def _bake(F, tv_fix=None):
     takes = camera_segments(F, tv_fix); out = []; fps = F["fps"]
     perf = F.get("_perf") or F.setdefault("_perf", bake_performance(F))             # stations with "follow": the camera trucks with that character
@@ -163,12 +199,12 @@ def _bake(F, tv_fix=None):
             j = max(i for i, s in enumerate(S) if s["_arrive"] <= f); s = S[j]; roll = s.get("roll", 0.0); state = "rest"
             if f < s["_depart"] or j + 1 >= len(S):
                 pos, aim, lens = _rest_pose(s, f - s["_arrive"])
-                if s.get("follow") in perf:                                            # tracking burst: keep the walker in frame, same offset as on arrival
-                    d = vmul(vsub(perf_at(perf[s["follow"]], f)["pos"], perf_at(perf[s["follow"]], s["_arrive"])["pos"]), s.get("follow_k", 1.0)); pos = vadd(pos, d); aim = vadd(aim, d)
+                if follow_pos(F, perf, s.get("follow"), f) is not None:                # tracking burst: keep the walker (or a flight) in frame, same offset as on arrival
+                    d = vmul(vsub(follow_pos(F, perf, s["follow"], f), follow_pos(F, perf, s["follow"], s["_arrive"])), s.get("follow_k", 1.0)); pos = vadd(pos, d); aim = vadd(aim, d)
             else:
                 nx = S[j + 1]; p0, a0, l0 = _rest_pose(s, s["_depart"] - s["_arrive"])
-                if s.get("follow") in perf:
-                    d = vmul(vsub(perf_at(perf[s["follow"]], s["_depart"])["pos"], perf_at(perf[s["follow"]], s["_arrive"])["pos"]), s.get("follow_k", 1.0)); p0 = vadd(p0, d); a0 = vadd(a0, d)
+                if follow_pos(F, perf, s.get("follow"), s["_depart"]) is not None:
+                    d = vmul(vsub(follow_pos(F, perf, s["follow"], s["_depart"]), follow_pos(F, perf, s["follow"], s["_arrive"])), s.get("follow_k", 1.0)); p0 = vadd(p0, d); a0 = vadd(a0, d)
                 u = smoother((f - s["_depart"]) / float(nx["_arrive"] - s["_depart"])); state = "travel"
                 pos = _catmull([p0] + [list(v) for v in nx.get("via", [])] + [nx["pos"]], u); aim = vlerp(a0, nx["aim"], u)
                 lens = math.exp(math.log(l0) + (math.log(nx.get("lens", D["lens"])) - math.log(l0)) * u)        # zoom feels even in log focal length
@@ -644,6 +680,15 @@ def check(F, cam=None, perf=None):
             bad += ["%s through %s at f %s" % (who, so, ", ".join("%d-%d" % (a_, b_) if b_ > a_ else "%d" % a_ for a_, b_ in runs_[:6]))]
         nfr = len(set(f for fs in pr.values() for f in fs))
         gate("acting", "frames where a solid thing passes THROUGH a character", nfr, nfr == 0, False, "0: a body cannot be inside a lever, a post or a rail (CB 2026-11-10)", "; ".join(bad[:8]) + ". Move the figure to the lens side of the whole rod (or wholly behind it), or change the angle")
+    if F.get("flights"):
+        fls = flights_of(F, perf); fxf = [(fr(F, e["at"]), e.get("on")) for e in F.get("fx", [])]
+        for fid, fl in fls.items():
+            ok_t = 0 <= fl["leave"] < fl["hit"] <= F["_end"]
+            gate("flight", "%s: leave < hit <= end" % fid, "%d -> %d" % (fl["leave"], fl["hit"]), ok_t, False, "leave before hit, hit inside the film", "move the leave time or shorten fly")
+            hits = [f_ for f_, on in fxf if on == fid and abs(f_ - fl["hit"]) <= 1]
+            gate("flight", "%s: an fx lands on the hit frame (+-1)" % fid, ",".join(str(h) for h in hits) or "none", bool(hits), False, "an fx entry with on=%r within 1 frame of the hit frame %d (every flight ends in a visible hit)" % (fid, fl["hit"]), "add fx {at: %d, kind: clank, on: %r}" % (fl["hit"], fid))
+        bad = sorted(set(s.get("follow") for t in F["takes"] for s in t["stations"] if isinstance(s.get("follow"), str) and s["follow"].startswith("flight:") and s["follow"][7:] not in fls))
+        gate("flight", "follow targets exist", ",".join(bad) or "ok", not bad, False, "every follow: flight:<id> names a flight", "fix the id")
     fx = len(F.get("fx", [])); f10 = 10.0 * fx / dur
     gate("acting", "effects per 10 s", round(f10, 1), 1 <= f10 <= 2.5, 0.5 <= f10 <= 3.5, "1-2, on the action noun or verb (Rick)", "add a glint, glow, stamp, coin or dust hit on the key nouns" if f10 < 1 else "too many effects: keep the ones on action words")
     moods = len(F.get("moods", [])); mm = 60.0 * moods / dur
@@ -675,6 +720,7 @@ def write(F, R, cam, perf, sp):
     out = os.path.join(F["_dir"], "out", "plan"); os.makedirs(out, exist_ok=True)
     json.dump(dict(fps=F["fps"], size=F.get("size", [1080, 1920]), stations=stations_table(F, cam), frames=cam), open(os.path.join(out, "camera_baked.json"), "w"))
     json.dump(perf, open(os.path.join(out, "performance_baked.json"), "w"))
+    if F.get("flights"): json.dump(flights_of(F, perf), open(os.path.join(out, "flights_baked.json"), "w"))
     ev = sorted([dict(t=round(fr(F, s["at"]) / float(F["fps"]), 3), name=s["name"], gain=s.get("gain", 0)) for s in F.get("sound", [])], key=lambda e: e["t"])
     json.dump(ev, open(os.path.join(out, "sound_events.json"), "w"), indent=1)
     json.dump(dict(gates=R, speed=[round(s, 2) for s in sp]), open(os.path.join(out, "plan_report.json"), "w"))
