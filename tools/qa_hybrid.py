@@ -55,6 +55,7 @@ def main():
     # ---- 3 BLENDER
     for lid, (a0, a1) in M["layers"].items():
         od = ep / "out/layers" / lid; st = LY.status(str(ep), W, H)[lid]; add("3 BLENDER", "layer %s FRESH" % lid, st == "FRESH", st)
+        rv = od / "review.json"; add("3 BLENDER", "layer %s reviewed: keep=true (creative decision recorded)" % lid, rv.exists() and json.load(open(rv)).get("keep") is True, str(json.load(open(rv)).get("by", "")) if rv.exists() else "no review.json")
         rp = json.load(open(od / "layer_report.json")); add("3 BLENDER", "layer %s gate PASS" % lid, rp["PASS"], json.dumps({k[:1]: v for k, v in rp["gates"].items()}))
         pngs = [f for f in range(a0, a1 + 1) if (od / ("layer_%05d.png" % f)).exists()]; add("3 BLENDER", "layer %s: one PNG per frame" % lid, len(pngs) == a1 - a0 + 1, "%d/%d" % (len(pngs), a1 - a0 + 1))
         al = [float((np.asarray(Image.open(od / ("layer_%05d.png" % f)).convert("RGBA"))[..., 3] > 0).mean()) for f in pngs[:: max(1, len(pngs) // 4)]]; add("3 BLENDER", "layer %s has alpha (not an empty layer)" % lid, min(al) > 0, "alpha coverage %s" % [round(x, 4) for x in al])

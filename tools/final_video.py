@@ -21,6 +21,8 @@ def assemble(ep, f0=None, f1=None, W=720, H=1280):
     st = LY.status(str(ep), W, H) if lay else {}
     for lid, S in lay.items():
         if S["frames"][1] < f0 or S["frames"][0] > f1: continue
+        rv = ep / "out/layers" / lid / "review.json"          # the creative decision (Ricks: a layer is kept only if it clearly adds): data, written by the director/LLM/human, never by this script
+        if not (rv.exists() and json.load(open(rv)).get("keep") is True): print("layer %s omitted: no review.json with keep=true" % lid); continue
         if st[lid] != "FRESH": raise SystemExit("layer %s is %s: re-run tools/layers.py run" % (lid, st[lid]))
         if not json.load(open(ep / "out/layers" / lid / "layer_report.json"))["PASS"]: raise SystemExit("layer %s did not pass its gate" % lid)
         used[lid] = S["frames"]

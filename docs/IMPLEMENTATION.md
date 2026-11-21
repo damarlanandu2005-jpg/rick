@@ -29,3 +29,18 @@ Generic path reproduced Phase 1C: A outside mask 0, B +0.0472 (<= 0.06), steady 
 - **Fixed on the way:** `gate_flight.py` treated a coin partly hidden behind a card as misregistered (centroid of the visible part); it now checks the visible pixels lie inside the expected disc (partial occlusion) and reports it.
 - **Limitations:** `check_film.py` and `frame_checks` were not run on a hybrid full-film video yet (Phase 6 test Short); no audio checks (silent); the layer in the QA test is synthetic.
 - **Run:** `python3 tools/final_video.py <ep> [--frames a-b]` then `python3 tools/qa_hybrid.py <ep>`.
+
+## Phase 5: Western integration (CPU gate PASS; Blender layer gate pending Colab)
+- **No separate architecture:** the Western is a place in a normal film.json. `templates/threejs_film/sets/western_street.js` reads the kit's own recipe (`kit/recipes/western_noon.json`, copied into the episode folder, a gate checks it is byte-identical) and builds the street, landmarks (church, water tower, windmill with turning blades, flag, wagons), hitch posts/troughs, desert and the recipe's ground scatter as named three.js meshes. Everything downstream (plan, lock, flights, layers, QA) is the same code as for the platform.
+- **Extended:** `film.js` passes the episode folder URL to set modules (`ctx.dir`); `layer_render.py` / the layer test treat `name_02` / `name.001` as the same named object kind.
+- **Episode:** `templates/film_western_example` (Ricks cast, coin flight, layer `window_glint` = reflection on the 8 `window_<style>` kinds, 21 windows in frame on frames 0-9).
+- **Gate (`phase5/test_western_cpu.py`, all PASS):** recipe identical; plan 0 FAIL; base 720x1280 + lock; density 785 objects / 76 kinds (recipe: 600 / 30); layer objects exist in the lock glb; flight gates on the street; final video + QA PASS on the flight range.
+- **Limitations:** the three.js street is a toon-box reading of the recipe, not the Blender kit's detailed geometry (porch details, signs with painted text, textures); Blender-built kit geometry is not exported to glb for three.js yet (a possible later step); the Blender window-glint layer has not been run yet (Colab).
+
+## Phase 6: orchestration (CPU gate PASS)
+- **`tools/pipeline.py <ep> [--frames a-b|all] [--blender B] [--renderer auto|cpu|gpu] [--accept-layers]`**: scripted stages (plan, base, lock, flight gate, layers, final, QA) are hash-cached and stop at the first FAIL; the creative steps are listed as INPUT/REVIEW and never executed by the script: the plan (`film.json`, incl. `layers[]`, `flights[]`) and the layer review (`out/layers/<id>/review.json {keep}`; a layer without keep=true is omitted from the final, `--accept-layers` writes a flagged auto-accept for test runs only).
+- **Cache:** base stills and lock carry a key of every input (film.json, baked plan, kit/episode sets and renderer sources, resolution, renderer); a changed key re-renders the whole range.
+- **Tests (`phase6/test_pipeline_cpu.py`, all PASS):** end-to-end first run (final.mp4 + QA PASS), second run cache hits (2.9 s), edited film.json invalidates the base, a failing stage stops the run, unreviewed layer omitted.
+- **Measured locally (2 CPU):** base 2.06 s/frame at 720x1280; lock 31 s; QA 2.4 s.
+- **Not done:** sound (silent), GPU base renderer (render_gpu.mjs) not yet measured on the T4, `check_film.py`/`frame_checks` not yet run on a hybrid full-film video.
+- **Commands:** pipeline `python3 tools/pipeline.py templates/film_western_example --frames all --blender <blender> --accept-layers`; the Colab test Short `phase6/colab_phase6.ipynb`.

@@ -336,7 +336,7 @@ window.setup = async (cfg) => {
     const own = cfg.epSets ? cfg.epSets.includes(set + '.js') : (await fetch(dir + 'sets/' + set + '.js', { method: 'HEAD' })).ok;      // the episode's own sets/ folder wins over the kit's
     const mod = await import((own ? dir : './') + 'sets/' + set + '.js');
     const k3 = makeKit3d(THREE, scene, L, kit3dFlags(film, pl), toonMat);   // kit 2026-11-15 (look3d.mjs, PBR_FEATURES.md): opt-in real metal, relief, sky, trees; film.json "kit3d" switches them on, off = the old toon picture
-    const ctx = { THREE, B2T, film, place: pl, light: L, toon: toonMat, pbr: k3.pbr, relief: k3.relief, sky: k3.sky, trees: k3.trees, fx: k3.fx /* FX BOLT HOOK 2026-11-15: ctx.fx.bolt (fx_bolt.mjs) */, flights: makeFlights(flightsB) };
+    const ctx = { THREE, B2T, film, place: pl, light: L, toon: toonMat, pbr: k3.pbr, relief: k3.relief, sky: k3.sky, trees: k3.trees, fx: k3.fx /* FX BOLT HOOK 2026-11-15: ctx.fx.bolt (fx_bolt.mjs) */, flights: makeFlights(flightsB), dir /* hybrid Phase 5: the episode folder URL, for set data files such as the kit recipe */ };
     baseLight(scene, L); const built = (await mod.build(THREE, scene, film, ctx)) || {};
     R.places[name] = { scene, L, set, update: k3.finish(renderer, built.update), anchors: built.anchors || {} };
     // lamps bloom (Rick: every lamp, headlight and lens glows): a soft additive halo on each lit lens or globe, depth-tested so things in front hide it

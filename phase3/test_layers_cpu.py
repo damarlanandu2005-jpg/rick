@@ -20,6 +20,6 @@ ok("T3b status FRESH", LY.status(str(ep))["clock_reflect"] == "FRESH")
 s = ep / "out/stills/f_00205.png"; d = bytearray(s.read_bytes()); d[-20] ^= 1; s.write_bytes(bytes(d)); ok("T3c status STALE after a base still changes", LY.status(str(ep))["clock_reflect"] == "STALE")
 fj = json.loads(film.read_text()); fj["flights"][0]["fly"] = 9; film.write_text(json.dumps(fj)); sh([sys.executable, str(ROOT / "tools/film_plan.py"), "check", str(film)])
 ok("T4 STALE-LOCK after the flight changes post-export", LY.status(str(ep))["clock_reflect"].startswith("STALE-LOCK"), LY.status(str(ep))["clock_reflect"])
-glb = (ep / "out/lock/sets/platform.glb").read_bytes(); n = struct.unpack("<I", glb[12:16])[0]; js = json.loads(glb[20:20 + n]); names = {x.get("name", "").split(".")[0] for x in js["nodes"]}
+glb = (ep / "out/lock/sets/platform.glb").read_bytes(); n = struct.unpack("<I", glb[12:16])[0]; js = json.loads(glb[20:20 + n]); import re; names = {re.sub(r"_\d{2,}$", "", x.get("name", "").split(".")[0]) for x in js["nodes"]}
 ok("T5 named objects exist in the lock glb", all(o in names for o in json.loads((ep / "out/plan/layers_baked.json").read_text())["clock_reflect"]["objects"]))
 print("GATE", "PASS" if all(res) else "FAIL"); sys.exit(0 if all(res) else 1)

@@ -23,12 +23,14 @@ yy, xx = np.mgrid[0:1280, 0:720]; ell = (((xx - 520) / 90.0) ** 2 + ((yy - 640) 
 for f in range(201, 211):
     L = np.zeros((1280, 720, 4), np.uint8); L[ell, 0] = 40; L[ell, 1] = 40; L[ell, 2] = 40; L[ell, 3] = 255; Image.fromarray(L).save(od / ("layer_%05d.png" % f))
     I = np.zeros((1280, 720, 4), np.uint8); I[ell] = 255; Image.fromarray(I).save(od / ("idmask_%05d.png" % f))
-ih = LY.inputs_hash(ep, "clock_reflect", 720, 1280); (od / "manifest.json").write_text(json.dumps({"inputs_sha1": ih})); (od / "layer_report.json").write_text(json.dumps({"PASS": True, "gates": {"A synthetic": True}}))
+ih = LY.inputs_hash(ep, "clock_reflect", 720, 1280); (od / "manifest.json").write_text(json.dumps({"inputs_sha1": ih})); (od / "layer_report.json").write_text(json.dumps({"PASS": True, "gates": {"A synthetic": True}})); (od / "review.json").write_text(json.dumps({"keep": True, "by": "test"}))
 # Q1 flight range
 FV.assemble(ep, 316, 330); rc, out = qa(); ok("Q1 flight range QA PASS", rc == 0, "; ".join(failed(out)))
 ok("Q1 flight gates actually ran (not skipped)", "flight gates (registration" in out and "- **PASS** 2 THREEJS | flight gates" in out)
 # Q2 layer range
 FV.assemble(ep, 201, 210); rc, out = qa(); ok("Q2 layer range QA PASS", rc == 0, "; ".join(failed(out))); good = {p.name: p.read_bytes() for p in (ep / "out/final").glob("*.mp4")}
+# N7 not reviewed -> the layer is omitted from the final (no silent inclusion)
+(od / "review.json").unlink(); FV.assemble(ep, 201, 210); m = json.loads((ep / "out/final/final_manifest.json").read_text()); ok("N7 unreviewed layer is omitted from the final", m["layers"] == {}); (od / "review.json").write_text(json.dumps({"keep": True, "by": "test"})); FV.assemble(ep, 201, 210)
 # N1 outside-mask pixel
 fp = ep / "out/final/frames/f_00205.png"; keep = fp.read_bytes(); im = np.asarray(Image.open(fp)).copy(); im[10, 10] ^= 8; Image.fromarray(im).save(fp); rc, out = qa(); ok("N1 changed pixel outside the mask is caught", rc == 1 and any("outside" in l or "recomputed" in l for l in failed(out))); fp.write_bytes(keep)
 # N2 layer png changed after assembly

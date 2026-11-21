@@ -3,7 +3,7 @@
 Reads out/plan/layers_baked.json[layer_id] (type, place, objects, frames, gain) and the lock. The mask is the NAMED lock objects (every name must exist in the lock glb, lock_id checked
 against the lock's own ids when present); nothing is selected by material tag. Writes in <out_dir>: layer_#####.png (RGBA layer), idmask_#####.png (the intended mask),
 align_#####.png + align_camera.json (registration pass), layer_timing.json, idmask_timing.json. Types: reflection (proven, Phase 1C). Characters are Holdout (cards keep their drawing alpha)."""
-import bpy, sys, os, json, time, math, hashlib
+import bpy, sys, os, json, time, math, hashlib, re
 A = sys.argv[sys.argv.index("--") + 1:]; repo, ep, out, lid, W, H = A[0], A[1], A[2], A[3], int(A[4]), int(A[5])
 sys.path.insert(0, os.path.join(repo, "templates"))
 from blender_look import from_lock as FL, lights as LT
@@ -21,7 +21,7 @@ def gpu_info():
 t0 = time.perf_counter(); K = FL.build(sc, ep, place=place, preset=preset, samples=SAMPLES, res=100, motion_blur=False); build_s = time.perf_counter() - t0
 r = sc.render; r.resolution_x, r.resolution_y, r.resolution_percentage = W, H, 100; r.image_settings.file_format = "PNG"; r.image_settings.color_mode = "RGBA"; r.image_settings.color_depth = "8"; r.use_file_extension = False
 cam = K["camera"]; cam.data.dof.use_dof = False
-objs = [o for o in K["set"] if o.type == "MESH"]; base_name = lambda o: o.name.split(".")[0] if o.name.rsplit(".", 1)[-1].isdigit() else o.name
+objs = [o for o in K["set"] if o.type == "MESH"]; base_name = lambda o: re.sub(r"_\d{2,}$", "", o.name.split(".")[0] if o.name.rsplit(".", 1)[-1].isdigit() else o.name)   # three.js names repeats name, name_02, name_03; Blender adds .001: both are the same named object kind
 hero = [o for o in objs if base_name(o) in NAMES]; found = sorted(set(base_name(o) for o in hero)); assert found == sorted(NAMES), "named objects not found in the lock set: missing %s" % sorted(set(NAMES) - set(found))
 def mat(name, build):
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; nt.nodes.clear(); o = nt.nodes.new("ShaderNodeOutputMaterial"); nt.links.new(build(nt).outputs[0], o.inputs[0]); return m

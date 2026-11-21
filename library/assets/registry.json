@@ -1,11 +1,72 @@
 {
  "schema": 1,
  "assets": [
-  {"name": "flight_coin", "category": "prop/flight", "source": "original, procedural (templates/threejs_film/flights.js sphere; Blender builder below)", "version": "1.0",
-   "dependencies": ["film.json flights[]", "out/plan/flights_baked.json"], "license": "original work, same terms as this repository",
-   "preview": "library/assets/previews/flight_coin.png", "blender": {"kind": "bpy_builder", "file": "library/assets/builders/flight_coin.py", "entry": "build"}},
-  {"name": "platform_clock", "category": "set/dressing", "source": "templates/threejs_film/sets/platform.js (nodes clock_post, clock_foot, clock_neck, clock_drum, clock_face)", "version": "1.0",
-   "dependencies": ["lock set glb 'platform' (out/lock/sets/platform.glb)", "kit material library tag painted_metal_chipped"], "license": "original work, same terms as this repository",
-   "preview": "library/assets/previews/platform_clock.png", "blender": {"kind": "lock_nodes", "place": "platform", "nodes": ["clock_post", "clock_foot", "clock_neck", "clock_drum"]}}
+  {
+   "name": "flight_coin",
+   "category": "prop/flight",
+   "source": "original, procedural (templates/threejs_film/flights.js sphere; Blender builder below)",
+   "version": "1.0",
+   "dependencies": [
+    "film.json flights[]",
+    "out/plan/flights_baked.json"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/flight_coin.png",
+   "blender": {
+    "kind": "bpy_builder",
+    "file": "library/assets/builders/flight_coin.py",
+    "entry": "build"
+   }
+  },
+  {
+   "name": "platform_clock",
+   "category": "set/dressing",
+   "source": "templates/threejs_film/sets/platform.js (nodes clock_post, clock_foot, clock_neck, clock_drum, clock_face)",
+   "version": "1.0",
+   "dependencies": [
+    "lock set glb 'platform' (out/lock/sets/platform.glb)",
+    "kit material library tag painted_metal_chipped"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/platform_clock.png",
+   "blender": {
+    "kind": "lock_nodes",
+    "place": "platform",
+    "nodes": [
+     "clock_post",
+     "clock_foot",
+     "clock_neck",
+     "clock_drum"
+    ]
+   }
+  },
+  {
+   "name": "western_noon_street",
+   "category": "set/street",
+   "source": "kit/recipes/western_noon.json read by templates/threejs_film/sets/western_street.js (three.js base); the Blender kit (kit/build_set.py) builds the same recipe",
+   "version": "1.0",
+   "dependencies": [
+    "film.json places.<name>.set = western_street, places.<name>.recipe = western_noon",
+    "western_noon.json copied into the episode folder (identical to the kit's)"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/western_noon_street.png",
+   "blender": {
+    "kind": "lock_nodes",
+    "place": "platform",
+    "nodes": [
+     "window_saloon",
+     "window_general",
+     "window_barber",
+     "window_bank",
+     "window_livery",
+     "window_undertaker",
+     "window_hotel",
+     "window_jail",
+     "water_tower_tank",
+     "windmill_hub"
+    ]
+   }
+  }
  ]
 }
