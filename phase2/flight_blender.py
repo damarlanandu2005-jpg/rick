@@ -14,6 +14,7 @@ r = sc.render; r.resolution_x, r.resolution_y, r.resolution_percentage = W, H, 1
 r.image_settings.file_format = "PNG"; r.image_settings.color_mode = "RGBA"; r.use_file_extension = False
 cam = K["camera"]; cam.data.dof.use_dof = False; sc.view_settings.view_transform = "Standard"
 t1 = time.perf_counter(); moved = LM.apply(K["set"], os.path.join(ep, "out", "lock"), place); motion_s = time.perf_counter() - t1
+for c in K["cards"].values(): bpy.data.objects.remove(c["object"], do_unlink=True)     # card visibility is keyframed (hide_render), so a static hide would be overridden by frame_set: remove them, this gate measures the flight object alone
 flights = [o for o in K["set"] if o.name.startswith("flight_")]; assert flights, "no flight_* object in the imported lock set"
 for o in bpy.data.objects:
     if o.type in ("MESH", "EMPTY", "LIGHT") and o not in flights and o.type != "CAMERA": o.hide_render = True
