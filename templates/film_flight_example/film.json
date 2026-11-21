@@ -737,5 +737,23 @@
    "color": "#ff2fd6",
    "after": "stay"
   }
+ ],
+ "layers": [
+  {
+   "id": "clock_reflect",
+   "type": "reflection",
+   "place": "platform",
+   "objects": [
+    "clock_post",
+    "clock_foot",
+    "clock_neck",
+    "clock_drum"
+   ],
+   "frames": [
+    201,
+    210
+   ],
+   "gain": 0.5
+  }
  ]
 }

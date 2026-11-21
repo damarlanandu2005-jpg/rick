@@ -1,0 +1,156 @@
+{
+ "frames": [
+  320,
+  322,
+  324,
+  326,
+  327,
+  328
+ ],
+ "resolution": [
+  720,
+  1280
+ ],
+ "stage_wall_s": {
+  "plan_check_s": 0.23,
+  "threejs_base_s": 32.76,
+  "lock_export_s": 43.33,
+  "gate_flight_s": 0.58,
+  "blender_wall_s": 50.68,
+  "blender_render_s_per_frame": [
+   43.834,
+   0.42,
+   0.282,
+   0.18,
+   0.205,
+   0.184
+  ]
+ },
+ "gates": {
+  "P2-A plan/three.js/lock (gate_flight.py)": true,
+  "P2-B blender world == plan flight (<=1e-3 m)": true,
+  "P2-C blender projection == three.js blob (<=2 px, >=3 frames)": true,
+  "P2-D blender alpha centroid == projection (<=2 px)": true,
+  "P2-E hit frame exact": true,
+  "P2-F lock hashes fresh (from_lock.read raised nothing)": true
+ },
+ "detail": {
+  "still_size": [
+   720,
+   1280
+  ],
+  "P2-A plan/three.js/lock (gate_flight.py)": true,
+  "P2-B blender world == plan flight (<=1e-3 m)": true,
+  "P2-C blender projection == three.js blob (<=2 px, >=3 frames)": true,
+  "P2-D blender alpha centroid == projection (<=2 px)": true,
+  "P2-E hit frame exact": true,
+  "P2-F lock hashes fresh (from_lock.read raised nothing)": true,
+  "detail": {
+   "320": {
+    "blender_world_vs_plan_max_m": 0.0,
+    "blender_proj": [
+     506.125,
+     694.794
+    ],
+    "alpha_centroid": [
+     506.24586597040906,
+     694.8124456048738
+    ],
+    "alpha_px": 1149,
+    "render_s": 43.834,
+    "threejs_blob": [
+     506.3767441860465,
+     694.1386046511628
+    ],
+    "err_proj_vs_threejs_px": 0.702,
+    "err_alpha_vs_threejs_px": 0.686
+   },
+   "322": {
+    "blender_world_vs_plan_max_m": 0.0,
+    "blender_proj": [
+     482.357,
+     681.036
+    ],
+    "alpha_centroid": [
+     482.53964401294496,
+     681.037216828479
+    ],
+    "alpha_px": 1236,
+    "render_s": 0.42,
+    "threejs_blob": "occluded in the base (behind a character card)"
+   },
+   "324": {
+    "blender_world_vs_plan_max_m": 0.0,
+    "blender_proj": [
+     458.065,
+     680.326
+    ],
+    "alpha_centroid": [
+     458.1998514115899,
+     680.3462109955424
+    ],
+    "alpha_px": 1346,
+    "render_s": 0.282,
+    "threejs_blob": [
+     457.6631259484067,
+     679.9059180576631
+    ],
+    "err_proj_vs_threejs_px": 0.581,
+    "err_alpha_vs_threejs_px": 0.694
+   },
+   "326": {
+    "blender_world_vs_plan_max_m": 0.0,
+    "blender_proj": [
+     432.771,
+     694.651
+    ],
+    "alpha_centroid": [
+     432.90306462358427,
+     694.7105263157895
+    ],
+    "alpha_px": 1501,
+    "render_s": 0.18,
+    "threejs_blob": [
+     432.32142857142856,
+     694.4578754578755
+    ],
+    "err_proj_vs_threejs_px": 0.489,
+    "err_alpha_vs_threejs_px": 0.634
+   },
+   "327": {
+    "blender_world_vs_plan_max_m": 0.0,
+    "blender_proj": [
+     419.53,
+     708.323
+    ],
+    "alpha_centroid": [
+     419.6386449184442,
+     708.4084065244667
+    ],
+    "alpha_px": 1594,
+    "render_s": 0.205,
+    "threejs_blob": "occluded in the base (behind a character card)"
+   },
+   "328": {
+    "blender_world_vs_plan_max_m": 0.0,
+    "blender_proj": [
+     405.806,
+     726.957
+    ],
+    "alpha_centroid": [
+     405.9438565549677,
+     726.9873603762493
+    ],
+    "alpha_px": 1701,
+    "render_s": 0.184,
+    "threejs_blob": "occluded in the base (behind a character card)"
+   }
+  },
+  "moved_nodes": {
+   "clock_hand_minute": 460,
+   "clock_hand_minute_02": 460,
+   "flight_coin": 460
+  }
+ },
+ "PHASE2": "PASS"
+}

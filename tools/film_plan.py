@@ -181,6 +181,17 @@ def bake_flights(F, perf):
 def flights_of(F, perf):
     if "_flights" not in F: F["_flights"] = bake_flights(F, perf) if F.get("flights") else {}
     return F["_flights"]
+# ------------------------------------------------------------------ Blender enhancement layers (2026-11-21, hybrid Phase 3)
+# film.json "layers": [{ id, type: "reflection", place, objects: [lock object names], frames: [a, b] (frames or times), gain: 0..1 }]
+# The plan owns WHICH frames and WHICH named objects; the bake resolves them to ints once (out/plan/layers_baked.json) so a layer's frame range
+# is deterministic and its hash (layers.py) changes when the spec changes. Masks are the named lock objects, never material tags.
+LAYER_TYPES = ("reflection",)
+def bake_layers(F):
+    out = {}
+    for L in F.get("layers", []):
+        a, b = L["frames"]; out[L["id"]] = dict(L, frames=[fr(F, a), fr(F, b)])
+    return out
+
 def follow_pos(F, perf, key, f):
     """where the followed thing is on frame f, or None: a character (performance) or "flight:<id>" (baked flight)"""
     if not key: return None
@@ -689,6 +700,10 @@ def check(F, cam=None, perf=None):
             gate("flight", "%s: an fx lands on the hit frame (+-1)" % fid, ",".join(str(h) for h in hits) or "none", bool(hits), False, "an fx entry with on=%r within 1 frame of the hit frame %d (every flight ends in a visible hit)" % (fid, fl["hit"]), "add fx {at: %d, kind: clank, on: %r}" % (fl["hit"], fid))
         bad = sorted(set(s.get("follow") for t in F["takes"] for s in t["stations"] if isinstance(s.get("follow"), str) and s["follow"].startswith("flight:") and s["follow"][7:] not in fls))
         gate("flight", "follow targets exist", ",".join(bad) or "ok", not bad, False, "every follow: flight:<id> names a flight", "fix the id")
+    if F.get("layers"):
+        for lid, L in bake_layers(F).items():
+            ok_ = L.get("type") in LAYER_TYPES and L.get("place") in F["places"] and bool(L.get("objects")) and 0 <= L["frames"][0] <= L["frames"][1] <= F["_end"] and 0 < L.get("gain", 1) <= 1
+            gate("layers", "%s: spec valid" % lid, "%s %s %s" % (L.get("type"), L["frames"], L.get("objects")), ok_, False, "type in %s, place exists, named objects, 0 <= f0 <= f1 <= end, 0 < gain <= 1" % (LAYER_TYPES,), "fix the layer entry")
     fx = len(F.get("fx", [])); f10 = 10.0 * fx / dur
     gate("acting", "effects per 10 s", round(f10, 1), 1 <= f10 <= 2.5, 0.5 <= f10 <= 3.5, "1-2, on the action noun or verb (Rick)", "add a glint, glow, stamp, coin or dust hit on the key nouns" if f10 < 1 else "too many effects: keep the ones on action words")
     moods = len(F.get("moods", [])); mm = 60.0 * moods / dur
@@ -721,6 +736,7 @@ def write(F, R, cam, perf, sp):
     json.dump(dict(fps=F["fps"], size=F.get("size", [1080, 1920]), stations=stations_table(F, cam), frames=cam), open(os.path.join(out, "camera_baked.json"), "w"))
     json.dump(perf, open(os.path.join(out, "performance_baked.json"), "w"))
     if F.get("flights"): json.dump(flights_of(F, perf), open(os.path.join(out, "flights_baked.json"), "w"))
+    if F.get("layers"): json.dump(bake_layers(F), open(os.path.join(out, "layers_baked.json"), "w"), indent=1)
     ev = sorted([dict(t=round(fr(F, s["at"]) / float(F["fps"]), 3), name=s["name"], gain=s.get("gain", 0)) for s in F.get("sound", [])], key=lambda e: e["t"])
     json.dump(ev, open(os.path.join(out, "sound_events.json"), "w"), indent=1)
     json.dump(dict(gates=R, speed=[round(s, 2) for s in sp]), open(os.path.join(out, "plan_report.json"), "w"))
