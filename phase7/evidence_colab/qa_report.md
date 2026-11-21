@@ -1,0 +1,22 @@
+# Hybrid QA: FAIL (1)
+
+- **PASS** 1 PLAN | film_plan check: 0 FAIL | RESULT: 0 FAIL, 3 WARN of 45 gates 
+- **PASS** 1 PLAN | baked file camera_baked.json |  
+- **PASS** 1 PLAN | baked file performance_baked.json |  
+- **PASS** 1 PLAN | baked file sound_events.json |  
+- **PASS** 2 THREEJS | base stills: present, 720x1280, not blank | 460 frames 
+- **PASS** 2 THREEJS | lock fresh (camera/performance/flights sha1 match the plan files) |  
+- **PASS** 2 THREEJS | flight gates (registration, hit equality, camera, lock) on the range | GATE PASS 
+- **PASS** 3 BLENDER | layer lamp_reflect FRESH | FRESH 
+- **PASS** 3 BLENDER | layer lamp_reflect reviewed: keep=true (creative decision recorded) | --accept-layers (not a creative review: flagged) 
+- **PASS** 3 BLENDER | layer lamp_reflect gate PASS | {"A": true, "B": true, "D": true, "E": true} 
+- **PASS** 3 BLENDER | layer lamp_reflect: one PNG per frame | 10/10 
+- **PASS** 3 BLENDER | layer lamp_reflect has alpha (not an empty layer) | alpha coverage [0.063, 0.0635, 0.0641, 0.0647, 0.0652] 
+- **PASS** 3 BLENDER | flight objects are in the lock motion | flight_coin 
+- **PASS** 4 COMPOSITE | final frames == base + layer x alpha from the CURRENT inputs (hash-checked) | 460 frames 
+- **PASS** 4 COMPOSITE | outside every layer's named mask the final frame equals the base | changed px 0, max diff 0 
+- **PASS** 5 VIDEO | ffprobe: 720x1280, 460 frames, 30 fps | [{"width": 720, "height": 1280, "r_frame_rate": "30/1", "nb_read_frames": "460"}] 
+- **PASS** 5 VIDEO | silent for now (no audio stream) |  
+- **PASS** 5 VIDEO | decoded video frames == composite PNGs (PSNR >= 35 dB) | min 39.2 dB over frames [0, 201, 205, 210, 230, 459] 
+- **FAIL** 5 VIDEO | check_film.py on the final video | RESULT: 2 FAIL, 1 WARN of 21 gates -> /content/p7_out/ep/out/qa/film_check/film_check.md 
+- **SKIP** 5 VIDEO | frame_checks/check.mjs (head cut, body side, face covered, feet) |  (needs the GPU render path; run with --frame-checks on a GPU machine)

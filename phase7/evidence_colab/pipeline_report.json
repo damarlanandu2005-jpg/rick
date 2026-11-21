@@ -1,0 +1,72 @@
+[
+ {
+  "stage": "C1-C3",
+  "kind": "creative",
+  "status": "INPUT",
+  "seconds": 0.0,
+  "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+ },
+ {
+  "stage": "1 plan",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 0.39,
+  "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+ },
+ {
+  "stage": "2 base",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 2000.33,
+  "note": "460 frames, cpu, 4.35 s/frame"
+ },
+ {
+  "stage": "3 lock",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 43.62,
+  "note": ""
+ },
+ {
+  "stage": "4 flight",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 0.79,
+  "note": "GATE PASS"
+ },
+ {
+  "stage": "5a visible",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 5.38,
+  "note": "lamp_reflect: named objects seen, rays per frame [120, 120, 119, 120, 120, 120, 120, 121, 124, 124]"
+ },
+ {
+  "stage": "5 layers",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 68.29,
+  "note": "lamp_reflect gates {\"A\": true, \"B\": true, \"D\": true, \"E\": true}"
+ },
+ {
+  "stage": "6 review",
+  "kind": "creative",
+  "status": "KEEP",
+  "seconds": 0,
+  "note": "lamp_reflect: review.json --accept-layers (not a creative review: flagged)"
+ },
+ {
+  "stage": "7 final",
+  "kind": "scripted",
+  "status": "PASS",
+  "seconds": 83.04,
+  "note": "final.mp4, layers ['lamp_reflect']"
+ },
+ {
+  "stage": "8 qa",
+  "kind": "scripted",
+  "status": "FAIL",
+  "seconds": 92.85,
+  "note": "- **FAIL** 5 VIDEO | check_film.py on the final video | RESULT: 2 FAIL, 1 WARN of 21 gates -> /content/p7_out/ep/out/qa/film_check/film_check.md "
+ }
+]

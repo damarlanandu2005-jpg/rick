@@ -1,0 +1,267 @@
+{
+ "command": "/usr/bin/python3 /content/rick/tools/pipeline.py /content/p7_out/ep --frames all --renderer cpu --res 720x1280 --accept-layers --blender /content/eevee_test/blender_dist/blender-5.2.4-linux-x64/blender --gpu-backend opengl",
+ "pipeline_rc": 1,
+ "total_pipeline_wall_s": 2295.0,
+ "resolution": [
+  720,
+  1280
+ ],
+ "stages": [
+  {
+   "stage": "C1-C3",
+   "kind": "creative",
+   "status": "INPUT",
+   "seconds": 0.0,
+   "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+  },
+  {
+   "stage": "1 plan",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 0.39,
+   "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+  },
+  {
+   "stage": "2 base",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 2000.33,
+   "note": "460 frames, cpu, 4.35 s/frame"
+  },
+  {
+   "stage": "3 lock",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 43.62,
+   "note": ""
+  },
+  {
+   "stage": "4 flight",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 0.79,
+   "note": "GATE PASS"
+  },
+  {
+   "stage": "5a visible",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 5.38,
+   "note": "lamp_reflect: named objects seen, rays per frame [120, 120, 119, 120, 120, 120, 120, 121, 124, 124]"
+  },
+  {
+   "stage": "5 layers",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 68.29,
+   "note": "lamp_reflect gates {\"A\": true, \"B\": true, \"D\": true, \"E\": true}"
+  },
+  {
+   "stage": "6 review",
+   "kind": "creative",
+   "status": "KEEP",
+   "seconds": 0,
+   "note": "lamp_reflect: review.json --accept-layers (not a creative review: flagged)"
+  },
+  {
+   "stage": "7 final",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 83.04,
+   "note": "final.mp4, layers ['lamp_reflect']"
+  },
+  {
+   "stage": "8 qa",
+   "kind": "scripted",
+   "status": "FAIL",
+   "seconds": 92.85,
+   "note": "- **FAIL** 5 VIDEO | check_film.py on the final video | RESULT: 2 FAIL, 1 WARN of 21 gates -> /content/p7_out/ep/out/qa/film_check/film_check.md "
+  }
+ ],
+ "base": {
+  "frames": 460,
+  "cold_start_s_process_to_first_still": 7.3,
+  "per_frame_s": {
+   "mean": 4.343,
+   "median": 3.91,
+   "p90": 5.738,
+   "max": 6.933
+  },
+  "stage_s": 2000.33
+ },
+ "qa": {
+  "PASS": false,
+  "n_checks": 20,
+  "n_pass": 18,
+  "n_fail": 1,
+  "n_skip": 1,
+  "n_warn": 0,
+  "non_pass": [
+   {
+    "stage": "5 VIDEO",
+    "name": "check_film.py on the final video",
+    "status": "FAIL",
+    "value": "RESULT: 2 FAIL, 1 WARN of 21 gates -> /content/p7_out/ep/out/qa/film_check/film_check.md",
+    "note": ""
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "frame_checks/check.mjs (head cut, body side, face covered, feet)",
+    "status": "SKIP",
+    "value": "",
+    "note": "needs the GPU render path; run with --frame-checks on a GPU machine"
+   }
+  ]
+ },
+ "plan_warns": [
+  "  WARN camera   word stations not at rest on their word                    1              target 0: key nouns land with the camera at rest, 0-6 f before the word (CB's rule)",
+  "  WARN framing  face frames where the whole body fits, %                   56.0           target >= 65 (Rick 68)",
+  "  WARN acting   effects per 10 s                                           2.6            target 1-2, on the action noun or verb (Rick)",
+  "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in /content/p7_out/ep/out/plan"
+ ],
+ "temporal": {
+  "frames": 460,
+  "mean_luma_series_step_max": 9.472,
+  "frame_diff_mean": 7.876,
+  "frame_diff_p99": 28.877,
+  "largest_frame_diffs": [
+   [
+    342,
+    35.83
+   ],
+   [
+    341,
+    34.58
+   ],
+   [
+    343,
+    33.07
+   ],
+   [
+    173,
+    29.2
+   ],
+   [
+    344,
+    28.98
+   ],
+   [
+    172,
+    28.8
+   ],
+   [
+    174,
+    28.24
+   ],
+   [
+    171,
+    28.1
+   ],
+   [
+    345,
+    27.48
+   ],
+   [
+    340,
+    26.78
+   ],
+   [
+    175,
+    26.64
+   ],
+   [
+    379,
+    26.22
+   ]
+  ]
+ },
+ "layer_lamp_reflect": {
+  "layer": "lamp_reflect",
+  "type": "reflection",
+  "frames": [
+   201,
+   210
+  ],
+  "gates": {
+   "A outside the named mask nothing changes": true,
+   "B mean luminance added in mask <= 0.06": true,
+   "D steady-state s/frame <= 15": true,
+   "E layer edges register with base (<= 0.50 px) and camera fov matches": true
+  },
+  "PASS": true,
+  "C visual contribution": "REVIEW before_after_sheet.png (Ricks: kept only if it clearly adds; never auto-passed)",
+  "blender_wall_s": 63.4,
+  "steady_s_per_frame": 0.76,
+  "cold_first_frame_s": 49.608,
+  "metrics": {
+   "dims": {
+    "base": [
+     720,
+     1280
+    ],
+    "layer": [
+     720,
+     1280
+    ]
+   },
+   "A_max_outside_diff_8bit_all_frames": 0,
+   "A_outside_changed_px_total": 0,
+   "B_mean_lum_added_in_mask_max_over_frames": 0.0521,
+   "B_mean_over_frames": 0.0514,
+   "camera": {
+    "render_s": 0.884,
+    "blender_fov_v_deg": 73.74,
+    "baked_fov_v_deg": 73.74,
+    "blender_pos": [
+     -0.1938,
+     -2.5551,
+     0.7042
+    ],
+    "baked_pos": [
+     -0.1938,
+     -2.5551,
+     0.7042
+    ],
+    "res": [
+     720,
+     1280
+    ],
+    "aspect": 0.5625,
+    "aspect_baked": 0.5625,
+    "sensor_fit": "VERTICAL",
+    "fov_diff_deg": 0.0
+   },
+   "E_align_pass_edge_shift_px": {
+    "hero_bbox": [
+     -0.06,
+     -0.02,
+     0.064
+    ],
+    "full": [
+     7.07,
+     -12.12,
+     0.048
+    ],
+    "right_half": [
+     -0.01,
+     0.15,
+     0.133
+    ]
+   },
+   "E_align_pass_ncc0": {
+    "hero_bbox": 0.487,
+    "full": 0.275,
+    "right_half": 0.308
+   },
+   "E_layer_alpha_edges_vs_base_edges_hero_bbox_shift_px": [
+    0.05,
+    -0.06,
+    0.41
+   ],
+   "E_layer_alpha_vs_base_ncc0": 0.808
+  },
+  "inputs_sha1": "67acca0e5c1dd869011ba26892d9c67d4ca417d7"
+ },
+ "mp4_decode_errors": "none",
+ "mp4_bytes": 4913626
+}
