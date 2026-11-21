@@ -1,0 +1,20 @@
+compose done 21 frames, mean 0.27 s/frame
+ 
+new Route-B code lines: 47
+sharpness (median Laplacian ratio B/A): {'0-9': {'sheriff': 0.087}, '20-24': {'sheriff': 0.079}, '30-35': {'sheriff': 0.112}}
+JUDGE the sheets in /tmp/ab_test/judge_pack BEFORE opening /tmp/ab_test/ANSWER_KEY_do_not_open_until_judged.json
+ 
+['JUDGE_ME.md', 'crops_1to1_range_0-9_blind.png', 'crops_1to1_range_20-24_blind.png', 'crops_1to1_range_30-35_blind.png', 'range_0-9_X.mp4', 'range_0-9_Y.mp4', 'range_20-24_X.mp4', 'range_20-24_Y.mp4', 'range_30-35_X.mp4', 'range_30-35_Y.mp4', 'sheet_range_0-9_blind.png', 'sheet_range_20-24_blind.png', 'sheet_range_30-35_blind.png']
+synthetic blur 1.5px -> lap ratio 0.087
+{
+ "compose runs": true,
+ "overlay caption laid over the graded picture (white box)": true,
+ "ab_run sheets stage": true,
+ "blind: no route name in any judge_pack file name": true,
+ "blind: JUDGE_ME.md has no identity words": true,
+ "key is a separate file outside judge_pack": true,
+ "shuffle varies across ranges (seeded)": true,
+ "sharpness detects a blurred B (ratio < 0.85)": true,
+ "code count: new Route-B only": true,
+ "effects matrix written": true
+}

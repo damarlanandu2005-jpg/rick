@@ -1,0 +1,3 @@
+base_wall_s 305.733954079 frames 175
+overlay_wall_s 17.574108887 frames 175 (3 node runs)
+machine: local 2-CPU sandbox, SwiftShader/CPU render.mjs, 720x1280 (--scale 0.666667), captions on; base = 175 frames (0-149,201-210,316-330) incl. browser start + scene load; overlay = three node runs. Colab-CPU numbers come from the notebook (reported separately).
