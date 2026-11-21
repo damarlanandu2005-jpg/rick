@@ -1,0 +1,12 @@
+C1-C3    creative  INPUT      0.0s  film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json
+1 plan   scripted  PASS       0.3s  RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in 
+2 base   scripted  PASS      47.8s  10 frames, cpu, 4.78 s/frame
+3 lock   scripted  PASS      43.2s  
+4 flight scripted  SKIP       0.0s  no flight in range
+5a visible scripted  PASS       7.0s  lamp_reflect: named objects seen, rays per frame [120, 120, 119, 120, 120, 120, 120, 121, 124, 124]
+5 layers scripted  PASS      69.9s  lamp_reflect gates {"A": true, "B": true, "D": true, "E": true}
+6 review creative  KEEP       0.0s  lamp_reflect: review.json --accept-layers (not a creative review: flagged)
+7 final  scripted  PASS       2.5s  final.mp4, layers ['lamp_reflect']
+8 qa     scripted  PASS       4.6s  all checks PASS
+
+FINAL VIDEO: /content/ab_out/epA_201-210/out/final/final.mp4

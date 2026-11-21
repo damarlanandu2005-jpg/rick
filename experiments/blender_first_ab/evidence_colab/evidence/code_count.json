@@ -1,0 +1,19 @@
+{
+ "NEW Route-B code (counted; non-blank, non-comment lines)": {
+  "experiments/blender_first_ab/route_b_render.py": 30,
+  "experiments/blender_first_ab/route_b_compose.py": 17
+ },
+ "harness shared by both routes (reported, not Route-B)": {
+  "experiments/blender_first_ab/ab_run.py": 154
+ },
+ "existing reused, NOT counted": {
+  "templates/blender_look/from_lock.py": 141,
+  "templates/blender_look/look.py": 27,
+  "templates/blender_look/grade.py": 51,
+  "templates/blender_look/render.py": 25,
+  "templates/blender_look/materials.py": 148,
+  "templates/blender_look/lock_motion.py": 31,
+  "templates/threejs_film/render.mjs": 147
+ },
+ "new_route_b_total": 47
+}

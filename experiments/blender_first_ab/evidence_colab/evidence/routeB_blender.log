@@ -1,0 +1,603 @@
+20:29:08 | INFO: Data are loaded, start creating Blender stuff
+20:29:08 | INFO: Blender create Mesh node 0
+20:29:08 | INFO: Blender create Mesh node 1
+20:29:08 | INFO: Blender create Mesh node 2
+20:29:08 | INFO: Blender create Mesh node 3
+20:29:08 | INFO: Blender create Mesh node 4
+20:29:08 | INFO: Blender create Mesh node 5
+20:29:08 | INFO: Blender create Mesh node 6
+20:29:08 | INFO: Blender create Mesh node 7
+20:29:08 | INFO: Blender create Mesh node 8
+20:29:08 | INFO: Blender create Mesh node 9
+20:29:08 | INFO: Blender create Mesh node 10
+20:29:08 | INFO: Blender create Mesh node 11
+20:29:08 | INFO: Blender create Mesh node 12
+20:29:08 | INFO: Blender create Mesh node 13
+20:29:08 | INFO: Blender create Mesh node 14
+20:29:08 | INFO: Blender create Mesh node 15
+20:29:08 | INFO: Blender create Mesh node 16
+20:29:08 | INFO: Blender create Mesh node 17
+20:29:08 | INFO: Blender create Mesh node 18
+20:29:08 | INFO: Blender create Mesh node 19
+20:29:08 | INFO: Blender create Mesh node 20
+20:29:08 | INFO: Blender create Mesh node 21
+20:29:08 | INFO: Blender create Mesh node 22
+20:29:08 | INFO: Blender create Mesh node 23
+20:29:08 | INFO: Blender create Mesh node 24
+20:29:08 | INFO: Blender create Mesh node 25
+20:29:08 | INFO: Blender create Mesh node 26
+20:29:08 | INFO: Blender create Mesh node 27
+20:29:08 | INFO: Blender create Mesh node 28
+20:29:08 | INFO: Blender create Mesh node 29
+20:29:08 | INFO: Blender create Mesh node 30
+20:29:08 | INFO: Blender create Mesh node 31
+20:29:08 | INFO: Blender create Mesh node 32
+20:29:08 | INFO: Blender create Mesh node 33
+20:29:08 | INFO: Blender create Mesh node 34
+20:29:08 | INFO: Blender create Mesh node 35
+20:29:08 | INFO: Blender create Mesh node 36
+20:29:08 | INFO: Blender create Mesh node 37
+20:29:08 | INFO: Blender create Mesh node 38
+20:29:08 | INFO: Blender create Mesh node 39
+20:29:08 | INFO: Blender create Mesh node 40
+20:29:08 | INFO: Blender create Mesh node 41
+20:29:08 | INFO: Blender create Mesh node 42
+20:29:08 | INFO: Blender create Mesh node 43
+20:29:08 | INFO: Blender create Mesh node 44
+20:29:08 | INFO: Blender create Mesh node 45
+20:29:08 | INFO: Blender create Mesh node 46
+20:29:08 | INFO: Blender create Mesh node 47
+20:29:08 | INFO: Blender create Mesh node 48
+20:29:08 | INFO: Blender create Mesh node 49
+20:29:08 | INFO: Blender create Mesh node 50
+20:29:08 | INFO: Blender create Mesh node 51
+20:29:08 | INFO: Blender create Mesh node 52
+20:29:08 | INFO: Blender create Mesh node 53
+20:29:08 | INFO: Blender create Mesh node 54
+20:29:08 | INFO: Blender create Mesh node 55
+20:29:08 | INFO: Blender create Mesh node 56
+20:29:08 | INFO: Blender create Mesh node 57
+20:29:08 | INFO: Blender create Mesh node 58
+20:29:08 | INFO: Blender create Mesh node 59
+20:29:08 | INFO: Blender create Mesh node 60
+20:29:08 | INFO: Blender create Mesh node 61
+20:29:08 | INFO: Blender create Mesh node 62
+20:29:08 | INFO: Blender create Mesh node 63
+20:29:08 | INFO: Blender create Mesh node 64
+20:29:08 | INFO: Blender create Mesh node 65
+20:29:08 | INFO: Blender create Mesh node 66
+20:29:08 | INFO: Blender create Mesh node 67
+20:29:08 | INFO: Blender create Mesh node 68
+20:29:08 | INFO: Blender create Mesh node 69
+20:29:08 | INFO: Blender create Mesh node 70
+20:29:08 | INFO: Blender create Mesh node 71
+20:29:08 | INFO: Blender create Mesh node 72
+20:29:08 | INFO: Blender create Mesh node 73
+20:29:08 | INFO: Blender create Mesh node 74
+20:29:08 | INFO: Blender create Mesh node 75
+20:29:08 | INFO: Blender create Mesh node 76
+20:29:08 | INFO: Blender create Mesh node 77
+20:29:08 | INFO: Blender create Mesh node 78
+20:29:08 | INFO: Blender create Mesh node 79
+20:29:08 | INFO: Blender create Mesh node 80
+20:29:08 | INFO: Blender create Mesh node 81
+20:29:08 | INFO: Blender create Mesh node 82
+20:29:08 | INFO: Blender create Mesh node 83
+20:29:08 | INFO: Blender create Mesh node 84
+20:29:08 | INFO: Blender create Mesh node 85
+20:29:08 | INFO: Blender create Mesh node 86
+20:29:08 | INFO: Blender create Mesh node 87
+20:29:08 | INFO: Blender create Mesh node 88
+20:29:08 | INFO: Blender create Mesh node 89
+20:29:08 | INFO: Blender create Mesh node 90
+20:29:08 | INFO: Blender create Mesh node 91
+20:29:08 | INFO: Blender create Mesh node 92
+20:29:08 | INFO: Blender create Mesh node 93
+20:29:08 | INFO: Blender create Mesh node 94
+20:29:08 | INFO: Blender create Mesh node 95
+20:29:08 | INFO: Blender create Mesh node 96
+20:29:08 | INFO: Blender create Mesh node 97
+20:29:08 | INFO: Blender create Mesh node 98
+20:29:08 | INFO: Blender create Mesh node 99
+20:29:08 | INFO: Blender create Mesh node 100
+20:29:08 | INFO: Blender create Mesh node 101
+20:29:08 | INFO: Blender create Mesh node 102
+20:29:08 | INFO: Blender create Mesh node 103
+20:29:08 | INFO: Blender create Mesh node 104
+20:29:08 | INFO: Blender create Mesh node 105
+20:29:08 | INFO: Blender create Mesh node 106
+20:29:08 | INFO: Blender create Mesh node 107
+20:29:08 | INFO: Blender create Mesh node 108
+20:29:08 | INFO: Blender create Mesh node 109
+20:29:08 | INFO: Blender create Mesh node 110
+20:29:08 | INFO: Blender create Mesh node 111
+20:29:08 | INFO: Blender create Mesh node 112
+20:29:08 | INFO: Blender create Mesh node 113
+20:29:08 | INFO: Blender create Mesh node 114
+20:29:08 | INFO: Blender create Mesh node 115
+20:29:08 | INFO: Blender create Mesh node 116
+20:29:08 | INFO: Blender create Mesh node 117
+20:29:08 | INFO: Blender create Mesh node 118
+20:29:08 | INFO: Blender create Mesh node 119
+20:29:08 | INFO: Blender create Mesh node 120
+20:29:08 | INFO: Blender create Mesh node 121
+20:29:08 | INFO: Blender create Mesh node 122
+20:29:08 | INFO: Blender create Mesh node 123
+20:29:08 | INFO: Blender create Mesh node 124
+20:29:08 | INFO: Blender create Mesh node 125
+20:29:08 | INFO: Blender create Mesh node 126
+20:29:08 | INFO: Blender create Mesh node 127
+20:29:08 | INFO: Blender create Mesh node 128
+20:29:08 | INFO: Blender create Mesh node 129
+20:29:08 | INFO: Blender create Mesh node 130
+20:29:08 | INFO: Blender create Mesh node 131
+20:29:08 | INFO: Blender create Mesh node 132
+20:29:08 | INFO: Blender create Mesh node 133
+20:29:08 | INFO: Blender create Mesh node 134
+20:29:08 | INFO: Blender create Mesh node 135
+20:29:08 | INFO: Blender create Mesh node 136
+20:29:08 | INFO: Blender create Mesh node 137
+20:29:08 | INFO: Blender create Mesh node 138
+20:29:08 | INFO: Blender create Mesh node 139
+20:29:08 | INFO: Blender create Mesh node 140
+20:29:08 | INFO: Blender create Mesh node 141
+20:29:08 | INFO: Blender create Mesh node 142
+20:29:08 | INFO: Blender create Mesh node 143
+20:29:08 | INFO: Blender create Mesh node 144
+20:29:08 | INFO: Blender create Mesh node 145
+20:29:08 | INFO: Blender create Mesh node 146
+20:29:08 | INFO: Blender create Mesh node 147
+20:29:08 | INFO: Blender create Mesh node 148
+20:29:08 | INFO: Blender create Mesh node 149
+20:29:08 | INFO: Blender create Mesh node 150
+20:29:08 | INFO: Blender create Mesh node 151
+20:29:08 | INFO: Blender create Mesh node 152
+20:29:08 | INFO: Blender create Mesh node 153
+20:29:08 | INFO: Blender create Mesh node 154
+20:29:08 | INFO: Blender create Mesh node 155
+20:29:08 | INFO: Blender create Mesh node 156
+20:29:08 | INFO: Blender create Mesh node 157
+20:29:08 | INFO: Blender create Mesh node 158
+20:29:08 | INFO: Blender create Mesh node 159
+20:29:08 | INFO: Blender create Mesh node 160
+20:29:08 | INFO: Blender create Mesh node 161
+20:29:08 | INFO: Blender create Mesh node 162
+20:29:08 | INFO: Blender create Mesh node 163
+20:29:08 | INFO: Blender create Mesh node 164
+20:29:08 | INFO: Blender create Mesh node 165
+20:29:08 | INFO: Blender create Mesh node 166
+20:29:08 | INFO: Blender create Mesh node 167
+20:29:08 | INFO: Blender create Mesh node 168
+20:29:08 | INFO: Blender create Mesh node 169
+20:29:08 | INFO: Blender create Mesh node 170
+20:29:08 | INFO: Blender create Mesh node 171
+20:29:08 | INFO: Blender create Mesh node 172
+20:29:08 | INFO: Blender create Mesh node 173
+20:29:08 | INFO: Blender create Mesh node 174
+20:29:08 | INFO: Blender create Mesh node 175
+20:29:08 | INFO: Blender create Mesh node 176
+20:29:08 | INFO: Blender create Mesh node 177
+20:29:08 | INFO: Blender create Mesh node 178
+20:29:08 | INFO: Blender create Mesh node 179
+20:29:08 | INFO: Blender create Mesh node 180
+20:29:08 | INFO: Blender create Mesh node 181
+20:29:08 | INFO: Blender create Mesh node 182
+20:29:08 | INFO: Blender create Mesh node 183
+20:29:08 | INFO: Blender create Mesh node 184
+20:29:08 | INFO: Blender create Mesh node 185
+20:29:08 | INFO: Blender create Mesh node 186
+20:29:08 | INFO: Blender create Mesh node 187
+20:29:08 | INFO: Blender create Mesh node 188
+20:29:08 | INFO: Blender create Mesh node 189
+20:29:08 | INFO: Blender create Mesh node 190
+20:29:08 | INFO: Blender create Mesh node 191
+20:29:08 | INFO: Blender create Mesh node 192
+20:29:08 | INFO: Blender create Mesh node 193
+20:29:08 | INFO: Blender create Mesh node 194
+20:29:08 | INFO: Blender create Mesh node 195
+20:29:08 | INFO: Blender create Mesh node 196
+20:29:08 | INFO: Blender create Mesh node 197
+20:29:08 | INFO: Blender create Mesh node 198
+20:29:08 | INFO: Blender create Mesh node 199
+20:29:08 | INFO: Blender create Mesh node 200
+20:29:08 | INFO: Blender create Mesh node 201
+20:29:08 | INFO: Blender create Mesh node 202
+20:29:08 | INFO: Blender create Mesh node 203
+20:29:08 | INFO: Blender create Mesh node 204
+20:29:08 | INFO: Blender create Mesh node 205
+20:29:08 | INFO: Blender create Mesh node 206
+20:29:08 | INFO: Blender create Mesh node 207
+20:29:08 | INFO: Blender create Mesh node 208
+20:29:08 | INFO: Blender create Mesh node 209
+20:29:08 | INFO: Blender create Mesh node 210
+20:29:08 | INFO: Blender create Mesh node 211
+20:29:08 | INFO: Blender create Mesh node 212
+20:29:08 | INFO: Blender create Mesh node 213
+20:29:08 | INFO: Blender create Mesh node 214
+20:29:08 | INFO: Blender create Mesh node 215
+20:29:08 | INFO: Blender create Mesh node 216
+20:29:08 | INFO: Blender create Mesh node 217
+20:29:08 | INFO: Blender create Mesh node 218
+20:29:08 | INFO: Blender create Mesh node 219
+20:29:08 | INFO: Blender create Mesh node 220
+20:29:08 | INFO: Blender create Mesh node 221
+20:29:08 | INFO: Blender create Mesh node 222
+20:29:08 | INFO: Blender create Mesh node 223
+20:29:09 | INFO: Blender create Mesh node 224
+20:29:09 | INFO: Blender create Mesh node 225
+20:29:09 | INFO: Blender create Mesh node 226
+20:29:09 | INFO: Blender create Mesh node 227
+20:29:09 | INFO: Blender create Mesh node 228
+20:29:09 | INFO: Blender create Mesh node 229
+20:29:09 | INFO: Blender create Mesh node 230
+20:29:09 | INFO: Blender create Mesh node 231
+20:29:09 | INFO: Blender create Mesh node 232
+20:29:09 | INFO: Blender create Mesh node 233
+20:29:09 | INFO: Blender create Mesh node 234
+20:29:09 | INFO: Blender create Mesh node 235
+20:29:09 | INFO: Blender create Mesh node 236
+20:29:09 | INFO: Blender create Mesh node 237
+20:29:09 | INFO: Blender create Mesh node 238
+20:29:09 | INFO: Blender create Mesh node 239
+20:29:09 | INFO: Blender create Mesh node 240
+20:29:09 | INFO: Blender create Mesh node 241
+20:29:09 | INFO: Blender create Mesh node 242
+20:29:09 | INFO: Blender create Mesh node 243
+20:29:09 | INFO: Blender create Mesh node 244
+20:29:09 | INFO: Blender create Mesh node 245
+20:29:09 | INFO: Blender create Mesh node 246
+20:29:09 | INFO: glTF import finished in 0.65s
+00:44.696  render           | Saved: '/content/ab_out/routeB/raw/b_00000.png'
+B 0 41.896
+00:47.493  render           | Saved: '/content/ab_out/routeB/raw/b_00001.png'
+B 1 2.799
+00:50.300  render           | Saved: '/content/ab_out/routeB/raw/b_00002.png'
+B 2 2.808
+00:52.998  render           | Saved: '/content/ab_out/routeB/raw/b_00003.png'
+B 3 2.685
+00:55.610  render           | Saved: '/content/ab_out/routeB/raw/b_00004.png'
+B 4 2.617
+00:58.258  render           | Saved: '/content/ab_out/routeB/raw/b_00005.png'
+B 5 2.638
+01:01.044  render           | Saved: '/content/ab_out/routeB/raw/b_00006.png'
+B 6 2.792
+01:03.895  render           | Saved: '/content/ab_out/routeB/raw/b_00007.png'
+B 7 2.848
+01:06.656  render           | Saved: '/content/ab_out/routeB/raw/b_00008.png'
+B 8 2.749
+01:09.420  render           | Saved: '/content/ab_out/routeB/raw/b_00009.png'
+B 9 2.761
+01:12.216  render           | Saved: '/content/ab_out/routeB/raw/b_00010.png'
+B 10 2.794
+01:15.027  render           | Saved: '/content/ab_out/routeB/raw/b_00011.png'
+B 11 2.808
+01:17.965  render           | Saved: '/content/ab_out/routeB/raw/b_00012.png'
+B 12 2.941
+01:20.906  render           | Saved: '/content/ab_out/routeB/raw/b_00013.png'
+B 13 2.937
+01:23.784  render           | Saved: '/content/ab_out/routeB/raw/b_00014.png'
+B 14 2.873
+01:26.904  render           | Saved: '/content/ab_out/routeB/raw/b_00015.png'
+B 15 3.115
+01:30.008  render           | Saved: '/content/ab_out/routeB/raw/b_00016.png'
+B 16 3.102
+01:33.168  render           | Saved: '/content/ab_out/routeB/raw/b_00017.png'
+B 17 3.164
+01:36.179  render           | Saved: '/content/ab_out/routeB/raw/b_00018.png'
+B 18 3.001
+01:39.116  render           | Saved: '/content/ab_out/routeB/raw/b_00019.png'
+B 19 2.936
+01:42.061  render           | Saved: '/content/ab_out/routeB/raw/b_00020.png'
+B 20 2.942
+01:45.091  render           | Saved: '/content/ab_out/routeB/raw/b_00021.png'
+B 21 3.034
+01:48.263  render           | Saved: '/content/ab_out/routeB/raw/b_00022.png'
+B 22 3.168
+01:51.337  render           | Saved: '/content/ab_out/routeB/raw/b_00023.png'
+B 23 3.065
+01:54.462  render           | Saved: '/content/ab_out/routeB/raw/b_00024.png'
+B 24 3.122
+01:57.578  render           | Saved: '/content/ab_out/routeB/raw/b_00025.png'
+B 25 3.114
+02:00.727  render           | Saved: '/content/ab_out/routeB/raw/b_00026.png'
+B 26 3.153
+02:03.967  render           | Saved: '/content/ab_out/routeB/raw/b_00027.png'
+B 27 3.242
+02:07.130  render           | Saved: '/content/ab_out/routeB/raw/b_00028.png'
+B 28 3.15
+02:10.248  render           | Saved: '/content/ab_out/routeB/raw/b_00029.png'
+B 29 3.115
+02:13.364  render           | Saved: '/content/ab_out/routeB/raw/b_00030.png'
+B 30 3.113
+02:16.602  render           | Saved: '/content/ab_out/routeB/raw/b_00031.png'
+B 31 3.24
+02:19.831  render           | Saved: '/content/ab_out/routeB/raw/b_00032.png'
+B 32 3.222
+02:23.088  render           | Saved: '/content/ab_out/routeB/raw/b_00033.png'
+B 33 3.253
+02:26.364  render           | Saved: '/content/ab_out/routeB/raw/b_00034.png'
+B 34 3.273
+02:29.761  render           | Saved: '/content/ab_out/routeB/raw/b_00035.png'
+B 35 3.401
+02:33.293  render           | Saved: '/content/ab_out/routeB/raw/b_00036.png'
+B 36 3.532
+02:36.637  render           | Saved: '/content/ab_out/routeB/raw/b_00037.png'
+B 37 3.331
+02:39.938  render           | Saved: '/content/ab_out/routeB/raw/b_00038.png'
+B 38 3.301
+02:43.241  render           | Saved: '/content/ab_out/routeB/raw/b_00039.png'
+B 39 3.298
+02:46.672  render           | Saved: '/content/ab_out/routeB/raw/b_00040.png'
+B 40 3.434
+02:50.074  render           | Saved: '/content/ab_out/routeB/raw/b_00041.png'
+B 41 3.393
+02:53.392  render           | Saved: '/content/ab_out/routeB/raw/b_00042.png'
+B 42 3.316
+02:56.723  render           | Saved: '/content/ab_out/routeB/raw/b_00043.png'
+B 43 3.327
+03:00.163  render           | Saved: '/content/ab_out/routeB/raw/b_00044.png'
+B 44 3.444
+03:03.538  render           | Saved: '/content/ab_out/routeB/raw/b_00045.png'
+B 45 3.366
+03:06.885  render           | Saved: '/content/ab_out/routeB/raw/b_00046.png'
+B 46 3.344
+03:10.219  render           | Saved: '/content/ab_out/routeB/raw/b_00047.png'
+B 47 3.332
+03:13.662  render           | Saved: '/content/ab_out/routeB/raw/b_00048.png'
+B 48 3.448
+03:17.186  render           | Saved: '/content/ab_out/routeB/raw/b_00049.png'
+B 49 3.52
+03:20.606  render           | Saved: '/content/ab_out/routeB/raw/b_00050.png'
+B 50 3.411
+03:23.917  render           | Saved: '/content/ab_out/routeB/raw/b_00051.png'
+B 51 3.308
+03:27.209  render           | Saved: '/content/ab_out/routeB/raw/b_00052.png'
+B 52 3.289
+03:30.620  render           | Saved: '/content/ab_out/routeB/raw/b_00053.png'
+B 53 3.416
+03:34.086  render           | Saved: '/content/ab_out/routeB/raw/b_00054.png'
+B 54 3.462
+03:37.498  render           | Saved: '/content/ab_out/routeB/raw/b_00055.png'
+B 55 3.403
+03:40.908  render           | Saved: '/content/ab_out/routeB/raw/b_00056.png'
+B 56 3.412
+03:44.479  render           | Saved: '/content/ab_out/routeB/raw/b_00057.png'
+B 57 3.574
+03:47.986  render           | Saved: '/content/ab_out/routeB/raw/b_00058.png'
+B 58 3.494
+03:51.607  render           | Saved: '/content/ab_out/routeB/raw/b_00059.png'
+B 59 3.618
+03:55.242  render           | Saved: '/content/ab_out/routeB/raw/b_00060.png'
+B 60 3.633
+03:59.023  render           | Saved: '/content/ab_out/routeB/raw/b_00061.png'
+B 61 3.785
+04:02.782  render           | Saved: '/content/ab_out/routeB/raw/b_00062.png'
+B 62 3.75
+04:06.478  render           | Saved: '/content/ab_out/routeB/raw/b_00063.png'
+B 63 3.698
+04:10.160  render           | Saved: '/content/ab_out/routeB/raw/b_00064.png'
+B 64 3.675
+04:13.988  render           | Saved: '/content/ab_out/routeB/raw/b_00065.png'
+B 65 3.834
+04:17.768  render           | Saved: '/content/ab_out/routeB/raw/b_00066.png'
+B 66 3.768
+04:21.467  render           | Saved: '/content/ab_out/routeB/raw/b_00067.png'
+B 67 3.696
+04:25.147  render           | Saved: '/content/ab_out/routeB/raw/b_00068.png'
+B 68 3.679
+04:28.978  render           | Saved: '/content/ab_out/routeB/raw/b_00069.png'
+B 69 3.832
+04:32.753  render           | Saved: '/content/ab_out/routeB/raw/b_00070.png'
+B 70 3.767
+04:36.561  render           | Saved: '/content/ab_out/routeB/raw/b_00071.png'
+B 71 3.805
+04:40.278  render           | Saved: '/content/ab_out/routeB/raw/b_00072.png'
+B 72 3.715
+04:44.097  render           | Saved: '/content/ab_out/routeB/raw/b_00073.png'
+B 73 3.829
+04:47.897  render           | Saved: '/content/ab_out/routeB/raw/b_00074.png'
+B 74 3.783
+04:51.604  render           | Saved: '/content/ab_out/routeB/raw/b_00075.png'
+B 75 3.703
+04:55.270  render           | Saved: '/content/ab_out/routeB/raw/b_00076.png'
+B 76 3.663
+04:59.077  render           | Saved: '/content/ab_out/routeB/raw/b_00077.png'
+B 77 3.813
+05:02.838  render           | Saved: '/content/ab_out/routeB/raw/b_00078.png'
+B 78 3.751
+05:06.519  render           | Saved: '/content/ab_out/routeB/raw/b_00079.png'
+B 79 3.677
+05:10.188  render           | Saved: '/content/ab_out/routeB/raw/b_00080.png'
+B 80 3.667
+05:13.991  render           | Saved: '/content/ab_out/routeB/raw/b_00081.png'
+B 81 3.807
+05:17.724  render           | Saved: '/content/ab_out/routeB/raw/b_00082.png'
+B 82 3.725
+05:21.414  render           | Saved: '/content/ab_out/routeB/raw/b_00083.png'
+B 83 3.685
+05:25.124  render           | Saved: '/content/ab_out/routeB/raw/b_00084.png'
+B 84 3.707
+05:28.937  render           | Saved: '/content/ab_out/routeB/raw/b_00085.png'
+B 85 3.818
+05:32.677  render           | Saved: '/content/ab_out/routeB/raw/b_00086.png'
+B 86 3.73
+05:36.366  render           | Saved: '/content/ab_out/routeB/raw/b_00087.png'
+B 87 3.686
+05:40.068  render           | Saved: '/content/ab_out/routeB/raw/b_00088.png'
+B 88 3.7
+05:43.967  render           | Saved: '/content/ab_out/routeB/raw/b_00089.png'
+B 89 3.913
+05:47.756  render           | Saved: '/content/ab_out/routeB/raw/b_00090.png'
+B 90 3.771
+05:51.457  render           | Saved: '/content/ab_out/routeB/raw/b_00091.png'
+B 91 3.697
+05:55.261  render           | Saved: '/content/ab_out/routeB/raw/b_00092.png'
+B 92 3.808
+05:59.170  render           | Saved: '/content/ab_out/routeB/raw/b_00093.png'
+B 93 3.905
+06:02.961  render           | Saved: '/content/ab_out/routeB/raw/b_00094.png'
+B 94 3.781
+06:06.669  render           | Saved: '/content/ab_out/routeB/raw/b_00095.png'
+B 95 3.706
+06:10.480  render           | Saved: '/content/ab_out/routeB/raw/b_00096.png'
+B 96 3.814
+06:14.386  render           | Saved: '/content/ab_out/routeB/raw/b_00097.png'
+B 97 3.908
+06:18.119  render           | Saved: '/content/ab_out/routeB/raw/b_00098.png'
+B 98 3.719
+06:21.835  render           | Saved: '/content/ab_out/routeB/raw/b_00099.png'
+B 99 3.714
+06:25.670  render           | Saved: '/content/ab_out/routeB/raw/b_00100.png'
+B 100 3.839
+06:29.481  render           | Saved: '/content/ab_out/routeB/raw/b_00101.png'
+B 101 3.801
+06:33.203  render           | Saved: '/content/ab_out/routeB/raw/b_00102.png'
+B 102 3.719
+06:36.916  render           | Saved: '/content/ab_out/routeB/raw/b_00103.png'
+B 103 3.714
+06:40.712  render           | Saved: '/content/ab_out/routeB/raw/b_00104.png'
+B 104 3.795
+06:44.606  render           | Saved: '/content/ab_out/routeB/raw/b_00105.png'
+B 105 3.885
+06:48.311  render           | Saved: '/content/ab_out/routeB/raw/b_00106.png'
+B 106 3.703
+06:52.036  render           | Saved: '/content/ab_out/routeB/raw/b_00107.png'
+B 107 3.722
+06:55.855  render           | Saved: '/content/ab_out/routeB/raw/b_00108.png'
+B 108 3.822
+06:59.611  render           | Saved: '/content/ab_out/routeB/raw/b_00109.png'
+B 109 3.747
+07:03.323  render           | Saved: '/content/ab_out/routeB/raw/b_00110.png'
+B 110 3.71
+07:07.026  render           | Saved: '/content/ab_out/routeB/raw/b_00111.png'
+B 111 3.699
+07:10.844  render           | Saved: '/content/ab_out/routeB/raw/b_00112.png'
+B 112 3.825
+07:14.613  render           | Saved: '/content/ab_out/routeB/raw/b_00113.png'
+B 113 3.756
+07:18.330  render           | Saved: '/content/ab_out/routeB/raw/b_00114.png'
+B 114 3.715
+07:21.665  render           | Saved: '/content/ab_out/routeB/raw/b_00115.png'
+B 115 3.333
+07:25.201  render           | Saved: '/content/ab_out/routeB/raw/b_00116.png'
+B 116 3.539
+07:28.706  render           | Saved: '/content/ab_out/routeB/raw/b_00117.png'
+B 117 3.497
+07:32.147  render           | Saved: '/content/ab_out/routeB/raw/b_00118.png'
+B 118 3.439
+07:35.424  render           | Saved: '/content/ab_out/routeB/raw/b_00119.png'
+B 119 3.273
+07:38.746  render           | Saved: '/content/ab_out/routeB/raw/b_00120.png'
+B 120 3.326
+07:42.082  render           | Saved: '/content/ab_out/routeB/raw/b_00121.png'
+B 121 3.337
+07:45.055  render           | Saved: '/content/ab_out/routeB/raw/b_00122.png'
+B 122 2.96
+07:47.952  render           | Saved: '/content/ab_out/routeB/raw/b_00123.png'
+B 123 2.895
+07:50.828  render           | Saved: '/content/ab_out/routeB/raw/b_00124.png'
+B 124 2.873
+07:53.720  render           | Saved: '/content/ab_out/routeB/raw/b_00125.png'
+B 125 2.897
+07:56.669  render           | Saved: '/content/ab_out/routeB/raw/b_00126.png'
+B 126 2.947
+07:59.294  render           | Saved: '/content/ab_out/routeB/raw/b_00127.png'
+B 127 2.613
+08:01.832  render           | Saved: '/content/ab_out/routeB/raw/b_00128.png'
+B 128 2.536
+08:04.387  render           | Saved: '/content/ab_out/routeB/raw/b_00129.png'
+B 129 2.551
+08:06.749  render           | Saved: '/content/ab_out/routeB/raw/b_00130.png'
+B 130 2.359
+08:09.215  render           | Saved: '/content/ab_out/routeB/raw/b_00131.png'
+B 131 2.471
+08:11.499  render           | Saved: '/content/ab_out/routeB/raw/b_00132.png'
+B 132 2.275
+08:13.498  render           | Saved: '/content/ab_out/routeB/raw/b_00133.png'
+B 133 1.995
+08:15.444  render           | Saved: '/content/ab_out/routeB/raw/b_00134.png'
+B 134 1.944
+08:17.318  render           | Saved: '/content/ab_out/routeB/raw/b_00135.png'
+B 135 1.871
+08:19.115  render           | Saved: '/content/ab_out/routeB/raw/b_00136.png'
+B 136 1.795
+08:20.897  render           | Saved: '/content/ab_out/routeB/raw/b_00137.png'
+B 137 1.787
+08:23.009  render           | Saved: '/content/ab_out/routeB/raw/b_00138.png'
+B 138 2.11
+08:25.009  render           | Saved: '/content/ab_out/routeB/raw/b_00139.png'
+B 139 1.995
+08:26.914  render           | Saved: '/content/ab_out/routeB/raw/b_00140.png'
+B 140 1.896
+08:28.735  render           | Saved: '/content/ab_out/routeB/raw/b_00141.png'
+B 141 1.819
+08:30.517  render           | Saved: '/content/ab_out/routeB/raw/b_00142.png'
+B 142 1.779
+08:32.284  render           | Saved: '/content/ab_out/routeB/raw/b_00143.png'
+B 143 1.766
+08:34.049  render           | Saved: '/content/ab_out/routeB/raw/b_00144.png'
+B 144 1.761
+08:35.790  render           | Saved: '/content/ab_out/routeB/raw/b_00145.png'
+B 145 1.739
+08:37.628  render           | Saved: '/content/ab_out/routeB/raw/b_00146.png'
+B 146 1.844
+08:39.505  render           | Saved: '/content/ab_out/routeB/raw/b_00147.png'
+B 147 1.872
+08:41.313  render           | Saved: '/content/ab_out/routeB/raw/b_00148.png'
+B 148 1.797
+08:43.025  render           | Saved: '/content/ab_out/routeB/raw/b_00149.png'
+B 149 1.714
+08:46.397  render           | Saved: '/content/ab_out/routeB/raw/b_00201.png'
+B 201 3.366
+08:49.626  render           | Saved: '/content/ab_out/routeB/raw/b_00202.png'
+B 202 3.225
+08:52.967  render           | Saved: '/content/ab_out/routeB/raw/b_00203.png'
+B 203 3.346
+08:56.273  render           | Saved: '/content/ab_out/routeB/raw/b_00204.png'
+B 204 3.296
+08:59.649  render           | Saved: '/content/ab_out/routeB/raw/b_00205.png'
+B 205 3.373
+09:03.039  render           | Saved: '/content/ab_out/routeB/raw/b_00206.png'
+B 206 3.387
+09:06.518  render           | Saved: '/content/ab_out/routeB/raw/b_00207.png'
+B 207 3.482
+09:10.088  render           | Saved: '/content/ab_out/routeB/raw/b_00208.png'
+B 208 3.57
+09:13.651  render           | Saved: '/content/ab_out/routeB/raw/b_00209.png'
+B 209 3.55
+09:17.028  render           | Saved: '/content/ab_out/routeB/raw/b_00210.png'
+B 210 3.375
+09:19.693  render           | Saved: '/content/ab_out/routeB/raw/b_00316.png'
+B 316 2.663
+09:22.417  render           | Saved: '/content/ab_out/routeB/raw/b_00317.png'
+B 317 2.729
+09:25.111  render           | Saved: '/content/ab_out/routeB/raw/b_00318.png'
+B 318 2.683
+09:27.794  render           | Saved: '/content/ab_out/routeB/raw/b_00319.png'
+B 319 2.681
+09:30.555  render           | Saved: '/content/ab_out/routeB/raw/b_00320.png'
+B 320 2.758
+09:33.278  render           | Saved: '/content/ab_out/routeB/raw/b_00321.png'
+B 321 2.72
+09:35.734  render           | Saved: '/content/ab_out/routeB/raw/b_00322.png'
+B 322 2.46
+09:38.155  render           | Saved: '/content/ab_out/routeB/raw/b_00323.png'
+B 323 2.423
+09:40.662  render           | Saved: '/content/ab_out/routeB/raw/b_00324.png'
+B 324 2.493
+09:43.137  render           | Saved: '/content/ab_out/routeB/raw/b_00325.png'
+B 325 2.473
+09:45.619  render           | Saved: '/content/ab_out/routeB/raw/b_00326.png'
+B 326 2.478
+09:48.198  render           | Saved: '/content/ab_out/routeB/raw/b_00327.png'
+B 327 2.576
+09:50.814  render           | Saved: '/content/ab_out/routeB/raw/b_00328.png'
+B 328 2.619
+09:53.510  render           | Saved: '/content/ab_out/routeB/raw/b_00329.png'
+B 329 2.696
+09:56.069  render           | Saved: '/content/ab_out/routeB/raw/b_00330.png'
+B 330 2.546
+ROUTE_B_DONE
+Blender 5.2.4 LTS (hash cd5dc428cce1 built 2026-11-10 01:31:47)
+
+Blender quit

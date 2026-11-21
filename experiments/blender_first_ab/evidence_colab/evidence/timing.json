@@ -1,0 +1,344 @@
+{
+ "A": {
+  "0-149": {
+   "pipeline_rc": 0,
+   "wall_s": 782.4,
+   "frames": 150,
+   "base_s": 678.1,
+   "base_s_per_frame": 4.521,
+   "base_status": "PASS",
+   "layers": [],
+   "stages": [
+    {
+     "stage": "C1-C3",
+     "kind": "creative",
+     "status": "INPUT",
+     "seconds": 0.0,
+     "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+    },
+    {
+     "stage": "1 plan",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 0.25,
+     "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+    },
+    {
+     "stage": "2 base",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 678.1,
+     "note": "150 frames, cpu, 4.52 s/frame"
+    },
+    {
+     "stage": "3 lock",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 46.2,
+     "note": ""
+    },
+    {
+     "stage": "4 flight",
+     "kind": "scripted",
+     "status": "SKIP",
+     "seconds": 0,
+     "note": "no flight in range"
+    },
+    {
+     "stage": "7 final",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 30.49,
+     "note": "final.mp4, layers []"
+    },
+    {
+     "stage": "8 qa",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 27.1,
+     "note": "all checks PASS"
+    }
+   ],
+   "final_exists": true
+  },
+  "201-210": {
+   "pipeline_rc": 0,
+   "wall_s": 175.4,
+   "frames": 10,
+   "base_s": 47.79,
+   "base_s_per_frame": 4.779,
+   "base_status": "PASS",
+   "layers": [
+    {
+     "stage": "5 layers",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 69.94,
+     "note": "lamp_reflect gates {\"A\": true, \"B\": true, \"D\": true, \"E\": true}"
+    }
+   ],
+   "stages": [
+    {
+     "stage": "C1-C3",
+     "kind": "creative",
+     "status": "INPUT",
+     "seconds": 0.0,
+     "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+    },
+    {
+     "stage": "1 plan",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 0.26,
+     "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+    },
+    {
+     "stage": "2 base",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 47.79,
+     "note": "10 frames, cpu, 4.78 s/frame"
+    },
+    {
+     "stage": "3 lock",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 43.17,
+     "note": ""
+    },
+    {
+     "stage": "4 flight",
+     "kind": "scripted",
+     "status": "SKIP",
+     "seconds": 0,
+     "note": "no flight in range"
+    },
+    {
+     "stage": "5a visible",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 7.02,
+     "note": "lamp_reflect: named objects seen, rays per frame [120, 120, 119, 120, 120, 120, 120, 121, 124, 124]"
+    },
+    {
+     "stage": "5 layers",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 69.94,
+     "note": "lamp_reflect gates {\"A\": true, \"B\": true, \"D\": true, \"E\": true}"
+    },
+    {
+     "stage": "6 review",
+     "kind": "creative",
+     "status": "KEEP",
+     "seconds": 0,
+     "note": "lamp_reflect: review.json --accept-layers (not a creative review: flagged)"
+    },
+    {
+     "stage": "7 final",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 2.47,
+     "note": "final.mp4, layers ['lamp_reflect']"
+    },
+    {
+     "stage": "8 qa",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 4.57,
+     "note": "all checks PASS"
+    }
+   ],
+   "final_exists": true
+  },
+  "316-330": {
+   "pipeline_rc": 0,
+   "wall_s": 129.7,
+   "frames": 15,
+   "base_s": 76.54,
+   "base_s_per_frame": 5.103,
+   "base_status": "PASS",
+   "layers": [],
+   "stages": [
+    {
+     "stage": "C1-C3",
+     "kind": "creative",
+     "status": "INPUT",
+     "seconds": 0.0,
+     "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+    },
+    {
+     "stage": "1 plan",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 0.27,
+     "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+    },
+    {
+     "stage": "2 base",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 76.54,
+     "note": "15 frames, cpu, 5.10 s/frame"
+    },
+    {
+     "stage": "3 lock",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 44.86,
+     "note": ""
+    },
+    {
+     "stage": "4 flight",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 0.76,
+     "note": "GATE PASS"
+    },
+    {
+     "stage": "7 final",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 2.86,
+     "note": "final.mp4, layers []"
+    },
+    {
+     "stage": "8 qa",
+     "kind": "scripted",
+     "status": "PASS",
+     "seconds": 4.14,
+     "note": "all checks PASS"
+    }
+   ],
+   "final_exists": true
+  }
+ },
+ "B": {
+  "lock_export_s": 46.9,
+  "overlay_s": {
+   "0-149": 18.2,
+   "201-210": 2.1,
+   "316-330": 2.5
+  },
+  "blender_process_wall_s": 596.5,
+  "cold_build_s": 1.67,
+  "lock_motion_s": 0.27,
+  "first_frame_s": 41.896,
+  "per_frame": {
+   "n": 175,
+   "mean": 3.387,
+   "median": 3.331,
+   "p90": 3.801,
+   "total": 592.79,
+   "min": 1.714,
+   "max": 41.896
+  },
+  "steady_per_frame_excl_first": {
+   "n": 174,
+   "mean": 3.166,
+   "median": 3.329,
+   "p90": 3.795,
+   "total": 550.89,
+   "min": 1.714,
+   "max": 3.913
+  },
+  "per_range": {
+   "0-149": {
+    "n": 150,
+    "mean": 3.465,
+    "median": 3.355,
+    "p90": 3.807,
+    "total": 519.82,
+    "min": 1.714,
+    "max": 41.896
+   },
+   "201-210": {
+    "n": 10,
+    "mean": 3.397,
+    "median": 3.374,
+    "p90": 3.55,
+    "total": 33.97,
+    "min": 3.225,
+    "max": 3.57
+   },
+   "316-330": {
+    "n": 15,
+    "mean": 2.6,
+    "median": 2.619,
+    "p90": 2.729,
+    "total": 39.0,
+    "min": 2.423,
+    "max": 2.758
+   }
+  },
+  "cold_start_to_first_frame_s": 43.84,
+  "gpu": {
+   "samples": 1188,
+   "util_pct_mean": 78.6,
+   "util_pct_p90": 98.0,
+   "util_pct_max": 98.0,
+   "vram_mib_peak": 1835.0,
+   "vram_mib_total": 15360.0
+  },
+  "render_info": {
+   "blender": "5.2.4 LTS",
+   "engine": "BLENDER_EEVEE",
+   "samples": 64,
+   "resolution": [
+    720,
+    1280
+   ],
+   "preset": "day",
+   "settings": {
+    "film_filter_size_px": 2.200000047683716,
+    "view_transform": "Khronos PBR Neutral",
+    "motion_blur": false,
+    "dof": true,
+    "fstop": 5.599999904632568,
+    "raytracing": true,
+    "card_texture_interpolation": "Cubic (from_lock.card)"
+   },
+   "materials": {
+    "wood_grain": 112,
+    "foliage": 16,
+    "plaster": 2,
+    "roof_tile": 15,
+    "burlap": 1,
+    "metal": 4,
+    "painted_metal_chipped": 6,
+    "dirt": 2,
+    "cobble": 30,
+    "flat": 15,
+    "turf": 2,
+    "glass": 42
+   },
+   "gpu": {
+    "error": "SystemError('GPU functions for drawing requires the gpu module to be initialized. See gpu.init.')"
+   },
+   "moved_nodes": 2
+  },
+  "compose_cpu_s_per_frame": {
+   "n": 175,
+   "mean": 0.891,
+   "median": 0.847,
+   "p90": 1.083,
+   "total": 155.84,
+   "min": 0.789,
+   "max": 1.178
+  },
+  "vignette": {
+   "0-149": 0.57,
+   "201-210": 0.529,
+   "316-330": 0.557
+  },
+  "total_per_frame_blender_plus_compose_mean": 4.278
+ },
+ "lock_sha1": {
+  "B": "dd8826ba00e7ecbb22d8d771eec13db92ef92ec1",
+  "A": {
+   "0-149": "dd8826ba00e7ecbb22d8d771eec13db92ef92ec1",
+   "201-210": "dd8826ba00e7ecbb22d8d771eec13db92ef92ec1",
+   "316-330": "dd8826ba00e7ecbb22d8d771eec13db92ef92ec1"
+  }
+ }
+}

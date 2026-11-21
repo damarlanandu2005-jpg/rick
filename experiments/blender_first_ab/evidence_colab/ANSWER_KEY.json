@@ -1,0 +1,18 @@
+{
+ "seed": 20260522,
+ "note": "X/Y per range: which route each label is. DO NOT OPEN until you have written your judgment.",
+ "ranges": {
+  "0-149": {
+   "X": "B",
+   "Y": "A"
+  },
+  "201-210": {
+   "X": "B",
+   "Y": "A"
+  },
+  "316-330": {
+   "X": "A",
+   "Y": "B"
+  }
+ }
+}

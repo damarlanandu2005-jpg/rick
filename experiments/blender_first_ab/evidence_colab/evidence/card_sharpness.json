@@ -1,0 +1,310 @@
+{
+ "metric": "var(Laplacian) and mean |gradient| of luminance inside the character box; ratio = B/A",
+ "flag_if_ratio_below": 0.85,
+ "ranges": {
+  "0-149": {
+   "master": {
+    "samples": 12,
+    "median_lap_ratio": 0.936,
+    "median_grad_ratio": 1.357,
+    "frac_below_flag": 0.33,
+    "rows": [
+     {
+      "f": 0,
+      "lap_ratio": 0.984,
+      "grad_ratio": 1.438
+     },
+     {
+      "f": 10,
+      "lap_ratio": 0.907,
+      "grad_ratio": 1.439
+     },
+     {
+      "f": 20,
+      "lap_ratio": 0.74,
+      "grad_ratio": 1.425
+     },
+     {
+      "f": 30,
+      "lap_ratio": 0.793,
+      "grad_ratio": 1.358
+     },
+     {
+      "f": 40,
+      "lap_ratio": 0.718,
+      "grad_ratio": 1.377
+     },
+     {
+      "f": 50,
+      "lap_ratio": 0.719,
+      "grad_ratio": 1.379
+     },
+     {
+      "f": 60,
+      "lap_ratio": 0.944,
+      "grad_ratio": 1.35
+     },
+     {
+      "f": 70,
+      "lap_ratio": 0.976,
+      "grad_ratio": 1.287
+     },
+     {
+      "f": 80,
+      "lap_ratio": 0.968,
+      "grad_ratio": 1.338
+     },
+     {
+      "f": 90,
+      "lap_ratio": 0.964,
+      "grad_ratio": 1.349
+     },
+     {
+      "f": 100,
+      "lap_ratio": 0.962,
+      "grad_ratio": 1.355
+     },
+     {
+      "f": 110,
+      "lap_ratio": 0.929,
+      "grad_ratio": 1.236
+     }
+    ]
+   },
+   "kid": {
+    "samples": 3,
+    "median_lap_ratio": 0.484,
+    "median_grad_ratio": 1.014,
+    "frac_below_flag": 1.0,
+    "rows": [
+     {
+      "f": 120,
+      "lap_ratio": 0.47,
+      "grad_ratio": 0.809
+     },
+     {
+      "f": 130,
+      "lap_ratio": 0.743,
+      "grad_ratio": 1.076
+     },
+     {
+      "f": 140,
+      "lap_ratio": 0.484,
+      "grad_ratio": 1.014
+     }
+    ]
+   },
+   "lady": {
+    "samples": 2,
+    "median_lap_ratio": 0.414,
+    "median_grad_ratio": 0.966,
+    "frac_below_flag": 1.0,
+    "rows": [
+     {
+      "f": 130,
+      "lap_ratio": 0.406,
+      "grad_ratio": 0.943
+     },
+     {
+      "f": 140,
+      "lap_ratio": 0.422,
+      "grad_ratio": 0.989
+     }
+    ]
+   }
+  },
+  "201-210": {
+   "master": {
+    "samples": 10,
+    "median_lap_ratio": 0.873,
+    "median_grad_ratio": 1.254,
+    "frac_below_flag": 0.0,
+    "rows": [
+     {
+      "f": 201,
+      "lap_ratio": 0.897,
+      "grad_ratio": 1.231
+     },
+     {
+      "f": 202,
+      "lap_ratio": 0.851,
+      "grad_ratio": 1.247
+     },
+     {
+      "f": 203,
+      "lap_ratio": 0.856,
+      "grad_ratio": 1.248
+     },
+     {
+      "f": 204,
+      "lap_ratio": 0.868,
+      "grad_ratio": 1.25
+     },
+     {
+      "f": 205,
+      "lap_ratio": 0.866,
+      "grad_ratio": 1.251
+     },
+     {
+      "f": 206,
+      "lap_ratio": 0.863,
+      "grad_ratio": 1.258
+     },
+     {
+      "f": 207,
+      "lap_ratio": 0.878,
+      "grad_ratio": 1.263
+     },
+     {
+      "f": 208,
+      "lap_ratio": 0.883,
+      "grad_ratio": 1.263
+     },
+     {
+      "f": 209,
+      "lap_ratio": 0.883,
+      "grad_ratio": 1.271
+     },
+     {
+      "f": 210,
+      "lap_ratio": 0.898,
+      "grad_ratio": 1.275
+     }
+    ]
+   }
+  },
+  "316-330": {
+   "master": {
+    "samples": 15,
+    "median_lap_ratio": 0.781,
+    "median_grad_ratio": 1.115,
+    "frac_below_flag": 0.87,
+    "rows": [
+     {
+      "f": 316,
+      "lap_ratio": 0.837,
+      "grad_ratio": 1.219
+     },
+     {
+      "f": 317,
+      "lap_ratio": 0.831,
+      "grad_ratio": 1.215
+     },
+     {
+      "f": 318,
+      "lap_ratio": 0.869,
+      "grad_ratio": 1.186
+     },
+     {
+      "f": 319,
+      "lap_ratio": 0.867,
+      "grad_ratio": 1.181
+     },
+     {
+      "f": 320,
+      "lap_ratio": 0.848,
+      "grad_ratio": 1.164
+     },
+     {
+      "f": 321,
+      "lap_ratio": 0.817,
+      "grad_ratio": 1.139
+     },
+     {
+      "f": 322,
+      "lap_ratio": 0.809,
+      "grad_ratio": 1.132
+     },
+     {
+      "f": 323,
+      "lap_ratio": 0.751,
+      "grad_ratio": 1.115
+     },
+     {
+      "f": 324,
+      "lap_ratio": 0.728,
+      "grad_ratio": 1.11
+     },
+     {
+      "f": 325,
+      "lap_ratio": 0.72,
+      "grad_ratio": 1.106
+     },
+     {
+      "f": 326,
+      "lap_ratio": 0.732,
+      "grad_ratio": 1.085
+     },
+     {
+      "f": 327,
+      "lap_ratio": 0.733,
+      "grad_ratio": 1.063
+     },
+     {
+      "f": 328,
+      "lap_ratio": 0.73,
+      "grad_ratio": 1.057
+     },
+     {
+      "f": 329,
+      "lap_ratio": 0.734,
+      "grad_ratio": 1.036
+     },
+     {
+      "f": 330,
+      "lap_ratio": 0.781,
+      "grad_ratio": 1.04
+     }
+    ]
+   },
+   "kid": {
+    "samples": 8,
+    "median_lap_ratio": 0.893,
+    "median_grad_ratio": 1.075,
+    "frac_below_flag": 0.25,
+    "rows": [
+     {
+      "f": 323,
+      "lap_ratio": 0.46,
+      "grad_ratio": 0.915
+     },
+     {
+      "f": 324,
+      "lap_ratio": 0.63,
+      "grad_ratio": 1.066
+     },
+     {
+      "f": 325,
+      "lap_ratio": 0.879,
+      "grad_ratio": 1.126
+     },
+     {
+      "f": 326,
+      "lap_ratio": 0.893,
+      "grad_ratio": 1.091
+     },
+     {
+      "f": 327,
+      "lap_ratio": 0.907,
+      "grad_ratio": 1.12
+     },
+     {
+      "f": 328,
+      "lap_ratio": 0.896,
+      "grad_ratio": 1.085
+     },
+     {
+      "f": 329,
+      "lap_ratio": 0.894,
+      "grad_ratio": 1.056
+     },
+     {
+      "f": 330,
+      "lap_ratio": 0.912,
+      "grad_ratio": 1.052
+     }
+    ]
+   }
+  }
+ }
+}

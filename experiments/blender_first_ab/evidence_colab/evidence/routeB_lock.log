@@ -1,0 +1,8 @@
+film: 460 frames at 30 fps, 540x960, cast master, kid, lady
+motion platform: 2 moving nodes of 802, 460 frames
+set platform -> sets/platform.glb  (789 meshes, 37 materials, 802 KB)
+cards master -> 27 drawings, 42 runs
+cards kid -> 7 drawings, 22 runs
+cards lady -> 7 drawings, 7 runs
+highlights: 0
+lock -> /content/ab_out/epB/out/lock
