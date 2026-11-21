@@ -1,0 +1,328 @@
+{
+ "frames": "201-215",
+ "renderer": "cpu",
+ "stage_wall_s": {
+  "phase5_cpu_gate_s": 185.5,
+  "pipeline_s": 201.0
+ },
+ "gates": {
+  "P5 CPU gate (recipe, density, named objects, flight, QA)": true,
+  "P6 pipeline end to end (exit 0)": true,
+  "P6 stage C1-C3": true,
+  "P6 stage 1 plan": true,
+  "P6 stage 2 base": true,
+  "P6 stage 3 lock": true,
+  "P6 stage 4 flight": true,
+  "P6 stage 5a visible": true,
+  "P6 stage 5 layers": true,
+  "P6 stage 6 review": true,
+  "P6 stage 7 final": true,
+  "P6 stage 8 qa": true
+ },
+ "pipeline": [
+  {
+   "stage": "C1-C3",
+   "kind": "creative",
+   "status": "INPUT",
+   "seconds": 0.0,
+   "note": "film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json"
+  },
+  {
+   "stage": "1 plan",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 0.33,
+   "note": "RESULT: 0 FAIL, 3 WARN of 45 gates. Baked files and plan_report.md in "
+  },
+  {
+   "stage": "2 base",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 71.22,
+   "note": "15 frames, cpu, 4.75 s/frame"
+  },
+  {
+   "stage": "3 lock",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 45.45,
+   "note": ""
+  },
+  {
+   "stage": "4 flight",
+   "kind": "scripted",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "no flight in range"
+  },
+  {
+   "stage": "5a visible",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 4.49,
+   "note": "lamp_reflect: named objects seen, rays per frame [120, 120, 119, 120, 120, 120, 120, 121, 124, 124]"
+  },
+  {
+   "stage": "5 layers",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 70.91,
+   "note": "lamp_reflect gates {\"A\": true, \"B\": true, \"D\": true, \"E\": true}"
+  },
+  {
+   "stage": "6 review",
+   "kind": "creative",
+   "status": "KEEP",
+   "seconds": 0,
+   "note": "lamp_reflect: review.json --accept-layers (not a creative review: flagged)"
+  },
+  {
+   "stage": "7 final",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 3.15,
+   "note": "final.mp4, layers ['lamp_reflect']"
+  },
+  {
+   "stage": "8 qa",
+   "kind": "scripted",
+   "status": "PASS",
+   "seconds": 5.18,
+   "note": "all checks PASS"
+  }
+ ],
+ "layer_report": {
+  "layer": "lamp_reflect",
+  "type": "reflection",
+  "frames": [
+   201,
+   210
+  ],
+  "gates": {
+   "A outside the named mask nothing changes": true,
+   "B mean luminance added in mask <= 0.06": true,
+   "D steady-state s/frame <= 15": true,
+   "E layer edges register with base (<= 0.50 px) and camera fov matches": true
+  },
+  "PASS": true,
+  "C visual contribution": "REVIEW before_after_sheet.png (Ricks: kept only if it clearly adds; never auto-passed)",
+  "blender_wall_s": 65.87,
+  "steady_s_per_frame": 0.669,
+  "cold_first_frame_s": 51.173,
+  "metrics": {
+   "dims": {
+    "base": [
+     720,
+     1280
+    ],
+    "layer": [
+     720,
+     1280
+    ]
+   },
+   "A_max_outside_diff_8bit_all_frames": 0,
+   "A_outside_changed_px_total": 0,
+   "B_mean_lum_added_in_mask_max_over_frames": 0.0521,
+   "B_mean_over_frames": 0.0514,
+   "camera": {
+    "render_s": 1.305,
+    "blender_fov_v_deg": 73.74,
+    "baked_fov_v_deg": 73.74,
+    "blender_pos": [
+     -0.1938,
+     -2.5551,
+     0.7042
+    ],
+    "baked_pos": [
+     -0.1938,
+     -2.5551,
+     0.7042
+    ],
+    "res": [
+     720,
+     1280
+    ],
+    "aspect": 0.5625,
+    "aspect_baked": 0.5625,
+    "sensor_fit": "VERTICAL",
+    "fov_diff_deg": 0.0
+   },
+   "E_align_pass_edge_shift_px": {
+    "hero_bbox": [
+     -0.06,
+     -0.02,
+     0.064
+    ],
+    "full": [
+     7.07,
+     -12.12,
+     0.048
+    ],
+    "right_half": [
+     -0.01,
+     0.15,
+     0.133
+    ]
+   },
+   "E_align_pass_ncc0": {
+    "hero_bbox": 0.488,
+    "full": 0.275,
+    "right_half": 0.309
+   },
+   "E_layer_alpha_edges_vs_base_edges_hero_bbox_shift_px": [
+    0.05,
+    -0.06,
+    0.41
+   ],
+   "E_layer_alpha_vs_base_ncc0": 0.808
+  },
+  "inputs_sha1": "b5a10b218fa5f6fd8bff717a2023ac8af2226b55"
+ },
+ "qa": {
+  "PASS": true,
+  "checks": [
+   {
+    "stage": "1 PLAN",
+    "name": "film_plan check: 0 FAIL",
+    "status": "PASS",
+    "value": "RESULT: 0 FAIL, 3 WARN of 45 gates",
+    "note": ""
+   },
+   {
+    "stage": "1 PLAN",
+    "name": "baked file camera_baked.json",
+    "status": "PASS",
+    "value": "",
+    "note": ""
+   },
+   {
+    "stage": "1 PLAN",
+    "name": "baked file performance_baked.json",
+    "status": "PASS",
+    "value": "",
+    "note": ""
+   },
+   {
+    "stage": "1 PLAN",
+    "name": "baked file sound_events.json",
+    "status": "PASS",
+    "value": "",
+    "note": ""
+   },
+   {
+    "stage": "2 THREEJS",
+    "name": "base stills: present, 720x1280, not blank",
+    "status": "PASS",
+    "value": "15 frames",
+    "note": ""
+   },
+   {
+    "stage": "2 THREEJS",
+    "name": "lock fresh (camera/performance/flights sha1 match the plan files)",
+    "status": "PASS",
+    "value": "",
+    "note": ""
+   },
+   {
+    "stage": "2 THREEJS",
+    "name": "flight gates",
+    "status": "SKIP",
+    "value": "",
+    "note": "no flight inside frames 201-215"
+   },
+   {
+    "stage": "3 BLENDER",
+    "name": "layer lamp_reflect FRESH",
+    "status": "PASS",
+    "value": "FRESH",
+    "note": ""
+   },
+   {
+    "stage": "3 BLENDER",
+    "name": "layer lamp_reflect reviewed: keep=true (creative decision recorded)",
+    "status": "PASS",
+    "value": "--accept-layers (not a creative review: flagged)",
+    "note": ""
+   },
+   {
+    "stage": "3 BLENDER",
+    "name": "layer lamp_reflect gate PASS",
+    "status": "PASS",
+    "value": "{\"A\": true, \"B\": true, \"D\": true, \"E\": true}",
+    "note": ""
+   },
+   {
+    "stage": "3 BLENDER",
+    "name": "layer lamp_reflect: one PNG per frame",
+    "status": "PASS",
+    "value": "10/10",
+    "note": ""
+   },
+   {
+    "stage": "3 BLENDER",
+    "name": "layer lamp_reflect has alpha (not an empty layer)",
+    "status": "PASS",
+    "value": "alpha coverage [0.063, 0.0635, 0.0641, 0.0647, 0.0652]",
+    "note": ""
+   },
+   {
+    "stage": "3 BLENDER",
+    "name": "flight objects are in the lock motion",
+    "status": "PASS",
+    "value": "flight_coin",
+    "note": ""
+   },
+   {
+    "stage": "4 COMPOSITE",
+    "name": "final frames == base + layer x alpha from the CURRENT inputs (hash-checked)",
+    "status": "PASS",
+    "value": "15 frames",
+    "note": ""
+   },
+   {
+    "stage": "4 COMPOSITE",
+    "name": "outside every layer's named mask the final frame equals the base",
+    "status": "PASS",
+    "value": "changed px 0, max diff 0",
+    "note": ""
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "ffprobe: 720x1280, 15 frames, 30 fps",
+    "status": "PASS",
+    "value": "[{\"width\": 720, \"height\": 1280, \"r_frame_rate\": \"30/1\", \"nb_read_frames\": \"15\"}]",
+    "note": ""
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "silent for now (no audio stream)",
+    "status": "PASS",
+    "value": "",
+    "note": ""
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "decoded video frames == composite PNGs (PSNR >= 35 dB)",
+    "status": "PASS",
+    "value": "min 39.2 dB over frames [201, 205, 208, 210, 215]",
+    "note": ""
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "check_film.py (camera, plan vs picture, frozen/flicker, faces)",
+    "status": "SKIP",
+    "value": "",
+    "note": "needs the full-film video (the plan numbers are whole-film); this video is frames 201-215"
+   },
+   {
+    "stage": "5 VIDEO",
+    "name": "frame_checks/check.mjs (head cut, body side, face covered, feet)",
+    "status": "SKIP",
+    "value": "",
+    "note": "needs the GPU render path; run with --frame-checks on a GPU machine"
+   }
+  ]
+ },
+ "PHASE56": "PASS",
+ "C": "layer visual contribution: review before_after_sheet.png (auto-accepted for this test run, flagged in review.json)"
+}
