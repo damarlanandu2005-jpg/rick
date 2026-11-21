@@ -72,6 +72,12 @@ if (has('--visibility')) {
   console.log('visibility ->', path.join(OUT, 'plan', 'visibility.json'));
 }
 
+if (has('--object-visibility')) {   // hybrid Phase 3: node render.mjs film.json --object-visibility name,name --vis-frames a-b  -> out/plan/object_visibility.json (rays through the frame, occlusion counted)
+  const names = val('--object-visibility', '').split(','), [va, vb] = val('--vis-frames', '0-0').split('-').map(Number), rows = [];
+  for (let f = va; f <= vb; f++) rows.push(await page.evaluate(([f, n]) => window.objectVisibility(f, n), [f, names]));
+  fs.writeFileSync(path.join(OUT, 'plan', 'object_visibility.json'), JSON.stringify({ names, frames: rows })); console.log('object visibility ->', path.join(OUT, 'plan', 'object_visibility.json'), 'hits per frame', rows.map(r => r.hits).join(','));
+}
+
 if (has('--storyboard')) {
   const st = await page.evaluate(() => window.stations()), pd = path.join(OUT, 'storyboard_panels'); fs.rmSync(pd, { recursive: true, force: true }); fs.mkdirSync(pd, { recursive: true });
   const FR = { W: 'whole', M: 'medium', C: 'close', P: 'place', O: 'object' }, esc = s => String(s ?? '').replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));

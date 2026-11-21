@@ -729,6 +729,14 @@ window.visibility = (f) => {
   return o;
 };
 
+// hybrid Phase 3 pre-check: which named set objects are really SEEN (first hit of a 36x64 ray grid through the frame, so occlusion by other geometry counts; character cards are not in this test).
+window.objectVisibility = (f, names) => {
+  const c = R.cam[f]; setCamera(c); const pl = R.places[c.place] || Object.values(R.places)[0]; R.placeNow = pl; if (pl.update) pl.update(f, f / R.fps, R); pl.scene.updateMatrixWorld(true);
+  const rc = new THREE.Raycaster(), nx = 36, ny = 64, base = n => n.replace(/_\d{2,}$/, ''), meshes = []; pl.scene.traverse(o => { if (o.isMesh && o.visible) meshes.push(o); }); let hits = 0; const per = {};
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) { rc.setFromCamera(new THREE.Vector2((i + .5) / nx * 2 - 1, 1 - (j + .5) / ny * 2), R.camera); const h = rc.intersectObjects(meshes, false)[0]; if (h) { const b = base(h.object.name); if (names.includes(b)) { hits++; per[b] = (per[b] || 0) + 1; } } }
+  return { f, hits, total: nx * ny, per };
+};
+
 // ---- THE LOCK (render.mjs --export-lock): what the Blender look pass reads, so layout can never drift ----
 // Set -> .glb, exported as the three.js scene is (Y up). Blender's glTF importer turns (x, y, z) into (x, -z, y), which is exactly the
 // plan's (x, y, z): a prop at plan [1.5, 0.6, 2.62] sits at three [1.5, 2.62, -0.6] and lands in Blender at [1.5, 0.6, 2.62].

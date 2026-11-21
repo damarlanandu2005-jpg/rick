@@ -17,7 +17,7 @@ export async function build(THREE, scene, film, ctx) {
       box('building_' + st, 'wood', 7, w, h, [cx, cy, 0], col, { mat: 'wood_grain' }); box('false_front_' + st, 'wood', .35, w, h + 1.3, [sd * (W + .15), cy, 0], col, { mat: 'wood_grain' }); box('roof_' + st, 'roof', 7.2, w + .2, .25, [cx, cy, h], '#6b4a34');
       box('porch_roof_' + st, 'wood', 1.8, w, .15, [sd * (W - .9), cy, 2.9], '#6b4a34'); for (const k of [-w / 2 + .4, w / 2 - .4]) cyl('porch_post', 'wood', .07, 2.9, [sd * (W - 1.7), cy + k, 0], '#5a3d28');
       box('sign_' + st, 'wood', .08, w * .7, .7, [sd * (W - .02), cy, h + .35], '#e6d9b4', { mat: 'sign_flat' });
-      for (let k = -w / 2 + 1.2; k < w / 2 - .8; k += 2.4) box('window_' + st, 'glass', .06, 1.0, 1.2, [sd * (W + .02), cy + k, 1.2], '#9fd0dc', { cast: false });
+      for (let k = -w / 2 + 1.2; k < w / 2 - .8; k += 2.4) box('window_' + st, 'glass', .06, 1.0, 1.2, [sd * (W - .055), cy + k, 1.2], '#9fd0dc', { cast: false });   // on the street face of the false front (|x| = W - .025), not buried inside it
       y += w + S.gap[0] + rnd() * (S.gap[1] - S.gap[0]); i++;
     }
   }

@@ -64,6 +64,7 @@ def main():
     for lid, S in lay.items():
         if not a.blender: stage("5 layers", "scripted", "SKIP", 0, "%s: no --blender (layer will be omitted from the final)" % lid); continue
         if S["frames"][0] < f0 or S["frames"][1] > f1: stage("5 layers", "scripted", "FAIL", 0, "%s frames %s are not inside the rendered range" % (lid, S["frames"])); done(1, "layers")
+        t = time.perf_counter(); vok, vh = LY.visible(str(ep), lid); stage("5a visible", "scripted", "PASS" if vok else "FAIL", time.perf_counter() - t, "%s: named objects seen, rays per frame %s" % (lid, vh)); done(0 if vok else 1, "layers")
         was = LY.status(str(ep), W, H).get(lid); t = time.perf_counter()
         try: r = LY.run(str(ep), lid, a.blender, a.gpu_backend, W, H)
         except SystemExit as e: stage("5 layers", "scripted", "FAIL", time.perf_counter() - t, "%s: %s" % (lid, e)); done(1, "layers")

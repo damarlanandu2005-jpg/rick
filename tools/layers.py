@@ -21,6 +21,13 @@ def inputs_hash(ep, lid, W, H):
         p = ep / "out/stills" / ("f_%05d.png" % f)
         if p.exists(): h.update(sha(p).encode())
     return h.hexdigest()
+def visible(ep, lid, min_hits=5):
+    """CPU pre-check before any Blender time: are the layer's NAMED objects really seen (ray grid through the three.js scene, occlusion counted) on every frame of the range?
+    Returns (ok, per-frame hits). A layer whose objects are buried, occluded or out of frame renders an empty mask: that is a plan error, caught here."""
+    ep = Path(ep); S = spec_of(ep, lid); f0, f1 = S["frames"]
+    p = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(ep / "film.json"), "--object-visibility", ",".join(S["objects"]), "--vis-frames", "%d-%d" % (f0, f1)], capture_output=True, text=True)
+    if p.returncode: raise SystemExit("object visibility check failed: " + (p.stdout + p.stderr)[-400:])
+    rows = json.load(open(ep / "out/plan/object_visibility.json"))["frames"]; hits = [r["hits"] for r in rows]; return all(h >= min_hits for h in hits), hits
 def lock_fresh(ep):
     L = json.load(open(Path(ep) / "out/lock/lock.json")); bad = [n for n, w in (L.get("sha1") or {}).items() if sha(Path(ep) / "out/plan" / n) != w]
     return bad
@@ -46,9 +53,13 @@ def run(ep, lid, blender, gpu, W, H):
     return evaluate(ep, lid, od, W, H, round(time.perf_counter() - t, 2))
 def evaluate(ep, lid, od, W, H, blender_s):
     """CPU half of run(): composite the layer PNGs in <od> onto the base stills, apply the per-type gate, write layer_report.json + manifest.json (also used by the QA fixtures and by a layer rendered elsewhere)"""
-    ep = Path(ep); od = Path(od); S = spec_of(ep, lid); f0, f1 = S["frames"]; ih = inputs_hash(ep, lid, W, H); al = next(od.glob("align_*.png")); mp = od / "manifest.json"
+    ep = Path(ep); od = Path(od); S = spec_of(ep, lid); f0, f1 = S["frames"]
+    import numpy as _np; from PIL import Image as _I
+    empty = [f for f in range(f0, f1 + 1) if not (_np.asarray(_I.open(od / ("idmask_%05d.png" % f)).convert("RGBA"))[..., 3] > 0).any()]
+    if empty: raise SystemExit("the named objects %s are not visible in frames %s (the mask is empty: buried, occluded or out of frame). Fix the layer's objects or frames; run tools/layers.py visible first." % (S["objects"], empty[:6]))
+    ih = inputs_hash(ep, lid, W, H); al = next(od.glob("align_*.png")); mp = od / "manifest.json"
     cp = subprocess.run([sys.executable, str(ROOT / "phase1b/compose_1b.py"), "--base", str(ep / "out/stills"), "--layer", str(od), "--align", str(al), "--camera", str(od / "align_camera.json"), "--out", str(od / "result"), "--frames", "%d-%d" % (f0, f1)], capture_output=True, text=True)
-    if cp.returncode: print(cp.stderr[-1500:]); raise SystemExit("composite failed")
+    if cp.returncode: raise SystemExit("composite failed: " + cp.stderr[-600:])
     C = json.load(open(od / "result/compose_report.json")); T = json.load(open(od / "layer_timing.json")); g = GATES[S["type"]]; sh = C["E_layer_alpha_edges_vs_base_edges_hero_bbox_shift_px"]
     res = {"A outside the named mask nothing changes": C["A_max_outside_diff_8bit_all_frames"] <= g["A_outside_diff_max"],
            "B mean luminance added in mask <= %.2f" % g["B_mean_lum_added_max"]: C["B_mean_lum_added_in_mask_max_over_frames"] <= g["B_mean_lum_added_max"],
@@ -58,7 +69,8 @@ def evaluate(ep, lid, od, W, H, blender_s):
            "blender_wall_s": blender_s, "steady_s_per_frame": T["steady_mean_s"], "cold_first_frame_s": T["cold_first_frame_s"], "metrics": {k: C[k] for k in C if k != "per_frame"}, "inputs_sha1": ih}
     json.dump(rep, open(od / "layer_report.json", "w"), indent=1); json.dump({"layer": lid, "inputs_sha1": ih, "blender": T["blender"], "resolution": [W, H], "frames": [f0, f1], "spec": S}, open(mp, "w"), indent=1); return rep
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["status", "run"]); ap.add_argument("ep"); ap.add_argument("layer", nargs="?"); ap.add_argument("--blender"); ap.add_argument("--gpu-backend", default="opengl"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["status", "run", "visible"]); ap.add_argument("ep"); ap.add_argument("layer", nargs="?"); ap.add_argument("--blender"); ap.add_argument("--gpu-backend", default="opengl"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args()
     W, H = map(int, a.res.split("x"))
     if a.cmd == "status": print(json.dumps(status(a.ep, W, H), indent=1))
+    elif a.cmd == "visible": print(json.dumps(dict(zip(("ok", "hits_per_frame"), visible(a.ep, a.layer)))))
     else: print(json.dumps(run(a.ep, a.layer, a.blender, a.gpu_backend, W, H), indent=1)); 
