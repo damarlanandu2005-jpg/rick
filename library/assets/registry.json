@@ -63,6 +63,196 @@
      "windmill_hub"
     ]
    }
+  },
+  {
+   "name": "char_stationmaster",
+   "category": "character",
+   "source": "puppet:stationmaster (templates/vector2d_characters locked cast)",
+   "version": "1.0",
+   "dependencies": [
+    "templates/vector2d_characters/code",
+    "templates/threejs_film/puppets.mjs",
+    "templates/threejs_film/poses.mjs"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "templates/vector2d_characters/views_golden/stationmaster_front.png",
+   "character": {
+    "puppet": "stationmaster",
+    "status": "approved",
+    "approved_by": "CB (Ricks views_golden/rows.json)",
+    "approval_note": "CB 2026-11-11 22:28 Bangkok on sheet v8 (monkey turns, lady hair, back outfits, tail): \"Perfect. Now lock it.\" Sheet: APPROVED_character_views_v8.png. Earlier: v7 (22:09), v6 (21:40), v5 (2026-11-10 03:32).",
+    "views": {
+     "front": {
+      "file": "templates/vector2d_characters/views_golden/stationmaster_front.png",
+      "sha1": "e50c721ab96bf29f830ca4f81fedab345f342cad"
+     },
+     "34": {
+      "file": "templates/vector2d_characters/views_golden/stationmaster_34.png",
+      "sha1": "6c1783b2296760394e964393c28cfe022607daa6"
+     },
+     "side": {
+      "file": "templates/vector2d_characters/views_golden/stationmaster_side.png",
+      "sha1": "9860f5f7ff9f8b600ca48a9b47f152452be6262e"
+     },
+     "back": {
+      "file": "templates/vector2d_characters/views_golden/stationmaster_back.png",
+      "sha1": "ad0636c5557c7321b2a6835b97b9da88b42b7ee1"
+     }
+    },
+    "max_diff_pct": 0.05
+   }
+  },
+  {
+   "name": "char_lady",
+   "category": "character",
+   "source": "puppet:form:lady (templates/vector2d_characters locked cast)",
+   "version": "1.0",
+   "dependencies": [
+    "templates/vector2d_characters/code",
+    "templates/threejs_film/puppets.mjs",
+    "templates/threejs_film/poses.mjs"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "templates/vector2d_characters/views_golden/lady_front.png",
+   "character": {
+    "puppet": "form:lady",
+    "status": "approved",
+    "approved_by": "CB (Ricks views_golden/rows.json)",
+    "approval_note": "CB 2026-11-11 22:28 Bangkok on sheet v8 (monkey turns, lady hair, back outfits, tail): \"Perfect. Now lock it.\" Sheet: APPROVED_character_views_v8.png. Earlier: v7 (22:09), v6 (21:40), v5 (2026-11-10 03:32).",
+    "views": {
+     "front": {
+      "file": "templates/vector2d_characters/views_golden/lady_front.png",
+      "sha1": "005786a9b9259d9aa64fd9957ecd6c05d9a2fec8"
+     },
+     "34": {
+      "file": "templates/vector2d_characters/views_golden/lady_34.png",
+      "sha1": "8509a185a7d15ac41f30a479564b58a0e9b85a47"
+     },
+     "side": {
+      "file": "templates/vector2d_characters/views_golden/lady_side.png",
+      "sha1": "9f2680342cefee9c6dac8ec665428178a3c37e40"
+     },
+     "back": {
+      "file": "templates/vector2d_characters/views_golden/lady_back.png",
+      "sha1": "ab15491928c3dc5818c100baa1f238b798ac2092"
+     }
+    },
+    "max_diff_pct": 0.05
+   }
+  },
+  {
+   "name": "char_dad",
+   "category": "character",
+   "source": "puppet:form:dad (templates/vector2d_characters locked cast)",
+   "version": "1.0",
+   "dependencies": [
+    "templates/vector2d_characters/code",
+    "templates/threejs_film/puppets.mjs",
+    "templates/threejs_film/poses.mjs"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "templates/vector2d_characters/views_golden/dad_front.png",
+   "character": {
+    "puppet": "form:dad",
+    "status": "approved",
+    "approved_by": "CB (Ricks views_golden/rows.json)",
+    "approval_note": "CB 2026-11-11 22:28 Bangkok on sheet v8 (monkey turns, lady hair, back outfits, tail): \"Perfect. Now lock it.\" Sheet: APPROVED_character_views_v8.png. Earlier: v7 (22:09), v6 (21:40), v5 (2026-11-10 03:32).",
+    "views": {
+     "front": {
+      "file": "templates/vector2d_characters/views_golden/dad_front.png",
+      "sha1": "fadc06a2ca9a7f0ef9732cd2759b72c27d1f387b"
+     },
+     "34": {
+      "file": "templates/vector2d_characters/views_golden/dad_34.png",
+      "sha1": "b5cdd709738fca7ef316d690805aee2a2a5c1142"
+     },
+     "side": {
+      "file": "templates/vector2d_characters/views_golden/dad_side.png",
+      "sha1": "5063088f0fcfb6489820272f96a2786720f29423"
+     },
+     "back": {
+      "file": "templates/vector2d_characters/views_golden/dad_back.png",
+      "sha1": "3d6a2e5d8a19e6b24c0e35d64be4414aab337a03"
+     }
+    },
+    "max_diff_pct": 0.05
+   }
+  },
+  {
+   "name": "char_inspector",
+   "category": "character",
+   "source": "puppet:cast:railway (templates/vector2d_characters locked cast)",
+   "version": "1.0",
+   "dependencies": [
+    "templates/vector2d_characters/code",
+    "templates/threejs_film/puppets.mjs",
+    "templates/threejs_film/poses.mjs"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "templates/vector2d_characters/views_golden/inspector_front.png",
+   "character": {
+    "puppet": "cast:railway",
+    "status": "approved",
+    "approved_by": "CB (Ricks views_golden/rows.json)",
+    "approval_note": "CB 2026-11-11 22:28 Bangkok on sheet v8 (monkey turns, lady hair, back outfits, tail): \"Perfect. Now lock it.\" Sheet: APPROVED_character_views_v8.png. Earlier: v7 (22:09), v6 (21:40), v5 (2026-11-10 03:32).",
+    "views": {
+     "front": {
+      "file": "templates/vector2d_characters/views_golden/inspector_front.png",
+      "sha1": "3a14b3b8c4c5aab5e21eac547ede044891cc59c7"
+     },
+     "34": {
+      "file": "templates/vector2d_characters/views_golden/inspector_34.png",
+      "sha1": "3287616c3d74fb7513f66a1d6dea63229a0da4db"
+     },
+     "side": {
+      "file": "templates/vector2d_characters/views_golden/inspector_side.png",
+      "sha1": "e7836b71dabea0eff7ccbd6672a0131e53604cb5"
+     },
+     "back": {
+      "file": "templates/vector2d_characters/views_golden/inspector_back.png",
+      "sha1": "cdbcba9e19b5b663df0ce908ad045ddd89d2502f"
+     }
+    },
+    "max_diff_pct": 0.12
+   }
+  },
+  {
+   "name": "char_kid",
+   "category": "character",
+   "source": "puppet:form:kid (templates/vector2d_characters locked cast)",
+   "version": "1.0",
+   "dependencies": [
+    "templates/vector2d_characters/code",
+    "templates/threejs_film/puppets.mjs",
+    "templates/threejs_film/poses.mjs"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/characters/char_kid/1.0/front.png",
+   "character": {
+    "puppet": "form:kid",
+    "status": "candidate",
+    "approved_by": null,
+    "approval_note": null,
+    "views": {
+     "front": {
+      "file": "library/characters/char_kid/1.0/front.png",
+      "sha1": "059bddbad587ea071166fe1cb2df14306dde446a"
+     },
+     "34": {
+      "file": "library/characters/char_kid/1.0/34.png",
+      "sha1": "db53187a0e35628d25dcbbb227a9264be52a2bf4"
+     },
+     "side": {
+      "file": "library/characters/char_kid/1.0/side.png",
+      "sha1": "49e0fd2abfefb95e7b06da5b623d76528605e224"
+     },
+     "back": {
+      "file": "library/characters/char_kid/1.0/back.png",
+      "sha1": "683a47976ca761c299771718fae922a86682c786"
+     }
+    },
+    "max_diff_pct": 0.05
+   }
   }
  ]
 }

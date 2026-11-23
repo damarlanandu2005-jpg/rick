@@ -33,6 +33,11 @@ def derive_stations(ep):
         out.append(dict(id="s%02d" % i, take=take, station=st, start=rest[0], end=rest[-1], framing=cs[0].get("framing"), lens=cs[0].get("lens"), passes=not [1 for c in cs if c.get("state") == "rest"]))
     return out
 def panel_ids(S): return [p["id"] for p in S["panels"]]
+def required_panels(ep, S):
+    """Every storyboard panel plus one character panel per film.json cast slot (R3I): the judge scores the characters with the same Ricks storyboard-judge framework (role, reference board, consistency, outfit, readable at 720x1280, expressions, staging)."""
+    cast = json.load(open(Path(ep) / "film.json")).get("cast") or {}; return panel_ids(S) + ["char_%s" % k for k in cast]
+def char_sha(ep):
+    import characters as CH; return CH.evidence_sha(ep)
 # ---------------- R2A storyboard
 def make_storyboard_doc(ep, version=1, builder="builder", panel_dir=None):
     """Pure (no rendering): the storyboard document from the baked plan and the panel PNGs render.mjs --storyboard wrote."""
@@ -120,9 +125,10 @@ def judge_validate_input(ep, R, S, A):
     if J.get("context_id") in builders: bad.append("judge context_id equals a builder context: the judge must run in a fresh context and cannot judge its own work")
     if J.get("id") in builders: bad.append("judge id equals a builder id")
     er = R.get("evidence_read") or {}
-    sbh, anh = sha(cdir(ep) / SB), sha(cdir(ep) / AN)
+    sbh, anh, chh = sha(cdir(ep) / SB), sha(cdir(ep) / AN), char_sha(ep)
     if er.get("storyboard_sha1") != sbh or er.get("animatic_sha1") != anh: bad.append("judge did not read the current storyboard/animatic (evidence_read hashes differ)")
-    P = R.get("panels") or {}; need = set(panel_ids(S))
+    if chh is None or er.get("characters_sha1") != chh: bad.append("judge did not read the current character evidence (characters_sha1 differs or the characters are not built)")
+    P = R.get("panels") or {}; need = set(required_panels(ep, S))
     if set(P) != need: bad.append("panel set differs: missing %s extra %s" % (sorted(need - set(P))[:4], sorted(set(P) - need)[:4]))
     for k, v in P.items():
         try: ok = 0 <= float(v["score"]) <= 10 and str(v.get("rationale", "")).strip()
@@ -147,7 +153,7 @@ def judge_record(ep, resfile):
     if H and H[-1]["result"] == "PASS": sys.exit("REFUSED: the last judged version already PASSED; the human approval step is next (judge again only after a creative change)") if (H[-1]["plan_sha1"], H[-1]["storyboard_sha1"], H[-1]["animatic_sha1"]) == key else None
     if H and (H[-1]["plan_sha1"], H[-1]["storyboard_sha1"], H[-1]["animatic_sha1"]) == key: sys.exit("REFUSED: nothing changed since the failed judgment; a fix round must change the work")
     res, low = compute_result(R, S); fix_round = sum(1 for h in H if h["result"] == "FAIL"); ts = now(); fixes = json.dumps({k: v.get("fix") for k, v in R["panels"].items() if v.get("fix")}, sort_keys=True)
-    J = dict(schema="ricks.judge.v1", film=S["film"], version=S["version"], fix_round=fix_round, plan_sha1=S["plan_sha1"], baked_sha1=S["baked_sha1"], storyboard_sha1=key[1], animatic_sha1=key[2], judge=R["judge"], builders=sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), evidence_read=R["evidence_read"], timestamp=ts,
+    J = dict(schema="ricks.judge.v1", film=S["film"], version=S["version"], fix_round=fix_round, plan_sha1=S["plan_sha1"], baked_sha1=S["baked_sha1"], storyboard_sha1=key[1], animatic_sha1=key[2], characters_sha1=char_sha(ep), judge=R["judge"], builders=sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), evidence_read=R["evidence_read"], timestamp=ts,
              threshold=THRESHOLD, panels=R["panels"], film_level=R["film_level"], studio_director=R["studio_director"], min_panel_score=min(float(v["score"]) for v in R["panels"].values()), below_threshold=low, result=res,
              reviewer=R["judge"]["id"], score={k: float(v["score"]) for k, v in R["panels"].items()}, verdict=res, fix_list_sha1=hashlib.sha1(fixes.encode()).hexdigest())   # last four: the fields approval.json copies (section 19)
     (cdir(ep) / JD).write_text(json.dumps(J, indent=1)); H.append(dict(version=S["version"], fix_round=fix_round, plan_sha1=key[0], storyboard_sha1=key[1], animatic_sha1=key[2], result=res, judge_context_id=R["judge"]["context_id"], timestamp=ts)); (cdir(ep) / HIST).write_text(json.dumps(H, indent=1))
@@ -163,15 +169,16 @@ def g8_problems(ep):
     if e: return bad + ["[7 judge] judge record %s (creative/%s)" % (e, JD)], None
     if S is None or A is None or "built_by" not in (S or {}) or "built_by" not in (A or {}): return bad + ["[7 judge] cannot verify the judge without a valid storyboard and animatic"], J
     try:
-        for k in ("judge", "panels", "film_level", "studio_director", "evidence_read", "fix_round", "plan_sha1", "storyboard_sha1", "animatic_sha1", "baked_sha1"): J[k]
+        for k in ("judge", "panels", "film_level", "studio_director", "evidence_read", "fix_round", "plan_sha1", "storyboard_sha1", "animatic_sha1", "baked_sha1", "characters_sha1"): J[k]
     except Exception: return bad + ["[7 judge] judge record malformed"], J
     ph, bh = plan_hashes(ep)
     if (J["plan_sha1"], J["baked_sha1"]) != (ph, bh): bad.append("[11 stale] judge record is for a different plan/baked plan")
     if J["storyboard_sha1"] != sha(cdir(ep) / SB) or J["animatic_sha1"] != sha(cdir(ep) / AN): bad.append("[11 stale] judge record is for a different storyboard/animatic")
+    if J["characters_sha1"] != char_sha(ep): bad.append("[11 stale] judge record is for different character evidence")
     builders = {S["built_by"]["context_id"], A["built_by"]["context_id"]}
     if J["judge"].get("context_id") in builders or J["judge"].get("id") in builders or not J["judge"].get("context_id"): bad.append("[8 independence] judge shares a context/identity with the builder")
-    if J["evidence_read"].get("storyboard_sha1") != J["storyboard_sha1"] or J["evidence_read"].get("animatic_sha1") != J["animatic_sha1"]: bad.append("[8 independence] judge did not read the evidence it scored")
-    P = J["panels"]; need = set(panel_ids(S)) if S.get("panels") else set()
+    if J["evidence_read"].get("storyboard_sha1") != J["storyboard_sha1"] or J["evidence_read"].get("animatic_sha1") != J["animatic_sha1"] or J["evidence_read"].get("characters_sha1") != J["characters_sha1"]: bad.append("[8 independence] judge did not read the evidence it scored")
+    P = J["panels"]; need = set(required_panels(ep, S)) if S.get("panels") else set()
     if set(P) != need: bad.append("[9 scores] required panel set differs: missing %s" % sorted(need - set(P))[:4])
     low = []
     for k in need & set(P):
@@ -219,11 +226,11 @@ Run in a FRESH context (a new agent that has not seen the build): Ricks `storybo
 Evidence (read these, score the PICTURES): storyboard `creative/STORYBOARD.json` (sha1 %s) with panel PNGs %s; whole-film rough `%s`; hook `%s` (animatic sha1 %s). Also SCRIPT.md, PICTURE_PLAN.md, LOOK_BIBLE.md, reference_board.json, out/plan/plan_report.md.
 Builder contexts (you must NOT be one of them): %s.
 Write result.json: {"judge": {"id": "...", "context_id": "<your own fresh context id>", "kind": "fresh-context", "agents": ["storyboard-judge","studio-director"]},
- "evidence_read": {"storyboard_sha1": "%s", "animatic_sha1": "%s"},
+ "evidence_read": {"storyboard_sha1": "%s", "animatic_sha1": "%s", "characters_sha1": "%s"},
  "panels": {%s},   // one entry per required panel id: {"score": 0-10, "rationale": "...", "fix": "one concrete fix"}
  "film_level": {"verdict": "PASS|FAIL", "notes": "..."}, "studio_director": {"verdict": "PASS|BACK", "note": "..."}}
-Required panel ids: %s. Target: 8.5+ on EVERY required panel. Then run: python3 tools/review.py judge-record <ep> result.json (PASS/FAIL is computed, not declared). You never write approval.json.
-""" % (S["film"], S["version"], sha(cdir(ep) / SB), "creative -> " + ", ".join(sorted({str(Path(p["file"]).parent) for p in S["panels"]})), A["artifacts"][0]["video"], A["artifacts"][1]["video"], sha(cdir(ep) / AN), sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), sha(cdir(ep) / SB), sha(cdir(ep) / AN), ", ".join('"%s": {...}' % i for i in panel_ids(S)[:2]) + ", ...", ", ".join(panel_ids(S)))); print("creative/JUDGE_BRIEF.md written")
+Character panels (char_<slot>): look at creative/characters/CONTACT_SHEET.png (four views + sample cards per slot), creative/characters.json (role, traits, outfit, reference beats) and creative/character_production.json; score with the same storyboard-judge framework: does the character match the role, match the reference board, stay consistent across views and cards, wear the right outfit, read at 720x1280 phone size, perform expressions that support the story, and is it staged as the picture plan says. Required panel ids: %s. Target: 8.5+ on EVERY required panel. Then run: python3 tools/review.py judge-record <ep> result.json (PASS/FAIL is computed, not declared). You never write approval.json.
+""" % (S["film"], S["version"], sha(cdir(ep) / SB), "creative -> " + ", ".join(sorted({str(Path(p["file"]).parent) for p in S["panels"]})), A["artifacts"][0]["video"], A["artifacts"][1]["video"], sha(cdir(ep) / AN), sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), sha(cdir(ep) / SB), sha(cdir(ep) / AN), char_sha(ep), ", ".join('"%s": {...}' % i for i in required_panels(ep, S)[:2]) + ", ...", ", ".join(required_panels(ep, S)))); print("creative/JUDGE_BRIEF.md written")
     elif a.cmd == "judge-record":
         if not a.result: sys.exit("usage: review.py judge-record <ep> <result.json>")
         sys.exit(0 if judge_record(ep, a.result) == "PASS" else 1)

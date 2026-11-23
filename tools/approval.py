@@ -18,8 +18,7 @@ def current(ep):
     H["plan_sha1"] = f(ep / "film.json"); H["picture_plan_sha1"] = f(c / "PICTURE_PLAN.md"); H["look_bible_sha1"] = f(c / "LOOK_BIBLE.md"); H["storyboard_sha1"] = f(c / "STORYBOARD.json"); H["animatic_sha1"] = f(c / "ANIMATIC.json")
     H["reference_board_sha1"] = f(c / "reference_board.json")
     pl = ep / "out/plan"; H["baked_sha1"] = _combine([(n, sha(pl / n)) for n in BAKED if (pl / n).is_file()]) if (pl / "camera_baked.json").is_file() and (pl / "performance_baked.json").is_file() else None
-    try: ch = json.load(open(c / "characters.json")); sheets = [(s, sha(ep / s)) for s in ch.get("sheets", [])]; H["character_sheets_sha1"] = _combine(sheets) if sheets and all((ep / s).is_file() for s in ch["sheets"]) else None
-    except Exception: H["character_sheets_sha1"] = None
+    import characters as CH; H["character_sheets_sha1"] = CH.evidence_sha(ep)   # R3: spec + production record (views, performance, card hashes) + contact sheet
     reg = json.load(open(ROOT / "library/assets/registry.json"))["assets"]; H["asset_versions"] = {a["name"]: {"version": a["version"], "sha1": hashlib.sha1(json.dumps(a, sort_keys=True).encode()).hexdigest()} for a in reg}
     return H
 def check(ep):

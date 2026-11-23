@@ -7,14 +7,28 @@ import json, re, sys, ast
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent; REG = ROOT / "library/assets/registry.json"
 def load(): return json.load(open(REG))["assets"]
+def character_problems(c):
+    import hashlib
+    bad = []; [bad.append("character.%s missing" % k) for k in ("puppet", "status", "views") if not c.get(k)]
+    if c.get("status") not in ("approved", "candidate"): bad.append("status must be approved or candidate")
+    if c.get("status") == "approved" and not (c.get("approved_by") and c.get("approval_note")): bad.append("an approved character needs approved_by and approval_note")
+    for v in ("front", "34", "side", "back"):
+        e = (c.get("views") or {}).get(v)
+        if not e: bad.append("view %s missing (the locked view set is front, 34, side, back)" % v); continue
+        f = ROOT / e["file"]
+        if not f.is_file(): bad.append("view %s file missing" % v)
+        elif hashlib.sha1(f.read_bytes()).hexdigest() != e["sha1"]: bad.append("view %s file changed (sha1 differs)" % v)
+    return bad
 def check():
     bad = []; seen = set()
     for a in load():
-        n = a.get("name", "?"); miss = [k for k in ("name", "category", "source", "version", "dependencies", "license", "preview", "blender") if not a.get(k)]
+        n = a.get("name", "?"); ischar = a.get("category") == "character"; miss = [k for k in ("name", "category", "source", "version", "dependencies", "license", "preview", "character" if ischar else "blender") if not a.get(k)]
         if miss: bad.append("%s: missing %s" % (n, miss)); continue
         if not re.fullmatch(r"[a-z][a-z0-9_]*", n) or n in seen: bad.append("%s: name not unique snake_case" % n)
         seen.add(n)
         if not (ROOT / a["preview"]).is_file(): bad.append("%s: preview file missing" % n)
+        if ischar:   # R3: a locked 2D Ricks character (puppet) with its approved four views; no Blender representation (characters stay 2D puppet cards)
+            c = a["character"]; bad += ["%s: %s" % (n, x) for x in character_problems(c)]; continue
         b = a["blender"]
         if b.get("kind") == "bpy_builder":
             f = ROOT / b["file"]

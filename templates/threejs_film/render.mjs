@@ -106,6 +106,21 @@ if (has('--animatic')) {
   const r = spawnSync('ffmpeg', args, { stdio: 'inherit' }); fs.rmSync(tmp, { recursive: true, force: true });
   console.log(r.status === 0 ? `animatic -> ${mp4}  (${n} frames, ${((Date.now() - t0) / n).toFixed(0)} ms/frame${voice ? ', with voice' : ', silent: no voice/voice.wav'})` : 'ffmpeg failed');
 }
+const CRC = Array.from({ length: 256 }, (_, n) => { for (let k = 0; k < 8; k++) n = n & 1 ? 0xEDB88320 ^ (n >>> 1) : n >>> 1; return n >>> 0; }), crc = zlib.crc32 || (b => { let c = ~0; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return ~c >>> 0; });
+const repng = buf => {                                                            // the browser writes fast, loose PNGs: pack the same pixels again at zlib level 9 (lossless, about half the size)
+  const head = [buf.subarray(0, 8)], idat = [], tail = []; for (let o = 8; o < buf.length;) { const len = buf.readUInt32BE(o), ch = buf.subarray(o, o + 12 + len); (ch.toString('latin1', 4, 8) === 'IDAT' ? idat : idat.length ? tail : head).push(ch.toString('latin1', 4, 8) === 'IDAT' ? ch.subarray(8, 8 + len) : ch); o += 12 + len; }
+  const body = Buffer.concat([Buffer.from('IDAT'), zlib.deflateSync(zlib.inflateSync(Buffer.concat(idat)), { level: 9 })]), n = Buffer.alloc(4), c = Buffer.alloc(4); n.writeUInt32BE(body.length - 4); c.writeUInt32BE(crc(body));
+  return Buffer.concat([...head, n, body, c, ...tail]);
+};
+// R3: the card drawings the lock would make, drawn BEFORE approval so the character stage can validate them. Same window.cardIndex / window.cardPNG / repng as --export-lock; nothing else is drawn, no approval is needed (nothing is locked).
+if (has('--export-cards')) {
+  const CD = path.join(OUT, 'characters/cards'), cpx = +val('--card-px', 2); fs.rmSync(CD, { recursive: true, force: true });
+  for (const who of info.cast) {
+    const d = path.join(CD, who); fs.mkdirSync(d, { recursive: true }); const idx = await page.evaluate(([w, p]) => window.cardIndex(w, p), [who, cpx]);
+    for (const im of idx.images) fs.writeFileSync(path.join(d, im.file), repng(Buffer.from(await page.evaluate(([w, n, p]) => window.cardPNG(w, n, p), [who, im.img, cpx]), 'base64')));
+    fs.writeFileSync(path.join(d, 'index.json'), JSON.stringify(idx)); console.log(`cards ${who} -> ${idx.images.length} drawings, ${idx.runs.length} runs`);
+  }
+}
 if (has('--export-instances')) {      // only the instance colours, into an existing lock (the full --export-lock writes them too)
   const out = {}; for (const name of info.places) { await page.evaluate(n => window.lockIds(n), name); out[name] = await page.evaluate(n => window.exportInstances(n), name); }
   fs.writeFileSync(path.join(OUT, 'lock', 'instances.json'), JSON.stringify(out)); console.log('instances ->', Object.entries(out).map(([k, v]) => `${k}: ${v.length} groups, ${v.reduce((a, b) => a + b.n, 0)} instances`).join('; '));
@@ -124,12 +139,6 @@ if (has('--export-lock')) {
   const LOCK = path.join(OUT, 'lock'), plan = path.join(OUT, 'plan'), sha = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(plan, f))).digest('hex');
   fs.rmSync(LOCK, { recursive: true, force: true }); fs.mkdirSync(path.join(LOCK, 'sets'), { recursive: true });
   const cam = JSON.parse(fs.readFileSync(path.join(plan, 'camera_baked.json'), 'utf8')).frames, places = [], cards = [], card_info = {}, cpx = +val('--card-px', 2);
-  const CRC = Array.from({ length: 256 }, (_, n) => { for (let k = 0; k < 8; k++) n = n & 1 ? 0xEDB88320 ^ (n >>> 1) : n >>> 1; return n >>> 0; }), crc = zlib.crc32 || (b => { let c = ~0; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return ~c >>> 0; });
-  const repng = buf => {                                                            // the browser writes fast, loose PNGs: pack the same pixels again at zlib level 9 (lossless, about half the size)
-    const head = [buf.subarray(0, 8)], idat = [], tail = []; for (let o = 8; o < buf.length;) { const len = buf.readUInt32BE(o), ch = buf.subarray(o, o + 12 + len); (ch.toString('latin1', 4, 8) === 'IDAT' ? idat : idat.length ? tail : head).push(ch.toString('latin1', 4, 8) === 'IDAT' ? ch.subarray(8, 8 + len) : ch); o += 12 + len; }
-    const body = Buffer.concat([Buffer.from('IDAT'), zlib.deflateSync(zlib.inflateSync(Buffer.concat(idat)), { level: 9 })]), n = Buffer.alloc(4), c = Buffer.alloc(4); n.writeUInt32BE(body.length - 4); c.writeUInt32BE(crc(body));
-    return Buffer.concat([...head, n, body, c, ...tail]);
-  };
   fs.mkdirSync(path.join(LOCK, 'motion'), { recursive: true }); const lights = {};
   for (const name of info.places) {
     const nIds = await page.evaluate(n => window.lockIds(n), name); lights[name] = await page.evaluate(n => window.placeLight(n), name);

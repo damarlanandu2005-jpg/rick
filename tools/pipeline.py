@@ -65,6 +65,8 @@ def main():
     if lk.exists() and not LY.lock_fresh(ep) and lkey.exists() and json.load(open(lkey)).get("key") == key: stage("3 lock", "scripted", "CACHE", 0)
     else:
         rc, t, p = sh(["node", str(node / "render.mjs"), str(film), "--export-lock"], OUT / "lock.log"); stage("3 lock", "scripted", "PASS" if rc == 0 else "FAIL", t); done(rc, "lock"); lkey.write_text(json.dumps({"key": key}))
+    if not a.unapproved_test_run:   # R3: the cards the lock drew must be the approved character cards, byte for byte (no silent substitution of a character)
+        rc, t, p = sh([sys.executable, str(HERE / "characters.py"), "check-lock", str(ep)], OUT / "character_lock.log"); stage("3b cards", "scripted", "PASS" if rc == 0 else "FAIL", t, " | ".join(l.strip("- ") for l in p.stdout.splitlines()[1:3])[:140]); done(rc, "character cards")
     fl = ep / "out/plan/flights_baked.json"
     if fl.exists():
         fb = json.load(open(fl)); inr = [f for f in range(f0, f1 + 1) if any(v["leave"] <= f < v["hit"] for v in fb.values())]

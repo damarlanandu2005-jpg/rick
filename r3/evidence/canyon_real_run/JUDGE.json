@@ -1,0 +1,112 @@
+{
+ "schema": "ricks.judge.v1",
+ "film": "CANYON RAIL: first 10 s of a railroad short, recreated through the hybrid pipeline (Phase 8 second-script test; the script is read from a reference short's captions, not fact-checked)",
+ "version": 1,
+ "fix_round": 0,
+ "plan_sha1": "82965d4cbd35b5cc736e3d3027355e0e8cac8736",
+ "baked_sha1": "a3e3e300a1a3d600559aa69c386872c3b0bf329d",
+ "storyboard_sha1": "2c531e24643d81018469590d6c7a867c2b2c4f36",
+ "animatic_sha1": "e5f8909e7a4b91313b4a32fbc7eb039accd77d56",
+ "characters_sha1": "2ea43ea832eceb3d168e4b6b160ca03264e05fb2",
+ "judge": {
+  "id": "storyboard-judge-fresh-2",
+  "context_id": "fresh-sbj-7f3a91c2-cy3-canyon",
+  "kind": "fresh-context",
+  "agents": [
+   "storyboard-judge",
+   "studio-director"
+  ]
+ },
+ "builders": [
+  "creator-session"
+ ],
+ "evidence_read": {
+  "storyboard_sha1": "2c531e24643d81018469590d6c7a867c2b2c4f36",
+  "animatic_sha1": "e5f8909e7a4b91313b4a32fbc7eb039accd77d56",
+  "characters_sha1": "2ea43ea832eceb3d168e4b6b160ca03264e05fb2"
+ },
+ "timestamp": "2026-11-23T14:52:53+00:00",
+ "threshold": 8.5,
+ "panels": {
+  "s01_start": {
+   "score": 6.0,
+   "rationale": "Face reads big and fast (toothy grin, cap, uniform) and the checker backdrop is bold, but caption says 'He sawed' and nothing is sawn: no tool, no rail, no bridge, no strange act. Standing idle at centre, arms dangling. Contact shadow present. Backdrop is abstract checker walls plus a green blob, not a recognisable place.",
+   "fix": "Open on him kneeling at a cut rail with a saw in hand and sawdust or sparks flying; push the camera low so the track leads into a canyon bridge behind him."
+  },
+  "s01_end": {
+   "score": 6.0,
+   "rationale": "Sunglasses and hammer give a punchy gag, sparkles help; but he is again a mid-size centred figure standing, hammer raised in the air with no rail to hit, and 'a railroad' is not visible (only a faint line on the ground). Story does not advance from the start panel.",
+   "fix": "Put a visible rail section under the hammer, have him kneel, hammer on the spike with a spark burst, hold the hammer hand on the grip."
+  },
+  "s02_start": {
+   "score": 5.0,
+   "rationale": "Eyes-closed deadpan stance in a corridor of checker walls; caption '39 feet.' has no number visual, no bridge or measure. Character small and passive, arms hanging, background blurred and generic. Pose is not the planned point-out.",
+   "fix": "Show the bridge span with a measuring cue (tape or tall height marker) and have him point at it with an open eyed face; raise the shot angle so scale reads."
+  },
+  "s02_end": {
+   "score": 5.5,
+   "rationale": "Monocle wink and raised finger is a nice beat of acting, but the finger points nowhere, 'two' has no visual referent, and framing is almost identical to s02_start (third similar centred mid shot on him).",
+   "fix": "Change scale: cut to a wider or low-angle shot with the bridge in the background and his hand pointing at it; add a visible two (two rails or two fingers held up)."
+  },
+  "s03_start": {
+   "score": 4.5,
+   "rationale": "Character absent; steep downward shot with blurry grey beam, mesh fence and blue void. Reads as an abstract drop but nothing says railroad or bridge clearly, the lower third is a flat orange slab, heavy blur, no focal point, no face. Does give depth and scale difference from earlier panels.",
+   "fix": "Frame a clear rail with sleepers receding over a gorge with a tiny engineer at the edge; sharpen the focal rail and remove the blank orange slab."
+  },
+  "s03_end": {
+   "score": 5.0,
+   "rationale": "Stronger depth lines converge down a canyon with a ladder/mesh and the blue void; vertigo reads, but the 'railroad' is a grey beam, no recognisable track, no figure for scale, 'so deep' reads only through the abyss. Still generic stylised geometry.",
+   "fix": "Add rails and ties on the beam leading into the frame, a small engineer figure at the lip for scale, and a clearer bottom depth (river or haze)."
+  },
+  "s04_start": {
+   "score": 4.0,
+   "rationale": "Near duplicate of s03_end: same camera and caption 'gets', no face, no character, no action. Reads as a hold, not a beat. Hero payoff moment is carried by a mostly empty abstract shot.",
+   "fix": "Make the final beat a distinct picture: the engineer small at the bridge edge looking down, or a train arriving, with a clear change from s03."
+  },
+  "s04_end": {
+   "score": 3.5,
+   "rationale": "Identical to s04_start (frames 297 and 298 are effectively the same picture); no movement, no payoff, no loop back to the face opening; fails the first-versus-last check.",
+   "fix": "Give the end an actual end state: push in or tilt up to the engineer's face or a finished repaired rail, different framing from the start panel and echoing panel one."
+  },
+  "char_eng": {
+   "score": 7.0,
+   "rationale": "Cap, gold braid, mustache, navy uniform with red placket and gold buttons stay consistent across front, 34, side, back and the three cards; silhouette reads at phone size and cap is the strong read. Right look for a stationmaster; the in-panel acting (grin, sunglasses, monocle) is fun. Gaps: no kneel_work pose exists, the sample cards are all standing, hammer appears only in the board panel (not the sheet), and the point_out pose is a small raised finger. It reads as a station official more than a track repairer (no tools, gloves, hi vis). In the panels the body proportions stay stable but he never kneels, so the traits 'kneels to work' and 'points at the bridge' are not staged.",
+   "fix": "Add real kneel_work (hammer or saw in hand, bent knees, hand on grip) and a bold point_out arm toward the bridge, and put a tool on the sheet; stage both in s01 and s02."
+  }
+ },
+ "film_level": {
+  "verdict": "FAIL",
+  "notes": "Opening frame shows the face fast but not the strange act or a railroad; story is mostly told by captions. Four of eight panels are the same mid-centre standing character in the same blurred checker corridor, then two panels with no face and two near duplicates at the end (s04 pair). No kneel, saw, bridge or measurement visible; the WORD nouns (railroad, bridge, feet, two) are mostly not shown. Camera idea (descent into canyon) is visible in s03 only. Places: effectively one place, one light. Hero moments not the strongest panels; end does not loop to the start. Style finish (character art) is good, world art is generic toon geometry."
+ },
+ "studio_director": {
+  "verdict": "BACK",
+  "note": "No panel reaches 8.5; best is 6.0 and the character sheet is 7.0. Redo: stage the actual acts (kneel, saw, hammer on a visible rail, point at a bridge), show the nouns, vary framing and scale, and make the final pair two different pictures that loop to the opening face."
+ },
+ "min_panel_score": 3.5,
+ "below_threshold": {
+  "s01_start": 6.0,
+  "s01_end": 6.0,
+  "s02_start": 5.0,
+  "s02_end": 5.5,
+  "s03_start": 4.5,
+  "s03_end": 5.0,
+  "s04_start": 4.0,
+  "s04_end": 3.5,
+  "char_eng": 7.0
+ },
+ "result": "FAIL",
+ "reviewer": "storyboard-judge-fresh-2",
+ "score": {
+  "s01_start": 6.0,
+  "s01_end": 6.0,
+  "s02_start": 5.0,
+  "s02_end": 5.5,
+  "s03_start": 4.5,
+  "s03_end": 5.0,
+  "s04_start": 4.0,
+  "s04_end": 3.5,
+  "char_eng": 7.0
+ },
+ "verdict": "FAIL",
+ "fix_list_sha1": "32526c4709ca123aa7d598199c4c5e501acfd259"
+}

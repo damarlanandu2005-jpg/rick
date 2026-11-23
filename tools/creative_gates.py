@@ -54,15 +54,7 @@ def g5(ep):
     f, w = int(m.group(1)), int(m.group(2))
     return ("PASS", last[:60]) if f == 0 and w <= MAX_WARN else ("FAIL", "%d FAIL, %d WARN (allowed: 0 FAIL, <= %d WARN with reasons)" % (f, w, MAX_WARN))
 def g6(ep):
-    p = Path(ep) / "creative/characters.json"
-    if not p.is_file(): return "FAIL", "creative/characters.json missing (record the check_views.mjs PASS and the casting)"
-    C = json.load(open(p)); bad = []
-    if C.get("check_views") != "PASS": bad.append("check_views is not recorded PASS")
-    if not C.get("casting"): bad.append("casting empty")
-    miss = [s for s in C.get("sheets", []) if not (Path(ep) / s).is_file()]
-    if not C.get("sheets"): bad.append("no character sheets listed")
-    if miss: bad.append("sheet files missing: %s" % miss[:3])
-    return ("FAIL", "; ".join(bad)) if bad else ("PASS", "recorded check_views PASS (attestation; not re-run here), casting and %d sheets present" % len(C["sheets"]))
+    import characters; return characters.g6(ep)   # R3: real validation (registry, views, performance, cards, freshness); replaces the R1 attestation
 def g7(ep):
     r = subprocess.run([sys.executable, str(HERE / "assets.py"), "check"], capture_output=True, text=True)
     return ("SKIP", "registry OK; glb presence, density gates and five-details-per-object need the asset seam (R4)") if r.returncode == 0 else ("FAIL", (r.stdout + r.stderr).strip()[-120:])

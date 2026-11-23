@@ -1,0 +1,2 @@
+G6 characters: FAIL
+  - [kid] unapproved character: char_kid is candidate; only an approved character may be cast in production

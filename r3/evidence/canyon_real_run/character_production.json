@@ -1,0 +1,138 @@
+{
+ "schema": "ricks.character_production.v1",
+ "film": "CANYON RAIL: first 10 s of a railroad short, recreated through the hybrid pipeline (Phase 8 second-script test; the script is read from a reference short's captions, not fact-checked)",
+ "package_sha1": "9449d17ed8eea57db84438763f5b4ce374fb145d",
+ "resolution": [
+  720,
+  1280
+ ],
+ "fps": 30,
+ "reference_board_sha1": "76b3384e99571f0689d08eba5ec86cdd67036a2a",
+ "characters": {
+  "eng": {
+   "character": "char_stationmaster",
+   "version": "1.0",
+   "puppet": "stationmaster",
+   "spec_sha1": "a19455f84cc485879447f518885741b09818d787",
+   "registry_entry_sha1": "87e24a1983f373c3c684d5c68f00fc47df51ad85",
+   "views": {
+    "front": {
+     "file": "creative/characters/eng/front.png",
+     "sha1": "8929e15b4a7cb625f691544a42adc94962f97a32",
+     "golden_sha1": "e50c721ab96bf29f830ca4f81fedab345f342cad",
+     "golden_diff_pct": 0.0
+    },
+    "34": {
+     "file": "creative/characters/eng/34.png",
+     "sha1": "50c7b791e9afca99a82569a3f3c9049bb219f42e",
+     "golden_sha1": "6c1783b2296760394e964393c28cfe022607daa6",
+     "golden_diff_pct": 0.0
+    },
+    "side": {
+     "file": "creative/characters/eng/side.png",
+     "sha1": "a2077cf77a1ab8b8655fafdb21732e1857ba9cf7",
+     "golden_sha1": "9860f5f7ff9f8b600ca48a9b47f152452be6262e",
+     "golden_diff_pct": 0.0
+    },
+    "back": {
+     "file": "creative/characters/eng/back.png",
+     "sha1": "6ee16d16555d2e21e172379c8f315f6a27f37cce",
+     "golden_sha1": "ad0636c5557c7321b2a6835b97b9da88b42b7ee1",
+     "golden_diff_pct": 0.0
+    }
+   },
+   "performance": {
+    "slot_sha1": "55a2b1caf6b954cd7f2697fb01779b3b740792ac",
+    "frames": 299,
+    "poses": [
+     "finger_up",
+     "hands_hips",
+     "kneel_hammer_hit",
+     "kneel_work",
+     "point_out",
+     "stand"
+    ],
+    "faces": [
+     "cool",
+     "evil",
+     "proud",
+     "standard",
+     "sus"
+    ],
+    "views": [
+     "front"
+    ],
+    "probe": {
+     "states": 11,
+     "warnings": [],
+     "errors": []
+    }
+   },
+   "cards": {
+    "dir": "out/characters/cards/eng",
+    "index_sha1": "e7af32e4ef62e1b14db6ac8a4acf3ee3b509f78b",
+    "count": 13,
+    "px": [
+     1600,
+     3000
+    ],
+    "images": [
+     {
+      "file": "s0001.png",
+      "sha1": "15637009c5536004870baa33d5645363aadc27a1"
+     },
+     {
+      "file": "s0002.png",
+      "sha1": "32d4277900ad63a3144df4411134fd41c0511db9"
+     },
+     {
+      "file": "s0003.png",
+      "sha1": "30292f1032afe7df6d0758395202fc0d3b74526a"
+     },
+     {
+      "file": "s0004.png",
+      "sha1": "9cbe4d438f00faa67f5fcfd29b559b007b2f1233"
+     },
+     {
+      "file": "s0005.png",
+      "sha1": "6f0a8a9c0c0c586cde4d6d30988c6b7e0a0dd41f"
+     },
+     {
+      "file": "s0006.png",
+      "sha1": "bdf3c4bd436f3235d00fdd4120c4d064640e1377"
+     },
+     {
+      "file": "s0007.png",
+      "sha1": "dc529a1a8c9d0a4161e8024f91240ae57889a24d"
+     },
+     {
+      "file": "s0008.png",
+      "sha1": "a58f31e40c5a5847648b225dceb6876a32a25d9f"
+     },
+     {
+      "file": "s0009.png",
+      "sha1": "01dc1d6b9f58a6e449baed2610c113b59abbd368"
+     },
+     {
+      "file": "s0010.png",
+      "sha1": "ac2b37ebee8dae713aed19d966d57810bdc0657a"
+     },
+     {
+      "file": "s0011.png",
+      "sha1": "6d95dca0eba312ff2bfeb4d0f71027f3a94a7b63"
+     },
+     {
+      "file": "s0012.png",
+      "sha1": "d4400e94e949fb701aeba43656d477418ccce754"
+     },
+     {
+      "file": "s0013.png",
+      "sha1": "a0e1cff82ceabbd8091abadd60ad1c69f42414d8"
+     }
+    ],
+    "lock_path": "out/lock/cards/eng"
+   },
+   "status": "built"
+  }
+ }
+}

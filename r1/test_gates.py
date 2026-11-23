@@ -18,7 +18,7 @@ t("G5 PASS with the test-only warn allowance", s["G5"] == "PASS")
 CG.MAX_WARN = 2; CG.WS_MIN = 3.5; t("production allowances: G5 FAIL (5 WARN) and G2 FAIL (3.30 w/s) on the canyon fixture", status(d)["G5"] == "FAIL" and status(d)["G2"] == "FAIL"); CG.MAX_WARN = 99; CG.WS_MIN = 3.0
 for name, mut, gate in [("script missing", lambda: (d / "creative/SCRIPT.md").unlink(), "G1"), ("board beat with 1 ref", lambda: (d / "creative/reference_board.json").write_text(json.dumps({"beats": [{"id": 1, "frames": ["a"]}], "department_index": {"x": 1}})), "G3"),
                         ("picture plan row without reason", lambda: (d / "creative/PICTURE_PLAN.md").write_text("| 1 HOOK | a | 1 | x | CLOSE | c | n | n |\n| 2 TWIST | | | | IN SCENE | | | |\n| 3 LAST | | | | IN SCENE | | | |\n"), "G4"),
-                        ("check_views not PASS", lambda: (d / "creative/characters.json").write_text(json.dumps({"check_views": "FAIL", "casting": {"a": 1}, "sheets": ["sheet.png"]})), "G6"), ("storyboard missing", lambda: (d / "creative/STORYBOARD.json").unlink(), "G8")]:
+                        ("a character view file corrupted (R3 G6 validates the real views)", lambda: (d / "creative/characters/eng/front.png").write_bytes(b"x"), "G6"), ("storyboard missing", lambda: (d / "creative/STORYBOARD.json").unlink(), "G8")]:
     d = episode(); mut(); t("%s -> %s FAIL" % (name, gate), status(d)[gate] == "FAIL")
 d = episode(); W = json.load(open(d / "voice/words.json")); json.dump([dict(w=x["w"], s=x["s"] * 3, e=x["e"] * 3) for x in W], open(d / "voice/words.json", "w")); t("G2 FAILs when speech is too slow", status(d)["G2"] == "FAIL")
 # approval

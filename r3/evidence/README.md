@@ -1,0 +1,3 @@
+Real R3 runs (2026-11-23).
+- canyon_real_run: real `characters.py build` on a copy of the canyon fixture (spec written by hand as the character-artist would; the canyon's film.json and creative content are untouched): views identical to the CB-approved stationmaster pictures, 13 transparent cards identical to the lock's, G6 PASS; then real storyboard + animatic and a fresh-context judge (scores 3.5-7.0, char_eng 7.0): G8 FAIL as expected. The judge's scores are an LLM's reading of the pictures.
+- western_kid_unapproved: Western cast (master, lady approved; kid = `form:kid` candidate, no approved views exist): G6 FAILS only on kid ("unapproved character").
