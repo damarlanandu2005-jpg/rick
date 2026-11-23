@@ -57,7 +57,8 @@ def g6(ep):
     import characters; return characters.g6(ep)   # R3: real validation (registry, views, performance, cards, freshness); replaces the R1 attestation
 def g7(ep):
     r = subprocess.run([sys.executable, str(HERE / "assets.py"), "check"], capture_output=True, text=True)
-    return ("SKIP", "registry OK; glb presence, density gates and five-details-per-object need the asset seam (R4)") if r.returncode == 0 else ("FAIL", (r.stdout + r.stderr).strip()[-120:])
+    if r.returncode: return "FAIL", (r.stdout + r.stderr).strip()[-120:]
+    import assets; return assets.g7(ep)   # R4: real for declared GLB assets (id, version, valid GLB contract, approved); SKIP when the film declares none
 def g8(ep):
     import review; return review.g8(ep)   # R2: storyboard + whole-film rough + hook + fresh-context judge >= 8.5 on every panel + one-fix-round + freshness (tools/review.py)
 GATES = [("G1", "Script", g1), ("G2", "Words", g2), ("G3", "Reference board", g3), ("G4", "Picture plan", g4), ("G5", "Plan", g5), ("G6", "Characters", g6), ("G7", "Assets/sets", g7), ("G8", "Rough gate", g8)]

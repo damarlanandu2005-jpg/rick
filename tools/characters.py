@@ -11,7 +11,7 @@ No second schema: the plan stays film.json (cast slots), timing stays words.json
 The pipeline never registers or approves a character; a human does."""
 import argparse, hashlib, json, re, subprocess, sys, tempfile
 from pathlib import Path
-HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; REG = ROOT / "library/assets/registry.json"; PKG = ROOT / "templates/vector2d_characters"; KIT = ROOT / "templates/threejs_film"
+HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; REG = Path(__import__("os").environ.get("RICKS_REGISTRY") or ROOT / "library/assets/registry.json"); PKG = ROOT / "templates/vector2d_characters"; KIT = ROOT / "templates/threejs_film"
 VIEWS = ["front", "34", "side", "back"]; VIEW_PX = [800, 1500]; PROD = (720, 1280); FPS = 30; DIFF_PCT = 0.05
 SPEC, REC = "characters.json", "character_production.json"
 def sha(p): return hashlib.sha1(Path(p).read_bytes()).hexdigest()

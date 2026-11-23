@@ -50,6 +50,8 @@ def main():
         os.environ["RICKS_UNAPPROVED_TEST_RUN"] = "1"; (OUT / "NOT_A_PRODUCTION_RENDER.txt").write_text("rendered with --unapproved-test-run: creative gates and approval.json were NOT enforced\n"); stage("G9", "creative", "BYPASS", 0, "NOT A PRODUCTION RENDER (--unapproved-test-run)")
     else:
         (OUT / "NOT_A_PRODUCTION_RENDER.txt").unlink(missing_ok=True); rc, t, p = sh([sys.executable, str(HERE / "approval.py"), "check", str(ep)], OUT / "approval.log"); stage("G9", "creative", "PASS" if rc == 0 else "FAIL", t, " | ".join(l.strip("- ") for l in p.stdout.splitlines()[:3])[:160]); done(rc, "G9 approval")
+    # ---- R4: declared GLB assets are validated and staged BEFORE any render (fail closed; production needs them APPROVED, a bypass run may use a candidate)
+    rc, t, p = sh([sys.executable, str(HERE / "assets.py"), "resolve", str(ep)] + (["--allow-candidate"] if a.unapproved_test_run else []), OUT / "assets.log"); stage("G7 assets", "scripted", "PASS" if rc == 0 else "FAIL", t, " | ".join(l[:80] for l in p.stdout.splitlines()[:2])[:160]); done(rc, "asset resolve")
     # ---- 2 base (cache key of every input; a changed key re-renders the whole range, nothing half-stale)
     rend = "gpu" if a.renderer == "gpu" else "cpu"; key = kit_key(ep, W, H, a.renderer); kp = ep / "out/stills/_base_key.json"; st = ep / "out/stills"; st.mkdir(parents=True, exist_ok=True)
     have = all((st / ("f_%05d.png" % f)).exists() for f in frames); fresh = kp.exists() and json.load(open(kp)).get("key") == key
@@ -67,6 +69,9 @@ def main():
         rc, t, p = sh(["node", str(node / "render.mjs"), str(film), "--export-lock"], OUT / "lock.log"); stage("3 lock", "scripted", "PASS" if rc == 0 else "FAIL", t); done(rc, "lock"); lkey.write_text(json.dumps({"key": key}))
     if not a.unapproved_test_run:   # R3: the cards the lock drew must be the approved character cards, byte for byte (no silent substitution of a character)
         rc, t, p = sh([sys.executable, str(HERE / "characters.py"), "check-lock", str(ep)], OUT / "character_lock.log"); stage("3b cards", "scripted", "PASS" if rc == 0 else "FAIL", t, " | ".join(l.strip("- ") for l in p.stdout.splitlines()[1:3])[:140]); done(rc, "character cards")
+    if not a.unapproved_test_run:   # R4M: freeze the approved asset + card hashes in the lock, then verify the lock really holds them
+        rc, t, p = sh([sys.executable, str(HERE / "lock_stamp.py"), "stamp", str(ep)], OUT / "lock_stamp.log"); rc2, t2, p2 = sh([sys.executable, str(HERE / "lock_stamp.py"), "check", str(ep)], OUT / "lock_check.log")
+        stage("3c lock freeze", "scripted", "PASS" if rc == 0 and rc2 == 0 else "FAIL", t + t2, " | ".join(l.strip("- ") for l in (p.stdout + p2.stdout).splitlines()[:2])[:160]); done(rc or rc2, "lock freeze")
     fl = ep / "out/plan/flights_baked.json"
     if fl.exists():
         fb = json.load(open(fl)); inr = [f for f in range(f0, f1 + 1) if any(v["leave"] <= f < v["hit"] for v in fb.values())]

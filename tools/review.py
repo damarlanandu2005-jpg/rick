@@ -35,7 +35,16 @@ def derive_stations(ep):
 def panel_ids(S): return [p["id"] for p in S["panels"]]
 def required_panels(ep, S):
     """Every storyboard panel plus one character panel per film.json cast slot (R3I): the judge scores the characters with the same Ricks storyboard-judge framework (role, reference board, consistency, outfit, readable at 720x1280, expressions, staging)."""
-    cast = json.load(open(Path(ep) / "film.json")).get("cast") or {}; return panel_ids(S) + ["char_%s" % k for k in cast]
+    cast = json.load(open(Path(ep) / "film.json")).get("cast") or {}; return panel_ids(S) + ["char_%s" % k for k in cast] + ["asset_%s" % i for i in asset_evidence(ep)]
+def asset_evidence(ep):
+    """R4: the GLB assets this film declares (film.json places.<p>.assets) as {id: {version, sha1}} from the registry NOW; {} when none (then no asset field/panel exists and R1-R3 artifacts are unchanged)."""
+    import assets as AS
+    ev = {}
+    for _, i, _v in AS.film_assets(ep):
+        a = AS._lookup(i); ev[i] = dict(version=str(a["version"]), sha1=(a.get("glb") or {}).get("sha1")) if a else dict(version=None, sha1=None)
+    return ev
+def assets_sha(ep):
+    ev = asset_evidence(ep); return hashlib.sha1(json.dumps(ev, sort_keys=True).encode()).hexdigest() if ev else None
 def char_sha(ep):
     import characters as CH; return CH.evidence_sha(ep)
 # ---------------- R2A storyboard
@@ -47,7 +56,7 @@ def make_storyboard_doc(ep, version=1, builder="builder", panel_dir=None):
             m = sorted(pd.glob("%s_%s_f%d.png" % (s["id"], kind, f)))
             if not m: raise SystemExit("storyboard panel missing for %s %s frame %d in %s" % (s["id"], kind, f, pd))
             panels.append(dict(id="%s_%s" % (s["id"], kind), station=s["id"], kind=kind.upper(), frame=f, file=str(m[0].relative_to(ep)), sha1=sha(m[0])))
-    return dict(schema="ricks.storyboard.v1", film=json.load(open(ep / "film.json")).get("title") or ep.name, version=version, plan_sha1=ph, baked_sha1=bh, n_frames=n, fps=json.load(open(ep / "out/plan/camera_baked.json"))["fps"], built_by=dict(tool="render.mjs --storyboard", context_id=builder), stations=st, panels=panels)
+    return dict(schema="ricks.storyboard.v1", film=json.load(open(ep / "film.json")).get("title") or ep.name, version=version, plan_sha1=ph, baked_sha1=bh, n_frames=n, fps=json.load(open(ep / "out/plan/camera_baked.json"))["fps"], built_by=dict(tool="render.mjs --storyboard", context_id=builder), stations=st, panels=panels, **({"assets": asset_evidence(ep)} if asset_evidence(ep) else {}))
 def validate_storyboard(ep):
     ep = Path(ep); S, e = load(cdir(ep) / SB)
     if e: return None, ["storyboard %s (creative/%s)" % (e, SB)]
@@ -58,6 +67,7 @@ def validate_storyboard(ep):
     ph, bh = plan_hashes(ep)
     if S["plan_sha1"] != ph: bad.append("STALE: storyboard was generated from a different film.json (wrong plan)")
     if S["baked_sha1"] != bh: bad.append("STALE: baked plan changed since the storyboard")
+    if (S.get("assets") or {}) != asset_evidence(ep): bad.append("STALE: the GLB assets (id/version/sha1) changed since the storyboard was made")
     try: N = FR.film_frame_count(ep); st = derive_stations(ep)
     except SystemExit as x: return S, bad + [str(x)]
     if S["n_frames"] != N: bad.append("storyboard n_frames %s != film %d" % (S["n_frames"], N))
@@ -82,7 +92,7 @@ def make_animatic_doc(ep, whole_mp4, hook_mp4, step=STEP, hook_s=HOOK_S, builder
     ep = Path(ep); ph, bh = plan_hashes(ep); N = FR.film_frame_count(ep); fps = json.load(open(ep / "out/plan/camera_baked.json"))["fps"]; hk = min(N - 1, int(round(hook_s * fps)) - 1)
     def art(kind, mp4, first, last):
         return dict(kind=kind, video=str(Path(mp4).relative_to(ep)), video_sha1=sha(mp4), video_frames=_count_frames(mp4), frames_per_sample=step, frame_set=dict(first=first, last=last, step=step, count=len(expected_set(first, last, step))), covers_whole_film=(first == 0 and last == N - 1), label=("WHOLE-FILM ROUGH, frames 0-%d" % (N - 1)) if kind == "whole-film-rough" else "HOOK-PARTIAL, frames %d-%d of 0-%d: NOT a full-film review" % (first, last, N - 1))
-    return dict(schema="ricks.animatic.v1", film=json.load(open(ep / "film.json")).get("title") or ep.name, plan_sha1=ph, baked_sha1=bh, n_frames=N, fps=fps, built_by=dict(tool="render.mjs --animatic", context_id=builder), artifacts=[art("whole-film-rough", whole_mp4, 0, N - 1), art("hook-partial", hook_mp4, 0, hk)])
+    return dict(schema="ricks.animatic.v1", film=json.load(open(ep / "film.json")).get("title") or ep.name, plan_sha1=ph, baked_sha1=bh, n_frames=N, fps=fps, built_by=dict(tool="render.mjs --animatic", context_id=builder), artifacts=[art("whole-film-rough", whole_mp4, 0, N - 1), art("hook-partial", hook_mp4, 0, hk)], **({"assets": asset_evidence(ep)} if asset_evidence(ep) else {}))
 def validate_animatic(ep):
     ep = Path(ep); A, e = load(cdir(ep) / AN)
     if e: return None, ["animatic %s (creative/%s)" % (e, AN)]
@@ -93,6 +103,7 @@ def validate_animatic(ep):
     ph, bh = plan_hashes(ep)
     if A["plan_sha1"] != ph: bad.append("STALE: animatic was made from a different film.json (wrong plan)")
     if A["baked_sha1"] != bh: bad.append("STALE: baked plan (camera/timing) changed since the animatic")
+    if (A.get("assets") or {}) != asset_evidence(ep): bad.append("STALE: the GLB assets (id/version/sha1) changed since the animatic was made")
     try: N = FR.film_frame_count(ep)
     except SystemExit as x: return A, bad + [str(x)]
     if A["n_frames"] != N: bad.append("animatic n_frames %s != film %d" % (A["n_frames"], N))
@@ -128,6 +139,7 @@ def judge_validate_input(ep, R, S, A):
     sbh, anh, chh = sha(cdir(ep) / SB), sha(cdir(ep) / AN), char_sha(ep)
     if er.get("storyboard_sha1") != sbh or er.get("animatic_sha1") != anh: bad.append("judge did not read the current storyboard/animatic (evidence_read hashes differ)")
     if chh is None or er.get("characters_sha1") != chh: bad.append("judge did not read the current character evidence (characters_sha1 differs or the characters are not built)")
+    if assets_sha(ep) and er.get("assets_sha1") != assets_sha(ep): bad.append("judge did not read the current GLB assets (assets_sha1 differs)")
     P = R.get("panels") or {}; need = set(required_panels(ep, S))
     if set(P) != need: bad.append("panel set differs: missing %s extra %s" % (sorted(need - set(P))[:4], sorted(set(P) - need)[:4]))
     for k, v in P.items():
@@ -153,7 +165,7 @@ def judge_record(ep, resfile):
     if H and H[-1]["result"] == "PASS": sys.exit("REFUSED: the last judged version already PASSED; the human approval step is next (judge again only after a creative change)") if (H[-1]["plan_sha1"], H[-1]["storyboard_sha1"], H[-1]["animatic_sha1"]) == key else None
     if H and (H[-1]["plan_sha1"], H[-1]["storyboard_sha1"], H[-1]["animatic_sha1"]) == key: sys.exit("REFUSED: nothing changed since the failed judgment; a fix round must change the work")
     res, low = compute_result(R, S); fix_round = sum(1 for h in H if h["result"] == "FAIL"); ts = now(); fixes = json.dumps({k: v.get("fix") for k, v in R["panels"].items() if v.get("fix")}, sort_keys=True)
-    J = dict(schema="ricks.judge.v1", film=S["film"], version=S["version"], fix_round=fix_round, plan_sha1=S["plan_sha1"], baked_sha1=S["baked_sha1"], storyboard_sha1=key[1], animatic_sha1=key[2], characters_sha1=char_sha(ep), judge=R["judge"], builders=sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), evidence_read=R["evidence_read"], timestamp=ts,
+    J = dict(schema="ricks.judge.v1", film=S["film"], version=S["version"], fix_round=fix_round, plan_sha1=S["plan_sha1"], baked_sha1=S["baked_sha1"], storyboard_sha1=key[1], animatic_sha1=key[2], characters_sha1=char_sha(ep), assets_sha1=assets_sha(ep), assets=asset_evidence(ep), judge=R["judge"], builders=sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), evidence_read=R["evidence_read"], timestamp=ts,
              threshold=THRESHOLD, panels=R["panels"], film_level=R["film_level"], studio_director=R["studio_director"], min_panel_score=min(float(v["score"]) for v in R["panels"].values()), below_threshold=low, result=res,
              reviewer=R["judge"]["id"], score={k: float(v["score"]) for k, v in R["panels"].items()}, verdict=res, fix_list_sha1=hashlib.sha1(fixes.encode()).hexdigest())   # last four: the fields approval.json copies (section 19)
     (cdir(ep) / JD).write_text(json.dumps(J, indent=1)); H.append(dict(version=S["version"], fix_round=fix_round, plan_sha1=key[0], storyboard_sha1=key[1], animatic_sha1=key[2], result=res, judge_context_id=R["judge"]["context_id"], timestamp=ts)); (cdir(ep) / HIST).write_text(json.dumps(H, indent=1))
@@ -175,9 +187,10 @@ def g8_problems(ep):
     if (J["plan_sha1"], J["baked_sha1"]) != (ph, bh): bad.append("[11 stale] judge record is for a different plan/baked plan")
     if J["storyboard_sha1"] != sha(cdir(ep) / SB) or J["animatic_sha1"] != sha(cdir(ep) / AN): bad.append("[11 stale] judge record is for a different storyboard/animatic")
     if J["characters_sha1"] != char_sha(ep): bad.append("[11 stale] judge record is for different character evidence")
+    if J.get("assets_sha1") != assets_sha(ep): bad.append("[11 stale] judge record is for different GLB assets (an asset changed after the judgment)")
     builders = {S["built_by"]["context_id"], A["built_by"]["context_id"]}
     if J["judge"].get("context_id") in builders or J["judge"].get("id") in builders or not J["judge"].get("context_id"): bad.append("[8 independence] judge shares a context/identity with the builder")
-    if J["evidence_read"].get("storyboard_sha1") != J["storyboard_sha1"] or J["evidence_read"].get("animatic_sha1") != J["animatic_sha1"] or J["evidence_read"].get("characters_sha1") != J["characters_sha1"]: bad.append("[8 independence] judge did not read the evidence it scored")
+    if J["evidence_read"].get("storyboard_sha1") != J["storyboard_sha1"] or J["evidence_read"].get("animatic_sha1") != J["animatic_sha1"] or J["evidence_read"].get("characters_sha1") != J["characters_sha1"] or (assets_sha(ep) and J["evidence_read"].get("assets_sha1") != assets_sha(ep)): bad.append("[8 independence] judge did not read the evidence it scored")
     P = J["panels"]; need = set(required_panels(ep, S)) if S.get("panels") else set()
     if set(P) != need: bad.append("[9 scores] required panel set differs: missing %s" % sorted(need - set(P))[:4])
     low = []
@@ -205,6 +218,11 @@ def run_node(ep, *args):
     r = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(Path(ep) / "film.json"), *args], capture_output=True, text=True)
     if r.returncode: sys.exit("render.mjs %s failed:\n%s" % (" ".join(args), (r.stdout + r.stderr)[-600:]))
     return r
+def stage_assets(ep):
+    """R4: validate + stage the declared GLB assets (fail closed: missing/malformed/stale/wrong id or version stops here). Review drafts may show a CANDIDATE asset (that is what review is for); G7 and approval require it approved."""
+    import assets as AS
+    bad = AS.resolve(ep, allow_candidate=True)
+    if bad: sys.exit("asset resolve failed (no silent placeholder):\n  " + "\n  ".join(bad))
 def need_plan(ep):
     r = subprocess.run([sys.executable, str(HERE / "film_plan.py"), "check", str(Path(ep) / "film.json")], capture_output=True, text=True)
     if r.returncode: sys.exit("film_plan check failed; bake the plan first:\n" + r.stdout[-300:])
@@ -212,9 +230,9 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["storyboard", "animatic", "judge-brief", "judge-record", "check", "new-version"]); ap.add_argument("ep"); ap.add_argument("result", nargs="?")
     ap.add_argument("--version", type=int, default=1); ap.add_argument("--builder", default="builder"); ap.add_argument("--step", type=int, default=STEP); ap.add_argument("--hook-seconds", type=float, default=HOOK_S); ap.add_argument("--owner"); ap.add_argument("--reason"); a = ap.parse_args(); ep = Path(a.ep); cdir(ep).mkdir(exist_ok=True)
     if a.cmd == "storyboard":
-        need_plan(ep); run_node(ep, "--storyboard"); (cdir(ep) / SB).write_text(json.dumps(make_storyboard_doc(ep, a.version, a.builder), indent=1)); print("creative/%s written (%d panels)" % (SB, len(json.load(open(cdir(ep) / SB))["panels"])))
+        need_plan(ep); stage_assets(ep); run_node(ep, "--storyboard"); (cdir(ep) / SB).write_text(json.dumps(make_storyboard_doc(ep, a.version, a.builder), indent=1)); print("creative/%s written (%d panels)" % (SB, len(json.load(open(cdir(ep) / SB))["panels"])))
     elif a.cmd == "animatic":
-        need_plan(ep); out = ep / "out"; run_node(ep, "--animatic", "--step", str(a.step)); mp4 = out / "animatic.mp4"; hook = out / "animatic_hook.mp4"; fps = json.load(open(out / "plan/camera_baked.json"))["fps"]; k = max(1, int(-(-a.hook_seconds * fps // a.step)))   # sampled frames in the hook
+        need_plan(ep); stage_assets(ep); out = ep / "out"; run_node(ep, "--animatic", "--step", str(a.step)); mp4 = out / "animatic.mp4"; hook = out / "animatic_hook.mp4"; fps = json.load(open(out / "plan/camera_baked.json"))["fps"]; k = max(1, int(-(-a.hook_seconds * fps // a.step)))   # sampled frames in the hook
         r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(mp4), "-frames:v", str(k * a.step), "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(hook)], capture_output=True, text=True)
         if r.returncode: sys.exit("ffmpeg hook trim failed: " + r.stderr[-300:])
         D = make_animatic_doc(ep, mp4, hook, a.step, a.hook_seconds, a.builder); h = D["artifacts"][1]["frame_set"]; h["last"] = (k - 1) * a.step; h["count"] = k; D["artifacts"][1]["label"] = "HOOK-PARTIAL, frames 0-%d of 0-%d: NOT a full-film review" % (h["last"], D["n_frames"] - 1); D["artifacts"][1]["video_frames"] = _count_frames(hook); (cdir(ep) / AN).write_text(json.dumps(D, indent=1)); print("creative/%s written: %s | %s" % (AN, D["artifacts"][0]["label"], D["artifacts"][1]["label"]))
@@ -231,6 +249,11 @@ Write result.json: {"judge": {"id": "...", "context_id": "<your own fresh contex
  "film_level": {"verdict": "PASS|FAIL", "notes": "..."}, "studio_director": {"verdict": "PASS|BACK", "note": "..."}}
 Character panels (char_<slot>): look at creative/characters/CONTACT_SHEET.png (four views + sample cards per slot), creative/characters.json (role, traits, outfit, reference beats) and creative/character_production.json; score with the same storyboard-judge framework: does the character match the role, match the reference board, stay consistent across views and cards, wear the right outfit, read at 720x1280 phone size, perform expressions that support the story, and is it staged as the picture plan says. Required panel ids: %s. Target: 8.5+ on EVERY required panel. Then run: python3 tools/review.py judge-record <ep> result.json (PASS/FAIL is computed, not declared). You never write approval.json.
 """ % (S["film"], S["version"], sha(cdir(ep) / SB), "creative -> " + ", ".join(sorted({str(Path(p["file"]).parent) for p in S["panels"]})), A["artifacts"][0]["video"], A["artifacts"][1]["video"], sha(cdir(ep) / AN), sorted({S["built_by"]["context_id"], A["built_by"]["context_id"]}), sha(cdir(ep) / SB), sha(cdir(ep) / AN), char_sha(ep), ", ".join('"%s": {...}' % i for i in required_panels(ep, S)[:2]) + ", ...", ", ".join(required_panels(ep, S)))); print("creative/JUDGE_BRIEF.md written")
+        ev = asset_evidence(ep)
+        if ev:   # R4L: the same storyboard-judge / studio-director framework scores each GLB asset (panel asset_<id>)
+            with open(cdir(ep) / "JUDGE_BRIEF.md", "a") as fh: fh.write("""
+GLB asset panels (R4): %s. Add "assets_sha1": "%s" to evidence_read. For each asset_<id> panel look at the asset in the storyboard panels and animatic (it is placed by the three.js set), the registry preview library/assets/previews/<id>.png and its requirement (registry entry: role, reference beats, visual properties, scale). Score with the same framework: match to the reference/requirement, readability at 720x1280, scale against the people and the track, composition in the frame, material/colour fidelity (mat: names), identity (right asset id/version), and use to the story. The assets are: %s.
+""" % (", ".join("asset_" + i for i in ev), assets_sha(ep), json.dumps(ev, sort_keys=True)))
     elif a.cmd == "judge-record":
         if not a.result: sys.exit("usage: review.py judge-record <ep> <result.json>")
         sys.exit(0 if judge_record(ep, a.result) == "PASS" else 1)

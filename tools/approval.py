@@ -8,7 +8,7 @@ import argparse, datetime, hashlib, json, sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(HERE)); import creative_gates as CG
 FLAGS = ["creative", "storyboard", "characters", "assets", "camera", "look"]
-BAKED = ["camera_baked.json", "performance_baked.json", "flights_baked.json", "layers_baked.json"]
+BAKED = ["camera_baked.json", "performance_baked.json", "flights_baked.json", "layers_baked.json", "assets_baked.json"]
 def sha(p): return hashlib.sha1(Path(p).read_bytes()).hexdigest()
 def _combine(items): return hashlib.sha1("|".join("%s:%s" % kv for kv in sorted(items)).encode()).hexdigest()
 def current(ep):
@@ -19,7 +19,11 @@ def current(ep):
     H["reference_board_sha1"] = f(c / "reference_board.json")
     pl = ep / "out/plan"; H["baked_sha1"] = _combine([(n, sha(pl / n)) for n in BAKED if (pl / n).is_file()]) if (pl / "camera_baked.json").is_file() and (pl / "performance_baked.json").is_file() else None
     import characters as CH; H["character_sheets_sha1"] = CH.evidence_sha(ep)   # R3: spec + production record (views, performance, card hashes) + contact sheet
-    reg = json.load(open(ROOT / "library/assets/registry.json"))["assets"]; H["asset_versions"] = {a["name"]: {"version": a["version"], "sha1": hashlib.sha1(json.dumps(a, sort_keys=True).encode()).hexdigest()} for a in reg}
+    import assets as AS; reg = AS.load()
+    used = {i for _, i, _v in AS.film_assets(ep)} if (ep / "film.json").is_file() else set()
+    cj = ep / "creative/characters.json"
+    if cj.is_file(): used |= {str(v.get("character")) for v in (json.load(open(cj)).get("characters") or {}).values()}
+    H["asset_versions"] = {a["name"]: {"version": a["version"], "sha1": hashlib.sha1(json.dumps(a, sort_keys=True).encode()).hexdigest()} for a in reg if a["name"] in used}   # R4: the assets THIS film uses (declared GLB assets + its cast characters), so registering an unrelated asset does not stale an approval
     return H
 def check(ep):
     """-> list of problems; empty list means approved and fresh."""
@@ -27,8 +31,9 @@ def check(ep):
     if not p.is_file(): return ["approval.json is missing (no approval = no expensive render)"]
     try: A = json.load(open(p))
     except Exception as e: return ["approval.json is not valid JSON: %s" % e]
-    bad = []; need = ["film", "plan_sha1", "baked_sha1", "picture_plan_sha1", "reference_board_sha1", "look_bible_sha1", "asset_versions", "character_sheets_sha1", "storyboard_sha1", "animatic_sha1", "judge", "approvals", "reviewer", "approved_at"]
+    bad = []; need = ["film", "plan_sha1", "baked_sha1", "picture_plan_sha1", "reference_board_sha1", "look_bible_sha1", "character_sheets_sha1", "storyboard_sha1", "animatic_sha1", "judge", "approvals", "reviewer", "approved_at"]
     bad += ["missing field %s" % k for k in need if A.get(k) in (None, "", {})]
+    if not isinstance(A.get("asset_versions"), dict): bad.append("missing field asset_versions")   # {} is valid: a film may use no registry assets
     if bad: return bad
     H = current(ep)
     for k, v in H.items():
