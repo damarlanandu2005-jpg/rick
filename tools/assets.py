@@ -94,7 +94,7 @@ def resolve(ep, reg=None, allow_candidate=False):
     pf.parent.mkdir(parents=True, exist_ok=True); doc = {"schema": "ricks.assets_baked.v1", "assets": {}}
     for i, e in baked.items():
         d = ep / "out/assets" / i / e["version"]; d.mkdir(parents=True, exist_ok=True); shutil.copy(ROOT / e["file"], d / (i + ".glb"))
-        doc["assets"][i] = dict(version=e["version"], url="out/assets/%s/%s/%s.glb" % (i, e["version"], i), sha1=e["sha1"], bytes=e["bytes"], status=e["status"], contract=e["contract"], source_blender=e["source_blender"])
+        doc["assets"][i] = dict(version=e["version"], url="out/assets/%s/%s/%s.glb" % (i, e["version"], i), sha1=e["sha1"], bytes=e["bytes"], contract=e["contract"], source_blender=e["source_blender"])   # R6/A8: NO approval status here: candidate -> approved is metadata, the GLB bytes/version/contract are the picture
     pf.write_text(json.dumps(doc, indent=1, sort_keys=True)); return []
 def g7(ep):
     """G7 Assets/sets: SKIP when the film declares no GLB assets; else PASS only if every declared asset resolves (id, version, valid GLB, approved)."""

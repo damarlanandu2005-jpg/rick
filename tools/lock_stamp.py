@@ -27,6 +27,13 @@ def lock_assets(ep):
 def card_hashes(ep):
     import characters as CH
     sp, rp, _, cd, _ = CH.paths(ep); R, e = CH.load(rp); return {} if e else {slot: dict(index_sha1=r["cards"]["index_sha1"], images=[dict(file=x["file"], sha1=x["sha1"]) for x in r["cards"]["images"]]) for slot, r in R["characters"].items()}
+def frozen(ep, L=None):
+    """R6/A3: what else the lock freezes, as hashes of the FILES/STRUCTURES the render reads (no new format: part of the same `approved` block). camera / performance / timing (words.json + the baked plan) / set (every lock set GLB) / effects (film.json fx, moods, kicks, flights) / lights / highlights.
+    Required materials are frozen through the per-asset check below (the `mat:` names inside the lock's set GLBs)."""
+    import hashlib as h, approval as AP; ep = Path(ep); pl = ep / "out/plan"; film = json.load(open(ep / "film.json")); L = L or json.load(open(ep / "out/lock/lock.json")); import creative_gates as CG
+    j = lambda o: h.sha1(json.dumps(o, sort_keys=True).encode()).hexdigest(); fz = lambda p: sha(p) if Path(p).is_file() else None
+    return dict(camera=fz(pl / "camera_baked.json"), performance=fz(pl / "performance_baked.json"), flights=fz(pl / "flights_baked.json"), timing=dict(words=fz(CG._words_path(ep)), film_json=fz(ep / "film.json")),
+                set={f.name: sha(f) for f in sorted((ep / "out/lock/sets").glob("*.glb"))}, effects=j({k: film.get(k) for k in ("fx", "moods", "kicks", "flights")}), lights=j(L.get("lights")), highlights=fz(ep / "out/lock/highlights.json"))
 def stamp(ep):
     import approval as AP, assets as AS
     ep = Path(ep); bad = AP.check(ep)
@@ -34,7 +41,7 @@ def stamp(ep):
     lk = ep / "out/lock/lock.json"
     if not lk.is_file(): return ["no lock yet (render.mjs --export-lock first)"]
     L = json.load(open(lk)); A = json.load(open(ep / "approval.json")); decl = {i for _, i, _v in AS.film_assets(ep)}
-    L["approved"] = dict(approval_sha1=sha(ep / "approval.json"), assets={i: dict(version=A["asset_versions"][i]["version"], glb_sha1=AS._lookup(i)["glb"]["sha1"], registry_sha1=A["asset_versions"][i]["sha1"]) for i in sorted(decl)}, cards=card_hashes(ep))
+    L["approved"] = dict(approval_sha1=sha(ep / "approval.json"), assets={i: dict(version=A["asset_versions"][i]["version"], glb_sha1=AS._lookup(i)["glb"]["sha1"], registry_sha1=A["asset_versions"][i]["sha1"]) for i in sorted(decl)}, cards=card_hashes(ep), frozen=frozen(ep, L))
     lk.write_text(json.dumps(L)); return []
 def problems(ep):
     import approval as AP, assets as AS
@@ -58,6 +65,11 @@ def problems(ep):
     for i in present:
         if i not in decl: bad.append("lock contains undeclared asset %s" % i)
     if a["cards"] != card_hashes(ep): bad.append("the lock's frozen card hashes differ from the approved character cards")
+    fz = a.get("frozen"); cur = frozen(ep, {**L, "lights": L.get("lights")})
+    if not fz: bad.append("the lock froze no camera/timing/performance/set/effects/lights block (re-stamp)")
+    else:
+        for k in ("camera", "performance", "flights", "timing", "set", "effects", "lights", "highlights"):
+            if fz.get(k) != cur.get(k): bad.append("lock frozen %s differs from the current %s (changed after the lock froze it)" % (k, k))
     return bad
 if __name__ == "__main__":
     c, ep = sys.argv[1], sys.argv[2]; bad = {"stamp": stamp, "check": problems}[c](ep)

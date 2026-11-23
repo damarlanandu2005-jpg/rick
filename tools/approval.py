@@ -11,6 +11,13 @@ FLAGS = ["creative", "storyboard", "characters", "assets", "camera", "look"]
 BAKED = ["camera_baked.json", "performance_baked.json", "flights_baked.json", "layers_baked.json", "assets_baked.json"]
 def sha(p): return hashlib.sha1(Path(p).read_bytes()).hexdigest()
 def _combine(items): return hashlib.sha1("|".join("%s:%s" % kv for kv in sorted(items)).encode()).hexdigest()
+APPROVAL_META = ("status", "approved_by", "approval_note", "approved_at")
+def asset_entry_sha(a):
+    """R6/A8: the hash of a registry entry that the approval signs. For a GLB asset the owner's candidate -> approved transition (status/approved_by/approval_note) is METADATA: it changes no GLB byte, version, material, anchor, transform or contract, so it must not stale creative evidence.
+    Every genuine change (glb sha1/bytes/file, version, contract, requirement, builder, anything else) still changes this hash. The approved-ness itself stays enforced by assets.resolve / G7 at pipeline time."""
+    import copy; b = copy.deepcopy(a)
+    if isinstance(b.get("glb"), dict): [b["glb"].pop(k, None) for k in APPROVAL_META]
+    return hashlib.sha1(json.dumps(b, sort_keys=True).encode()).hexdigest()
 def current(ep):
     """The hashes of the files as they are NOW. A missing required file gives None (which can never equal a stored hash)."""
     ep = Path(ep); c = ep / "creative"; H = {}
@@ -23,8 +30,11 @@ def current(ep):
     used = {i for _, i, _v in AS.film_assets(ep)} if (ep / "film.json").is_file() else set()
     cj = ep / "creative/characters.json"
     if cj.is_file(): used |= {str(v.get("character")) for v in (json.load(open(cj)).get("characters") or {}).values()}
-    H["asset_versions"] = {a["name"]: {"version": a["version"], "sha1": hashlib.sha1(json.dumps(a, sort_keys=True).encode()).hexdigest()} for a in reg if a["name"] in used}   # R4: the assets THIS film uses (declared GLB assets + its cast characters), so registering an unrelated asset does not stale an approval
+    H["asset_versions"] = {a["name"]: {"version": a["version"], "sha1": asset_entry_sha(a)} for a in reg if a["name"] in used}   # R4: the assets THIS film uses (declared GLB assets + its cast characters), so registering an unrelated asset does not stale an approval
     return H
+def is_test_fixture(ep):
+    """R5/R6: a TEST_FIXTURE_ONLY episode carries creative/TEST_FIXTURE_ONLY.json. Its approval is stamped production:false and can never be mistaken for (or substitute) a production approval."""
+    return (Path(ep) / "creative/TEST_FIXTURE_ONLY.json").is_file()
 def check(ep):
     """-> list of problems; empty list means approved and fresh."""
     p = Path(ep) / "approval.json"
@@ -33,6 +43,8 @@ def check(ep):
     except Exception as e: return ["approval.json is not valid JSON: %s" % e]
     bad = []; need = ["film", "plan_sha1", "baked_sha1", "picture_plan_sha1", "reference_board_sha1", "look_bible_sha1", "character_sheets_sha1", "storyboard_sha1", "animatic_sha1", "judge", "approvals", "reviewer", "approved_at"]
     bad += ["missing field %s" % k for k in need if A.get(k) in (None, "", {})]
+    prod_expected = not is_test_fixture(ep)
+    if A.get("production", prod_expected if prod_expected else None) is not prod_expected or (not prod_expected and A.get("test_fixture_only") is not True): bad.append("production flag does not match the episode (a TEST_FIXTURE_ONLY episode must carry production:false and test_fixture_only:true; a production approval must not)")
     if not isinstance(A.get("asset_versions"), dict): bad.append("missing field asset_versions")   # {} is valid: a film may use no registry assets
     if bad: return bad
     H = current(ep)
@@ -54,7 +66,7 @@ def create(ep, reviewer, approve):
     if sorted(approve) != sorted(FLAGS): sys.exit("REFUSED: --approve must name all of %s" % ",".join(FLAGS))
     J = json.load(open(ep / "creative/JUDGE.json")); J.get("result") == "PASS" or sys.exit("REFUSED: judge result is not PASS"); now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     A = dict(film=json.load(open(ep / "film.json")).get("title") or ep.name, **current(ep), judge=dict(reviewer=J.get("reviewer"), score=J.get("score"), verdict=J.get("verdict"), fix_list_sha1=J.get("fix_list_sha1")),
-             approvals={k: dict(value=True, reviewer=reviewer, at=now) for k in FLAGS}, reviewer=reviewer, approved_at=now)
+             approvals={k: dict(value=True, reviewer=reviewer, at=now) for k in FLAGS}, reviewer=reviewer, approved_at=now, production=not is_test_fixture(ep), **({"test_fixture_only": True} if is_test_fixture(ep) else {}))
     (ep / "approval.json").write_text(json.dumps(A, indent=1)); b = check(ep)
     if b: (ep / "approval.json").unlink(); sys.exit("REFUSED: " + "; ".join(b))
     print("approval.json written for", A["film"], "by", reviewer)
