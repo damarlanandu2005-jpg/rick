@@ -6,7 +6,7 @@ Episode layout (R1 implementation detail, class C; documented in docs/IMPLEMENTA
   <ep>/film.json  <ep>/voice/words.json (film.json "words" may override)  <ep>/creative/SCRIPT.md  PICTURE_PLAN.md  LOOK_BIBLE.md
   <ep>/creative/reference_board.json   {"beats":[{"id","kind","frames":[>=2 refs]}], "department_index":{dept: note}}
   <ep>/creative/characters.json        {"check_views":"PASS","casting":{char: note},"sheets":[files]}   (a recorded result: check_views.mjs writes golden files, so it is not auto-run here)
-  <ep>/creative/STORYBOARD.json  ANIMATIC.json  JUDGE.json   (built by R2; until then G8 FAILs and no production approval can be issued)
+  <ep>/creative/STORYBOARD.json  ANIMATIC.json  JUDGE.json   (built by tools/review.py, R2; G8 validates them, existence alone never passes)
 A gate is PASS, FAIL, or SKIP(reason). The thresholds below are R1 choices where the blueprint says only "in bands" / "no long gaps"; they are named so the owner can change them."""
 import json, re, subprocess, sys
 from pathlib import Path
@@ -67,8 +67,7 @@ def g7(ep):
     r = subprocess.run([sys.executable, str(HERE / "assets.py"), "check"], capture_output=True, text=True)
     return ("SKIP", "registry OK; glb presence, density gates and five-details-per-object need the asset seam (R4)") if r.returncode == 0 else ("FAIL", (r.stdout + r.stderr).strip()[-120:])
 def g8(ep):
-    miss = [n for n in ("STORYBOARD.json", "ANIMATIC.json", "JUDGE.json") if not (Path(ep) / "creative" / n).is_file()]
-    return ("FAIL", "not built (R2): %s" % ", ".join(miss)) if miss else ("PASS", "storyboard, animatic and judge record present")
+    import review; return review.g8(ep)   # R2: storyboard + whole-film rough + hook + fresh-context judge >= 8.5 on every panel + one-fix-round + freshness (tools/review.py)
 GATES = [("G1", "Script", g1), ("G2", "Words", g2), ("G3", "Reference board", g3), ("G4", "Picture plan", g4), ("G5", "Plan", g5), ("G6", "Characters", g6), ("G7", "Assets/sets", g7), ("G8", "Rough gate", g8)]
 def run(ep): return [dict(gate=g, name=n, status=s, note=t) for g, n, fn in GATES for s, t in [fn(ep)]]
 if __name__ == "__main__":

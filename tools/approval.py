@@ -39,15 +39,16 @@ def check(ep):
     for k in FLAGS:
         e = ap.get(k)
         if not isinstance(e, dict) or e.get("value") is not True or not e.get("reviewer") or not e.get("at"): bad.append("approval flag %s is not true with reviewer and timestamp" % k)
+    import review as RV; g8b, _ = RV.g8_problems(ep); bad += ["G8 no longer passes: " + x for x in g8b[:3]]   # R2: the judged evidence must still be current at G9
     j = A["judge"]
     if not all(j.get(k) for k in ("reviewer", "score", "verdict", "fix_list_sha1")): bad.append("judge record incomplete")
-    elif j["reviewer"] == A["reviewer"]: bad.append("the judge cannot be the approver (section 14)")
+    elif A["reviewer"] in (j["reviewer"], (json.load(open(Path(ep) / "creative/JUDGE.json")).get("judge") or {}).get("context_id")): bad.append("the judge cannot be the approver (section 14)")
     return bad
 def create(ep, reviewer, approve):
     ep = Path(ep); R = CG.run(ep); bad = [r["gate"] + " " + r["note"] for r in R if r["status"] == "FAIL" or (r["status"] == "SKIP" and r["gate"] != "G7")]
     if bad: sys.exit("REFUSED: creative gates are not all PASS: " + " | ".join(bad))
     if sorted(approve) != sorted(FLAGS): sys.exit("REFUSED: --approve must name all of %s" % ",".join(FLAGS))
-    J = json.load(open(ep / "creative/JUDGE.json")); now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    J = json.load(open(ep / "creative/JUDGE.json")); J.get("result") == "PASS" or sys.exit("REFUSED: judge result is not PASS"); now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     A = dict(film=json.load(open(ep / "film.json")).get("title") or ep.name, **current(ep), judge=dict(reviewer=J.get("reviewer"), score=J.get("score"), verdict=J.get("verdict"), fix_list_sha1=J.get("fix_list_sha1")),
              approvals={k: dict(value=True, reviewer=reviewer, at=now) for k in FLAGS}, reviewer=reviewer, approved_at=now)
     (ep / "approval.json").write_text(json.dumps(A, indent=1)); b = check(ep)

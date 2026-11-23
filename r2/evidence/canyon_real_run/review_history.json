@@ -1,0 +1,12 @@
+[
+ {
+  "version": 1,
+  "fix_round": 0,
+  "plan_sha1": "82965d4cbd35b5cc736e3d3027355e0e8cac8736",
+  "storyboard_sha1": "223bc40f506a992aed36102bfd753f8b809e7013",
+  "animatic_sha1": "cbabfbfa48d59c60eced938c7dc0fbdae81a2e16",
+  "result": "FAIL",
+  "judge_context_id": "fresh-ctx-sbj-7f3a9c21",
+  "timestamp": "2026-11-23T14:33:01+00:00"
+ }
+]

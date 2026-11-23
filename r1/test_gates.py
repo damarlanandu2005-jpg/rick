@@ -4,18 +4,11 @@ import json, os, shutil, subprocess, sys, tempfile
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent; sys.path.insert(0, str(ROOT / "tools"))
 import creative_gates as CG, approval as AP
+sys.path.insert(0, str(ROOT / "r2")); import fixture as FX
 fails = []
 def t(name, ok): print(("PASS " if ok else "FAIL ") + name); (ok or fails.append(name))
 SRC = ROOT / "templates/film_canyon_example"
-def episode():
-    d = Path(tempfile.mkdtemp()) / "ep"; shutil.copytree(SRC, d); c = d / "creative"; c.mkdir()
-    (c / "SCRIPT.md").write_text("the train rolls into the canyon and the hero looks up at the high bridge ahead of them " * 3)
-    (c / "PICTURE_PLAN.md").write_text("| # | words | sec | see | shown | feeling | fx | piece |\n|---|---|---|---|---|---|---|---|\n| 1 HOOK | a | 0.5 | x | IN SCENE, the size is the joke | calm | none | none |\n| 2 TWIST | b | 3 | x | CLOSE: this is the claim it turns on | sure | none | none |\n| 3 LAST | c | 8 | x | NOT SHOWN, it would break the scene here | none | none | none |\n")
-    (c / "LOOK_BIBLE.md").write_text("look bible"); (c / "reference_board.json").write_text(json.dumps({"beats": [{"id": 1, "kind": "wide", "frames": ["a", "b"]}], "department_index": {"set": "x"}}))
-    (d / "sheet.png").write_bytes(b"png"); (c / "characters.json").write_text(json.dumps({"check_views": "PASS", "casting": {"hero": "x"}, "sheets": ["sheet.png"]}))
-    for n in ("STORYBOARD.json", "ANIMATIC.json"): (c / n).write_text("{}")
-    (c / "JUDGE.json").write_text(json.dumps({"reviewer": "judge-agent", "score": {"p1": 8.6}, "verdict": "pass", "fix_list_sha1": "abc"}))
-    subprocess.run([sys.executable, str(ROOT / "tools/film_plan.py"), "check", str(d / "film.json")], capture_output=True); return d
+def episode(): return FX.complete_episode()
 def status(d): return {r["gate"]: r["status"] for r in CG.run(d)}
 CG.MAX_WARN = 99; CG.WS_MIN = 3.0   # TEST ONLY: the real canyon fixture has 5 WARN and 3.30 w/s; production keeps MAX_WARN = 2, WS_MIN = 3.5 (both asserted below)
 d = episode(); s = status(d)
@@ -49,6 +42,6 @@ try: AP.create(d, "owner", ["creative"]); ok = False
 except SystemExit as e: ok = "REFUSED" in str(e.code)
 t("create refuses unless all six approvals are named", ok)
 # pipeline + renderer refuse without approval (no rendering happens: they stop at G9 / the guard)
-d = episode(); r = subprocess.run([sys.executable, str(ROOT / "tools/pipeline.py"), str(d)], capture_output=True, text=True); t("pipeline STOPs at G9 without approval", r.returncode != 0 and "G9" in r.stdout and "STOP" in (r.stderr + r.stdout) and not (d / "out/stills/_base_key.json").exists() or (r.returncode != 0 and "G9" in r.stdout))
+d = episode(); r = subprocess.run([sys.executable, str(ROOT / "tools/pipeline.py"), str(d)], capture_output=True, text=True); t("pipeline STOPs before any base render without approval (at G1-G8 or G9)", r.returncode != 0 and ("G9" in r.stdout or "G1-G8" in r.stdout) and "STOP" in (r.stderr + r.stdout) and "2 base" not in r.stdout and not (d / "out/stills/_base_key.json").exists())
 env = dict(os.environ); env.pop("RICKS_UNAPPROVED_TEST_RUN", None); r = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(d / "film.json"), "--export-lock"], capture_output=True, text=True, env=env, timeout=120); t("render.mjs --export-lock refuses without approval (exit 3)", r.returncode == 3 and "REFUSED" in r.stderr)
 print("\n%d FAIL" % len(fails)); sys.exit(1 if fails else 0)

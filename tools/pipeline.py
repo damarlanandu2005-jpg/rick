@@ -42,6 +42,9 @@ def main():
     try: n = film_frame_count(ep); f0, f1 = parse_range(a.frames, n)
     except SystemExit as e: finish(); sys.exit(str(e))
     frames = list(range(f0, f1 + 1)); stage("0 scope", "scripted", "FULL" if is_full(f0, f1, n) else "PARTIAL", 0, scope_label(f0, f1, n))   # R1a: valid indices 0..N-1; 0-N is an error; a partial range is labelled partial
+    # ---- G1-G8 creative gates (R2): a missing, malformed, stale or failed creative artifact stops the pipeline before any expensive render
+    if not a.unapproved_test_run:
+        rc, t, p = sh([sys.executable, str(HERE / "creative_gates.py"), str(ep)], OUT / "creative_gates.log"); stage("G1-G8", "creative", "PASS" if rc == 0 else "FAIL", t, " | ".join(l[:70] for l in p.stdout.splitlines() if " FAIL " in l)[:200] or p.stdout.strip().splitlines()[-1][:120]); done(rc, "G1-G8 creative gates")
     # ---- G9 (blueprint section 19): no approval.json, or a stale one, means no expensive render. Before base, lock, layers, final.
     if a.unapproved_test_run:
         os.environ["RICKS_UNAPPROVED_TEST_RUN"] = "1"; (OUT / "NOT_A_PRODUCTION_RENDER.txt").write_text("rendered with --unapproved-test-run: creative gates and approval.json were NOT enforced\n"); stage("G9", "creative", "BYPASS", 0, "NOT A PRODUCTION RENDER (--unapproved-test-run)")
