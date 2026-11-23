@@ -14,6 +14,7 @@ Writes <ep>/out/pipeline/pipeline_report.json (per stage: status, seconds, cache
 import argparse, hashlib, json, os, shutil, subprocess, sys, time
 from pathlib import Path
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(HERE)); import layers as LY, final_video as FV
+from frames import film_frame_count, parse_range, is_full, scope_label
 REPORT = []
 def stage(name, kind, status, secs=0.0, note=""): REPORT.append(dict(stage=name, kind=kind, status=status, seconds=round(secs, 2), note=note)); print("%-8s %-9s %-6s %7.1fs  %s" % (name, kind, status, secs, note), flush=True)
 def sh(cmd, log, env=None):
@@ -38,7 +39,9 @@ def main():
     if not film.exists(): finish(); sys.exit("no film.json: the creative step has not produced the plan")
     node = ROOT / "templates/threejs_film"
     rc, t, p = sh([sys.executable, str(HERE / "film_plan.py"), "check", str(film)], OUT / "plan.log"); last = p.stdout.strip().splitlines()[-1] if p.stdout.strip() else ""; stage("1 plan", "scripted", "PASS" if rc == 0 and " 0 FAIL" in last else "FAIL", t, last[:70]); done(0 if rc == 0 and " 0 FAIL" in last else 1, "plan")
-    n = len(json.load(open(ep / "out/plan/camera_baked.json"))["frames"]); f0, f1 = (0, n - 1) if a.frames == "all" else map(int, a.frames.split("-")); frames = list(range(f0, f1 + 1))
+    try: n = film_frame_count(ep); f0, f1 = parse_range(a.frames, n)
+    except SystemExit as e: finish(); sys.exit(str(e))
+    frames = list(range(f0, f1 + 1)); stage("0 scope", "scripted", "FULL" if is_full(f0, f1, n) else "PARTIAL", 0, scope_label(f0, f1, n))   # R1a: valid indices 0..N-1; 0-N is an error; a partial range is labelled partial
     # ---- 2 base (cache key of every input; a changed key re-renders the whole range, nothing half-stale)
     rend = "gpu" if a.renderer == "gpu" else "cpu"; key = kit_key(ep, W, H, a.renderer); kp = ep / "out/stills/_base_key.json"; st = ep / "out/stills"; st.mkdir(parents=True, exist_ok=True)
     have = all((st / ("f_%05d.png" % f)).exists() for f in frames); fresh = kp.exists() and json.load(open(kp)).get("key") == key

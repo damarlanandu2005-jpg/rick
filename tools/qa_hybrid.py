@@ -12,6 +12,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(HERE)); import layers as LY
+from frames import check_range, is_full, scope_label, exact_set
 R = []
 def add(stage, name, ok, value="", note=""): R.append(dict(stage=stage, name=name, status=("PASS" if ok else "FAIL") if ok is not None else "SKIP", value=value, note=note))
 def sha(p): return hashlib.sha1(Path(p).read_bytes()).hexdigest()
@@ -32,7 +33,12 @@ def main():
     for n in ("camera_baked.json", "performance_baked.json", "sound_events.json"): add("1 PLAN", "baked file " + n, (ep / "out/plan" / n).exists())
     mf = ep / "out/final/final_manifest.json"
     if not mf.exists(): add("5 VIDEO", "final_manifest.json exists (run tools/final_video.py)", False); return finish(ep, qa)
-    M = json.load(open(mf)); f0, f1 = M["frames"]; frames = list(range(f0, f1 + 1)); film = json.load(open(ep / "film.json")); fps = film["fps"]
+    M = json.load(open(mf)); f0, f1 = M["frames"]; N = len(json.load(open(ep / "out/plan/camera_baked.json"))["frames"])
+    try: check_range(f0, f1, N); rng_ok = True
+    except SystemExit as e: rng_ok = False; add("1 PLAN", "manifest frame range inside 0..N-1", False, "", str(e))
+    if not rng_ok: return finish(ep, qa)
+    add("1 PLAN", "scope", None, "", scope_label(f0, f1, N)); miss, extra = exact_set(ep / "out/final/frames", "f_", f0, f1); add("5 VIDEO", "exact frame set %d-%d (no missing, no extra)" % (f0, f1), not miss and not extra, "missing %s extra %s" % (miss[:5], extra[:5]))
+    frames = list(range(f0, f1 + 1)); film = json.load(open(ep / "film.json")); fps = film["fps"]
     # ---- 2 THREEJS
     bad = []; lum = []
     for f in frames:
@@ -89,7 +95,7 @@ def main():
     for i in pick:
         dv = decode(mp4, i, W, H).astype(float); fr_ = np.asarray(Image.open(fd / ("f_%05d.png" % (f0 + i))).convert("RGB")).astype(float); mse = ((dv - fr_) ** 2).mean(); ps.append(99.0 if mse == 0 else 10 * math.log10(255 ** 2 / mse))
     add("5 VIDEO", "decoded video frames == composite PNGs (PSNR >= 35 dB)", min(ps) >= 35, "min %.1f dB over frames %s" % (min(ps), [f0 + i for i in pick]))
-    full = f0 == 0 and f1 == len(json.load(open(ep / "out/plan/camera_baked.json"))["frames"]) - 1
+    full = is_full(f0, f1, N)
     if a.no_film_check or not full: add("5 VIDEO", "check_film.py (camera, plan vs picture, frozen/flicker, faces)", None, "", "needs the full-film video (the plan numbers are whole-film); this video is frames %d-%d" % (f0, f1) if not full else "disabled")
     else:
         if not (ep / "out/plan/visibility.json").exists(): subprocess.run(["node", str(HERE.parent / "templates/threejs_film/render.mjs"), str(ep / "film.json"), "--visibility"], capture_output=True, text=True)   # Phase 7: check_film's face/caption gates need it (engine gap found by the first full-film run)
@@ -99,6 +105,6 @@ def main():
     else: add("5 VIDEO", "frame_checks/check.mjs (head cut, body side, face covered, feet)", None, "", "needs the GPU render path; run with --frame-checks on a GPU machine")
     return finish(ep, qa)
 def finish(ep, qa):
-    fails = [r for r in R if r["status"] == "FAIL"]; md = ["# Hybrid QA: %s\n" % ("PASS" if not fails else "FAIL (%d)" % len(fails))] + ["- **%s** %s | %s | %s %s" % (r["status"], r["stage"], r["name"], r["value"], ("(" + r["note"] + ")") if r["note"] else "") for r in R]
-    (qa / "qa_report.json").write_text(json.dumps({"PASS": not fails, "checks": R}, indent=1)); (qa / "qa_report.md").write_text("\n".join(md)); print("\n".join(md)); sys.exit(1 if fails else 0)
+    fails = [r for r in R if r["status"] == "FAIL"]; md = ["# Hybrid QA: %s\n" % (("FAIL (%d)" % len(fails)) if fails else ("PASS (PARTIAL RANGE: not a full-film PASS)" if any(r["name"] == "scope" and "PARTIAL" in r["note"] for r in R) else "PASS"))] + ["- **%s** %s | %s | %s %s" % (r["status"], r["stage"], r["name"], r["value"], ("(" + r["note"] + ")") if r["note"] else "") for r in R]
+    (qa / "qa_report.json").write_text(json.dumps({"PASS": not fails, "full_film": not any(r["name"] == "scope" and "PARTIAL" in r["note"] for r in R), "checks": R}, indent=1)); (qa / "qa_report.md").write_text("\n".join(md)); print("\n".join(md)); sys.exit(1 if fails else 0)
 if __name__ == "__main__": main()

@@ -8,12 +8,13 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parent)); import layers as LY
+from frames import check_range
 def comp(base_u8, layer_png):
     b = base_u8.astype(np.float32) / 255; L = np.asarray(Image.open(layer_png).convert("RGBA")).astype(np.float32) / 255
     return (np.clip(b + L[..., :3] * L[..., 3:4], 0, 1) * 255 + .5).astype(np.uint8)
 def assemble(ep, f0=None, f1=None, W=720, H=1280):
     ep = Path(ep); film = json.load(open(ep / "film.json")); fps = film["fps"]; cam = json.load(open(ep / "out/plan/camera_baked.json"))["frames"]; n = len(cam)
-    f0 = 0 if f0 is None else f0; f1 = n - 1 if f1 is None else f1; out = ep / "out/final"; fd = out / "frames"; fd.mkdir(parents=True, exist_ok=True)
+    f0 = 0 if f0 is None else f0; f1 = n - 1 if f1 is None else f1; check_range(f0, f1, n); out = ep / "out/final"; fd = out / "frames"; fd.mkdir(parents=True, exist_ok=True)
     for q in fd.glob("*.png"): q.unlink()
     LP = ep / "out/plan/layers_baked.json"; lay = json.load(open(LP)) if LP.exists() else {}; used = {}
     stale = LY.lock_fresh(ep)
@@ -40,4 +41,9 @@ def assemble(ep, f0=None, f1=None, W=720, H=1280):
     json.dump(man, open(out / "final_manifest.json", "w"), indent=1); return mp4, man
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("ep"); ap.add_argument("--frames"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args(); W, H = map(int, a.res.split("x"))
-    f0, f1 = (map(int, a.frames.split("-")) if a.frames else (None, None)); mp4, m = assemble(a.ep, f0, f1, W, H); print(mp4, m["frames"], "layers:", list(m["layers"]))
+    from frames import film_frame_count, parse_range
+    try: f0, f1 = parse_range(a.frames, film_frame_count(a.ep)); mp4, m = assemble(a.ep, f0, f1, W, H)
+    except SystemExit as e:
+        if e.code == 2 and not isinstance(e.code, str): sys.exit(str(e))
+        raise
+    print(mp4, m["frames"], "layers:", list(m["layers"]))
