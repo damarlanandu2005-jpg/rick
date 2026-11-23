@@ -1,1 +1,1 @@
-three.js r165 (MIT): three.module.js (minified build), GLTFExporter.js and TextureUtils.js from examples/jsm with their imports pointed at ./three.module.js
+three.js r165 (MIT): three.module.js (minified build), GLTFExporter.js, GLTFLoader.js (R4: the Blender->GLB->three.js seam), BufferGeometryUtils.js and TextureUtils.js from examples/jsm with their imports pointed at ./three.module.js

@@ -10,6 +10,7 @@ import { initPuppets, svgFor, stateKey, metrics, CARD, moveHands, poseHands } fr
 import { lieOf } from './poses.mjs';
 import { lieLayout, placeLying } from './lie_cam.mjs';
 import { kit3dFlags, makeKit3d } from './look3d.mjs';
+import { makeAssets } from './asset_glb.js';   // R4: registry asset id -> approved GLB -> a group in the set (fails closed)
 import { makeFlights } from './flights.js';   // hybrid Phase 2: plays out/plan/flights_baked.json when it exists
 
 const B2T = p => new THREE.Vector3(p[0], p[2], -p[1]);          // plan is metres, Z up, Y forward (Blender) -> three is Y up, -Z forward
@@ -301,6 +302,8 @@ window.setup = async (cfg) => {
   const dir = cfg.film.replace(/[^/]*$/, ''), film = await getJSON(cfg.film);
   const [camB, perf] = await Promise.all([getJSON(dir + 'out/plan/camera_baked.json'), getJSON(dir + 'out/plan/performance_baked.json')]);
   const flightsB = await getJSON(dir + 'out/plan/flights_baked.json').catch(() => null);   // optional: only films with film.json "flights"
+  const assetsB = await getJSON(dir + 'out/plan/assets_baked.json').catch(() => null);   // optional: films whose places declare registry assets (tools/assets.py resolve)
+  window.__assetStats = [];
   const words = await getJSON(dir + (film.words || 'voice/words.json')).catch(() => []);
   words.forEach(w => w._k = w.w.replace(/^[ .,?!"';:-]+|[ .,?!"';:-]+$/g, '').toLowerCase());
   const pk = cfg.puppets || '/puppets/', imp = n => import(pk + n + '.mjs');
@@ -336,7 +339,7 @@ window.setup = async (cfg) => {
     const own = cfg.epSets ? cfg.epSets.includes(set + '.js') : (await fetch(dir + 'sets/' + set + '.js', { method: 'HEAD' })).ok;      // the episode's own sets/ folder wins over the kit's
     const mod = await import((own ? dir : './') + 'sets/' + set + '.js');
     const k3 = makeKit3d(THREE, scene, L, kit3dFlags(film, pl), toonMat);   // kit 2026-11-15 (look3d.mjs, PBR_FEATURES.md): opt-in real metal, relief, sky, trees; film.json "kit3d" switches them on, off = the old toon picture
-    const ctx = { THREE, B2T, film, place: pl, light: L, toon: toonMat, pbr: k3.pbr, relief: k3.relief, sky: k3.sky, trees: k3.trees, fx: k3.fx /* FX BOLT HOOK 2026-11-15: ctx.fx.bolt (fx_bolt.mjs) */, flights: makeFlights(flightsB), dir /* hybrid Phase 5: the episode folder URL, for set data files such as the kit recipe */ };
+    const ctx = { THREE, B2T, film, place: pl, light: L, toon: toonMat, pbr: k3.pbr, relief: k3.relief, sky: k3.sky, trees: k3.trees, fx: k3.fx /* FX BOLT HOOK 2026-11-15: ctx.fx.bolt (fx_bolt.mjs) */, flights: makeFlights(flightsB), asset: makeAssets(THREE, B2T, toonMat, dir, assetsB, scene, new Set((pl.assets || []).map(a => String(a).split('@')[0])), window.__assetStats), dir /* hybrid Phase 5: the episode folder URL, for set data files such as the kit recipe */ };
     baseLight(scene, L); const built = (await mod.build(THREE, scene, film, ctx)) || {};
     R.places[name] = { scene, L, set, update: k3.finish(renderer, built.update), anchors: built.anchors || {} };
     // lamps bloom (Rick: every lamp, headlight and lens glows): a soft additive halo on each lit lens or globe, depth-tested so things in front hide it
