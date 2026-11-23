@@ -42,7 +42,7 @@ t("A2 approval signs reference, picture plan, character evidence, assets, storyb
 t("A2 the judge cannot approve itself (judge reviewer/context != approver)", A["reviewer"] != A["judge"]["reviewer"] and A["reviewer"] != J["judge"]["context_id"])
 t("A2 the fixture approval is explicitly TEST-ONLY: production:false + test_fixture_only:true", A.get("production") is False and A.get("test_fixture_only") is True and AP.is_test_fixture(P))
 Bf = copy.deepcopy(A); Bf["production"] = True; (P / "approval.json").write_text(json.dumps(Bf)); t("A2 a fixture approval relabelled production:true is rejected", has(AP.check(P), "production flag")); (P / "approval.json").write_text(json.dumps(A, indent=1))
-reg = json.load(open(ROOT / "library/assets/registry.json")); t("A2 the committed registry still holds NO approved harness asset (fixture used a registry COPY)", next(a for a in reg["assets"] if a["name"] == "prop_saloon_barrel")["glb"]["status"] == "candidate" and json.load(open(TMP / "pos/registry.json")) != reg)
+reg = json.load(open(ROOT / "library/assets/registry.json")); t("A2 the committed registry still holds NO approved harness asset (fixture used a registry COPY)", all((a.get("glb") or {}).get("status") != "approved" and not (a.get("glb") or {}).get("approved_by") for a in reg["assets"]) and json.load(open(TMP / "pos/registry.json")) != reg)   # R7: committed GLBs may be 'validated' (technical only), never approved
 # --- A4 render gate BEFORE approval (a fresh fixture without approval)
 U = fresh("unapproved", approve=False)
 rc, out, secs = pipe(U); TIMES["refused_run_s"] = round(secs, 1)

@@ -1,0 +1,11 @@
+# R7 measurements (local CPU, 2 vCPU, Blender 5.3.0 bpy, headless Chromium; from the clean run of r7/test_library.py and the committed validation records)
+- Blender build of prop_oil_lantern@1.0 (builder only, in-process bpy): 0.057 s; GLB export: 0.051-0.083 s; whole `blender_workshop.py build` call incl. bpy start: 1.05 s wall
+- GLB size: 91,484 bytes (handcar 180,852; barrel 173,916)
+- three.js load through asset_glb.js (fetch + SHA-1 check / glTF parse): 3.4 ms / 9.1 ms (handcar parse 10.8 ms, barrel 12.4 ms)
+- `assets.py validate` total: 3.1 s (loader probe page 2.0 s, deterministic Blender rebuild 0.61 s)
+- Storyboard integration (review.py storyboard, 6 three.js panels): Film A 4.74 s, Film B 4.32 s
+- Animatic integration (review.py animatic, 430-frame film, step 3 + hook): Film A 95.6 s, Film B 83.0 s
+- Lock export (render.mjs --export-lock): Film A 15.2 s, Film B 15.0 s
+- Reuse (Film B resolve: registry lookup + contract check + copy of the existing GLB, no rebuild): 0.002 s
+- Rebuild (determinism check): 0.61 s; two forced rebuilds and the registered GLB are byte-identical
+- Whole R7 suite, clean: 462 s (96 PASS, 0 FAIL)

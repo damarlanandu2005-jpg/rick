@@ -13,7 +13,7 @@ ID = "prop_rail_handcar"; TMP = Path(tempfile.mkdtemp()); REGF = TMP / "registry
 def reg(): return json.load(open(REGF))
 def save(R): json.dump(R, open(REGF, "w"))
 def ent(R): return next(a for a in R["assets"] if a["name"] == ID)
-R0 = reg(); e0 = ent(R0); t("the committed registry entry is a CANDIDATE (the pipeline never approves)", json.load(open(ROOT / "library/assets/registry.json")) and next(a for a in json.load(open(ROOT / "library/assets/registry.json"))["assets"] if a["name"] == ID)["glb"]["status"] == "candidate")
+R0 = reg(); e0 = ent(R0); _g0 = next(a for a in json.load(open(ROOT / "library/assets/registry.json"))["assets"] if a["name"] == ID)["glb"]; t("the committed registry entry is NOT approved: candidate, or R7 'validated' (technical only) (the pipeline never approves)", _g0["status"] in ("candidate", "validated") and not _g0.get("approved_by"))
 ent(R0)["glb"].update(status="approved", approved_by="r4-test-harness", approval_note="TEST HARNESS approval, not an owner approval"); save(R0)
 def episode(assets=("%s@1.0" % ID,)):
     d = FX.copy_episode(); f = json.load(open(d / "film.json")); f["places"]["canyon"]["assets"] = list(assets); json.dump(f, open(d / "film.json", "w"), indent=1); return d
