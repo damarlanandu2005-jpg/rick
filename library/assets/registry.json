@@ -304,7 +304,7 @@
     "file": "library/assets/glb/prop_rail_handcar/1.0/prop_rail_handcar.glb",
     "sha1": "2f43d71d035925b3706a3a862150c76585994335",
     "bytes": 180852,
-    "status": "candidate",
+    "status": "validated",
     "contract": {
      "up": "Y",
      "units": "m",
@@ -485,8 +485,63 @@
     },
     "source_blender": "library/assets/builders/prop_rail_handcar.py",
     "builder_sha1": "dc4b24d7c7d306a508eb038773f678b93d93f8fb",
-    "blender_version": "5.3.0"
-   }
+    "blender_version": "5.3.0",
+    "owner": "Ricks props-hero department",
+    "validation": {
+     "PASS": true,
+     "sha1": "2f43d71d035925b3706a3a862150c76585994335",
+     "contract_sha1": "3a6248b93c922091b6e846fc5d0269d9333254db",
+     "at": "2026-11-23T22:23:18+00:00",
+     "tool": "tools/assets.py validate (technical only; NOT a creative approval)",
+     "seconds": 2.44,
+     "checks": {
+      "registry_identity": [],
+      "glb_contract": [],
+      "capabilities": [],
+      "loader": {
+       "ok": true,
+       "seconds": 1.09,
+       "exit": 0,
+       "bytes": 180852,
+       "fetch_hash_ms": 7.0,
+       "parse_ms": 10.8,
+       "errors": [],
+       "anchors": {
+        "grip_left": {
+         "frames_seen": 51,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        },
+        "grip_right": {
+         "frames_seen": 76,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        }
+       }
+      },
+      "determinism": {
+       "ok": true,
+       "seconds": 1.19,
+       "rebuilt_sha1": "2f43d71d035925b3706a3a862150c76585994335",
+       "registered_sha1": "2f43d71d035925b3706a3a862150c76585994335",
+       "blender_version": "5.3.0",
+       "builder_unchanged": true
+      }
+     }
+    }
+   },
+   "capabilities": {
+    "static_prop": {},
+    "anchor_target": {
+     "anchors": [
+      "grip_left",
+      "grip_right"
+     ]
+    }
+   },
+   "environments": [
+    "canyon_rail (kit set; R4, R6, R7 Film A)"
+   ]
   },
   {
    "name": "prop_saloon_barrel",
@@ -535,7 +590,7 @@
     "file": "library/assets/glb/prop_saloon_barrel/1.0/prop_saloon_barrel.glb",
     "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb",
     "bytes": 173916,
-    "status": "candidate",
+    "status": "validated",
     "contract": {
      "up": "Y",
      "units": "m",
@@ -650,7 +705,226 @@
     },
     "source_blender": "library/assets/builders/prop_saloon_barrel.py",
     "builder_sha1": "7998a158ab76bd89328e8ad62ea4ecbf200b784a",
-    "blender_version": "5.3.0"
+    "blender_version": "5.3.0",
+    "owner": "Ricks props-hero department",
+    "validation": {
+     "PASS": true,
+     "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb",
+     "contract_sha1": "d4f82062298f7e4c146dbb7c226fb342f7de7e90",
+     "at": "2026-11-23T22:23:20+00:00",
+     "tool": "tools/assets.py validate (technical only; NOT a creative approval)",
+     "seconds": 1.95,
+     "checks": {
+      "registry_identity": [],
+      "glb_contract": [],
+      "capabilities": [],
+      "loader": {
+       "ok": true,
+       "seconds": 1.1,
+       "exit": 0,
+       "bytes": 173916,
+       "fetch_hash_ms": 6.3,
+       "parse_ms": 12.4,
+       "errors": [],
+       "anchors": {
+        "elbow_rest": {
+         "frames_seen": 68,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        }
+       }
+      },
+      "determinism": {
+       "ok": true,
+       "seconds": 0.71,
+       "rebuilt_sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb",
+       "registered_sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb",
+       "blender_version": "5.3.0",
+       "builder_unchanged": true
+      }
+     }
+    }
+   },
+   "capabilities": {
+    "static_prop": {},
+    "anchor_target": {
+     "anchors": [
+      "elbow_rest"
+     ]
+    }
+   },
+   "environments": [
+    "western_street (kit set; R5 episode)"
+   ]
+  },
+  {
+   "name": "prop_oil_lantern",
+   "category": "prop/set",
+   "source": "original, procedural Blender builder (library/assets/builders/prop_oil_lantern.py)",
+   "version": "1.0",
+   "dependencies": [
+    "film.json places.<p>.assets",
+    "out/plan/assets_baked.json"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/prop_oil_lantern.png",
+   "blender": {
+    "kind": "bpy_builder",
+    "file": "library/assets/builders/prop_oil_lantern.py",
+    "entry": "build"
+   },
+   "requirement": {
+    "role": "reusable library prop: a practical light source a character can stand beside, hang on a hook or set on a crate, for night, rail-yard, cabin and saloon beats",
+    "reference_beats": [
+     "library asset: made for reuse, not for one film beat; a film that uses it links its own board beat in its copy of the requirement"
+    ],
+    "visual_properties": "Western hurricane oil lantern: dark-green chipped tank with a filler cap, tin burner collar and wick knob, warm glowing glass globe inside four guard wires, vented cone cap with a chimney, wire bail",
+    "materials": [
+     "mat:painted_metal_chipped.2f5a3e",
+     "mat:metal",
+     "mat:emissive_lamp.ffd27a"
+    ],
+    "anchors": [
+     "grip",
+     "flame"
+    ],
+    "scale": {
+     "height_m": 0.341,
+     "tol_pct": 1.0
+    },
+    "orientation": {
+     "up": "Y",
+     "forward": "rotationally symmetric; the wick knob faces -Z (glTF), the filler cap +X",
+     "origin": "base centre, the tank on y = 0"
+    },
+    "provenance": "original procedural model, library/assets/builders/prop_oil_lantern.py (no external asset)"
+   },
+   "capabilities": {
+    "static_prop": {},
+    "anchor_target": {
+     "anchors": [
+      "grip",
+      "flame"
+     ]
+    }
+   },
+   "environments": [
+    "canyon_rail (kit set; R7 Film A)",
+    "platform (kit set; R7 Film B)"
+   ],
+   "glb": {
+    "file": "library/assets/glb/prop_oil_lantern/1.0/prop_oil_lantern.glb",
+    "sha1": "ccc3027ec04d4c53133c73f2696d995b89850beb",
+    "bytes": 91484,
+    "status": "validated",
+    "contract": {
+     "up": "Y",
+     "units": "m",
+     "materials": [
+      "mat:emissive_lamp.ffd27a",
+      "mat:metal",
+      "mat:painted_metal_chipped.2f5a3e"
+     ],
+     "anchors": {
+      "flame": [
+       0.0,
+       0.13,
+       0.0
+      ],
+      "grip": [
+       0.0,
+       0.333,
+       0.0
+      ]
+     },
+     "roles": {
+      "burner_collar": "metal",
+      "chimney_vent": "metal",
+      "filler_cap": "metal",
+      "fuel_tank": "metal",
+      "guard_wire_1": "metal",
+      "guard_wire_2": "metal",
+      "guard_wire_3": "metal",
+      "guard_wire_4": "metal",
+      "lamp_globe": "lamp",
+      "lamp_globe_base": "lamp",
+      "lamp_globe_top": "lamp",
+      "top_cap": "metal",
+      "wick_knob": "metal",
+      "wire_bail": "metal"
+     },
+     "bbox_m": [
+      0.158,
+      0.341,
+      0.15
+     ],
+     "height_m": 0.341,
+     "base_y": 0.0,
+     "nodes": [
+      "burner_collar",
+      "chimney_vent",
+      "filler_cap",
+      "flame",
+      "fuel_tank",
+      "grip",
+      "guard_wire_1",
+      "guard_wire_2",
+      "guard_wire_3",
+      "guard_wire_4",
+      "lamp_globe",
+      "lamp_globe_base",
+      "lamp_globe_top",
+      "top_cap",
+      "wick_knob",
+      "wire_bail"
+     ]
+    },
+    "source_blender": "library/assets/builders/prop_oil_lantern.py",
+    "builder_sha1": "6f54ec78e43f3148f50026c90ff3fe81369c202f",
+    "blender_version": "5.3.0",
+    "owner": "Ricks props-hero department",
+    "validation": {
+     "PASS": true,
+     "sha1": "ccc3027ec04d4c53133c73f2696d995b89850beb",
+     "contract_sha1": "2ed861fe1b540098b49eb4713054583a28adc550",
+     "at": "2026-11-23T22:23:07+00:00",
+     "tool": "tools/assets.py validate (technical only; NOT a creative approval)",
+     "seconds": 3.09,
+     "checks": {
+      "registry_identity": [],
+      "glb_contract": [],
+      "capabilities": [],
+      "loader": {
+       "ok": true,
+       "seconds": 2.02,
+       "exit": 0,
+       "bytes": 91484,
+       "fetch_hash_ms": 3.4,
+       "parse_ms": 9.1,
+       "errors": [],
+       "anchors": {
+        "grip": {
+         "frames_seen": 67,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        },
+        "flame": {
+         "frames_seen": 67,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        }
+       }
+      },
+      "determinism": {
+       "ok": true,
+       "seconds": 0.61,
+       "rebuilt_sha1": "ccc3027ec04d4c53133c73f2696d995b89850beb",
+       "registered_sha1": "ccc3027ec04d4c53133c73f2696d995b89850beb",
+       "blender_version": "5.3.0",
+       "builder_unchanged": true
+      }
+     }
+    }
    }
   }
  ]

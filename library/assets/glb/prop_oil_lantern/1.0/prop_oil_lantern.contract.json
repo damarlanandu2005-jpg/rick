@@ -1,0 +1,62 @@
+{
+ "anchors": {
+  "flame": [
+   0.0,
+   0.13,
+   0.0
+  ],
+  "grip": [
+   0.0,
+   0.333,
+   0.0
+  ]
+ },
+ "base_y": 0.0,
+ "bbox_m": [
+  0.158,
+  0.341,
+  0.15
+ ],
+ "height_m": 0.341,
+ "materials": [
+  "mat:emissive_lamp.ffd27a",
+  "mat:metal",
+  "mat:painted_metal_chipped.2f5a3e"
+ ],
+ "nodes": [
+  "burner_collar",
+  "chimney_vent",
+  "filler_cap",
+  "flame",
+  "fuel_tank",
+  "grip",
+  "guard_wire_1",
+  "guard_wire_2",
+  "guard_wire_3",
+  "guard_wire_4",
+  "lamp_globe",
+  "lamp_globe_base",
+  "lamp_globe_top",
+  "top_cap",
+  "wick_knob",
+  "wire_bail"
+ ],
+ "roles": {
+  "burner_collar": "metal",
+  "chimney_vent": "metal",
+  "filler_cap": "metal",
+  "fuel_tank": "metal",
+  "guard_wire_1": "metal",
+  "guard_wire_2": "metal",
+  "guard_wire_3": "metal",
+  "guard_wire_4": "metal",
+  "lamp_globe": "lamp",
+  "lamp_globe_base": "lamp",
+  "lamp_globe_top": "lamp",
+  "top_cap": "metal",
+  "wick_knob": "metal",
+  "wire_bail": "metal"
+ },
+ "units": "m",
+ "up": "Y"
+}
