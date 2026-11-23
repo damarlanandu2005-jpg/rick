@@ -1,0 +1,149 @@
+{
+ "schema": "ricks.judge.v1",
+ "film": "THE HAT TOSS: R5 reference-driven production-shot proof (original; measured against the Rick Western reference board)",
+ "version": 2,
+ "fix_round": 1,
+ "plan_sha1": "0de609d0ef9dcaf7e42777f360e362fd3912d722",
+ "baked_sha1": "2fb0cabc088aae786d83c56534a551298dca94e2",
+ "storyboard_sha1": "8edd0b9c24e03f329a98d281bece4e20cbba1d3c",
+ "animatic_sha1": "e83ad355e1b869f5fb25603b03c2f569aa7ea5f2",
+ "characters_sha1": "91e8a2c99db16d1303003a9fdacce65f44d5b4a6",
+ "assets_sha1": "7ca6ec37d8056e6331df3f79f7dbcee1e81d34e3",
+ "assets": {
+  "prop_saloon_barrel": {
+   "version": "1.0",
+   "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb"
+  }
+ },
+ "reference_board_sha1": "83ef8871d35aaf8599b316e9473a1bc2308f96c1",
+ "judge": {
+  "id": "storyboard-judge#r5-2",
+  "context_id": "r5-judge-ctx-v2-7f3a91c4",
+  "kind": "fresh-context",
+  "agents": [
+   "storyboard-judge",
+   "studio-director"
+  ]
+ },
+ "builders": [
+  "r5-builder-ctx-v2"
+ ],
+ "evidence_read": {
+  "storyboard_sha1": "8edd0b9c24e03f329a98d281bece4e20cbba1d3c",
+  "animatic_sha1": "e83ad355e1b869f5fb25603b03c2f569aa7ea5f2",
+  "characters_sha1": "91e8a2c99db16d1303003a9fdacce65f44d5b4a6",
+  "assets_sha1": "7ca6ec37d8056e6331df3f79f7dbcee1e81d34e3",
+  "reference_board_sha1": "83ef8871d35aaf8599b316e9473a1bc2308f96c1"
+ },
+ "timestamp": "2026-11-23T16:36:42+00:00",
+ "threshold": 8.5,
+ "panels": {
+  "s01_start": {
+   "score": 7.5,
+   "rationale": "Clear lone top-hatted figure, centred, barrel at elbow, street leading out, big blue sky; but camera is a mid-height eye-level not the low wide of the plan, the figure is ~35% of frame yet the street is blurred and fisheye-warped, and the sky is speckled with snow-like dust dots that read as noise.",
+   "fix": "Drop the figure to ~25% of frame with a truly low camera, sharpen the street depth (less blur/warp) and remove or shrink the sky dots so the empty noon street reads."
+  },
+  "s01_end": {
+   "score": 7.5,
+   "rationale": "Near-identical to s01_start with a slight sideways drift; the setup holds and reads calm, but nothing has advanced and the frame is still a static-feeling stand.",
+   "fix": "Make the creep-in a real 1.5-step push or add a distant tumbleweed/pole beat so the hook frame has life."
+  },
+  "s02_start": {
+   "score": 7.5,
+   "rationale": "Medium with hat brim and the figure filling the lower two thirds matches the reference beat 2 in intent, and the black hat/red band pops; however the barrel is cropped at the left edge, the hand-on-hip pose with sunglasses face is smug rather than the planned deadpan, and the background is a soft blur.",
+   "fix": "Reframe so the barrel is fully or intentionally cut, swap to the cool/deadInside face and bring the hat brim fully inside frame top."
+  },
+  "s02_end": {
+   "score": 7.0,
+   "rationale": "The flick, the single action of the film, is not seen: the coin appears already high as a flat yellow disc at top-right while the man has eyes shut and a blushing grin, which reads as pleased, not deadpan, and the 'thumb flicks, coin leaves hand' beat is missing.",
+   "fix": "Add a 6-8 frame panel with the finger_up pose and the coin leaving the hand with a glint, and keep the deadpan face."
+  },
+  "s03_start": {
+   "score": 7.5,
+   "rationale": "Coin high in blue sky small near the top of frame matches reference b3_a's composition and hat is a clear second hero; the coin is a flat yellow dot with no glint, the figure is small and the dots in the sky distract.",
+   "fix": "Add a coin glint/trail, remove sky dots, and lower the horizon so the sky gets more of the frame."
+  },
+  "s03_end": {
+   "score": 7.5,
+   "rationale": "Coin still in the sky, man stands still: deadpan reads and the tilt/fall idea is understandable, but the fall is barely progressed and the frame is almost identical to s03_start, so there is little visible change.",
+   "fix": "Show the coin visibly lower and larger with a trail so the fall is read between the two panels."
+  },
+  "s04_start": {
+   "score": 8.0,
+   "rationale": "Strong frame: hat black against sky, coin descending above it, barrel scaled big at left, calm face, clear hierarchy of hat, coin, face; the barrel is oversized next to the man and the face is blank rather than smug.",
+   "fix": "Reduce barrel scale and add the small smug expression to match the plan."
+  },
+  "s04_end": {
+   "score": 6.5,
+   "rationale": "Payoff is not convincing: the coin is a large disc floating at the crown, overlapping the hat top and sky, not clearly landing in or on the hat, and it stays above the brim in the last frames, so the 'right into the hat' proof is ambiguous.",
+   "fix": "Land the coin visibly on the crown (scaled to hat, resting on top or half inside the brim) with a clank flash and keep it there in the final frame."
+  },
+  "char_gambler": {
+   "score": 8.5,
+   "rationale": "Consistent approved puppet across views and cards, correct top hat with red band and long coat, readable at phone size, expressions cool/smug/proud/deadInside available; the hand-on-hip sunglasses card is a bit trollish and the contact sheet shows the 'heh' cards, not the deadpan the role wants.",
+   "fix": "Use the cool/deadInside card in the flip and wait beats and drop the 'heh' text from any card used on screen."
+  },
+  "asset_prop_saloon_barrel": {
+   "score": 7.5,
+   "rationale": "Barrel reads as a warm wooden whiskey barrel with hoops and a lid, fits the sand and shop palette, right id, used at the elbow for scale; the preview is flat grey so identity is checked by shape only, and in s02/s04 it is cropped or looks larger than the registry 1.066 m next to the man, and the lid cup/tally are unreadable.",
+   "fix": "Keep it fully in frame at the correct 1.066 m scale beside him and show it at an angle where the lid and cup read."
+  },
+  "ref_1": {
+   "score": 7.5,
+   "rationale": "Matches the reference's lone small figure on a noon street with sky and buildings leading in, but the reference's low camera, crisp depth, clouds, mesas and far-end poles are missing; the street is smeared and the figure is bigger than the reference.",
+   "fix": "Lower the camera, add clouds/mesa/poles to the far end, and sharpen the street."
+  },
+  "ref_2": {
+   "score": 7.0,
+   "rationale": "Reference has hat brim crossing the frame, gun hand low, eye-level and a clearly built face; here the hat is tall and fine but the pose is hip-hands with eyes shut, no hand/prop in the action zone, a muddier background and weaker character performance.",
+   "fix": "Push the medium tighter on the hat and face with the flick hand low in frame and a deadpan face."
+  },
+  "ref_3": {
+   "score": 6.5,
+   "rationale": "Composition (prop high against the sky over the street) is hit in s03, but the reference's dynamic angle and the payoff's clarity are not matched; the s04 coin sits fuzzy on the hat and the ending lacks the reference's graphic settle.",
+   "fix": "Frame a clear coin-on-hat landing with a visible impact and a settled hold on the whole man."
+  }
+ },
+ "film_level": {
+  "verdict": "FAIL",
+  "notes": "1 Reference match: right ingredients (lone figure, low sky, hat brim, prop in sky) but flatter, blurrier and less crafted than the reference; ref beats 2-3 are below bar. 2 Story clarity: coin toss and hat idea is clear with sound off only if you read the final frame; the flick is missing and the landing ambiguous. 3 Character suitability: approved gambler fits, deadpan inconsistent with the blushing grin and sunglasses. 4 Asset suitability: barrel ok but scale/cropping uneven and it is only a minor cue. 5 Composition: centred and clean, strong hat/sky contrast, but the sky dots add noise and the street is smeared. 6 Camera: gentle push and tilt, mostly mid-height; the low wide hook is not delivered. 7 Visual hierarchy: hat then coin read well. 8 Action readability: flick not visible; the fall is slow and small. 9 Ending/payoff: coin hovering over the hat at the last frame, not clearly in or on it, so the payoff is weak. 10 Overall: competent, readable, but static, and below the 8.5 bar on several panels."
+ },
+ "studio_director": {
+  "verdict": "BACK",
+  "note": "Send back: stage the flick, land the coin visibly on the hat in the last frames, clean the sky specks and street blur, match the hook camera to the plan, and fix the barrel scale/crop."
+ },
+ "min_panel_score": 6.5,
+ "below_threshold": {
+  "s01_start": 7.5,
+  "s01_end": 7.5,
+  "s02_start": 7.5,
+  "s02_end": 7.0,
+  "s03_start": 7.5,
+  "s03_end": 7.5,
+  "s04_start": 8.0,
+  "s04_end": 6.5,
+  "asset_prop_saloon_barrel": 7.5,
+  "ref_1": 7.5,
+  "ref_2": 7.0,
+  "ref_3": 6.5
+ },
+ "result": "FAIL",
+ "reviewer": "storyboard-judge#r5-2",
+ "score": {
+  "s01_start": 7.5,
+  "s01_end": 7.5,
+  "s02_start": 7.5,
+  "s02_end": 7.0,
+  "s03_start": 7.5,
+  "s03_end": 7.5,
+  "s04_start": 8.0,
+  "s04_end": 6.5,
+  "char_gambler": 8.5,
+  "asset_prop_saloon_barrel": 7.5,
+  "ref_1": 7.5,
+  "ref_2": 7.0,
+  "ref_3": 6.5
+ },
+ "verdict": "FAIL",
+ "fix_list_sha1": "8c63321e5d4a31453654cdd307ca7cc6eca98609"
+}

@@ -1,0 +1,37 @@
+{
+ "schema": "ricks.character_spec.v1",
+ "film": "r5_hat_toss",
+ "characters": {
+  "gambler": {
+   "character": "char_inspector",
+   "version": "1.0",
+   "role": "dapper gambler standing alone on a noon Western street: calm, deadpan, a top hat and long coat",
+   "traits": [
+    "stands very still",
+    "flicks a coin without looking up",
+    "top hat must read at phone size"
+   ],
+   "outfit": "top hat with red band, long dark coat (locked cast outfit of the railway inspector)",
+   "views_required": [
+    "front",
+    "34",
+    "side",
+    "back"
+   ],
+   "expressions_required": [
+    "cool",
+    "smug",
+    "deadInside",
+    "proud"
+   ],
+   "poses_required": [
+    "cool",
+    "finger_up"
+   ],
+   "reference_beats": [
+    1,
+    2
+   ]
+  }
+ }
+}

@@ -1,0 +1,150 @@
+{
+ "schema": "ricks.judge.v1",
+ "film": "THE HAT TOSS: R5 reference-driven production-shot proof (original; measured against the Rick Western reference board)",
+ "version": 1,
+ "fix_round": 0,
+ "plan_sha1": "a3d771a22ee789c2558d822be6098705c07df780",
+ "baked_sha1": "0ab9d0f28d2e41caab609239f830cf3592a8dbac",
+ "storyboard_sha1": "6fe85e1de17f7db1d55657079fd0d8bdb94dfbf4",
+ "animatic_sha1": "15a795c234a710bb48c3f99302a3a1946f658198",
+ "characters_sha1": "91e8a2c99db16d1303003a9fdacce65f44d5b4a6",
+ "assets_sha1": "7ca6ec37d8056e6331df3f79f7dbcee1e81d34e3",
+ "assets": {
+  "prop_saloon_barrel": {
+   "version": "1.0",
+   "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb"
+  }
+ },
+ "reference_board_sha1": "83ef8871d35aaf8599b316e9473a1bc2308f96c1",
+ "judge": {
+  "id": "storyboard-judge#r5-1",
+  "context_id": "r5-judge-ctx-7f3a91c2",
+  "kind": "fresh-context",
+  "agents": [
+   "storyboard-judge",
+   "studio-director"
+  ]
+ },
+ "builders": [
+  "r5-builder-ctx"
+ ],
+ "evidence_read": {
+  "storyboard_sha1": "6fe85e1de17f7db1d55657079fd0d8bdb94dfbf4",
+  "animatic_sha1": "15a795c234a710bb48c3f99302a3a1946f658198",
+  "characters_sha1": "91e8a2c99db16d1303003a9fdacce65f44d5b4a6",
+  "assets_sha1": "7ca6ec37d8056e6331df3f79f7dbcee1e81d34e3",
+  "reference_board_sha1": "83ef8871d35aaf8599b316e9473a1bc2308f96c1"
+ },
+ "timestamp": "2026-11-23T16:33:44+00:00",
+ "threshold": 8.5,
+ "panels": {
+  "s01_start": {
+   "score": 6.5,
+   "rationale": "Low wide with lone figure, barrel and blue sky echo b1_a, but the gambler is ~30% centred-left and a big dark lamp post at the right edge is a heavy distraction competing with him.",
+   "fix": "Delete or move the lamp post out of frame and recentre the gambler with more empty street receding to a vanishing point."
+  },
+  "s01_end": {
+   "score": 6.0,
+   "rationale": "Near-identical to the start, with the lamp post now cropping the frame edge as a black slab; no creep or story progress and the street reads blurry rather than deep.",
+   "fix": "Remove the lamp post, make the creep visible (closer, hat larger) and sharpen the street depth."
+  },
+  "s02_start": {
+   "score": 6.5,
+   "rationale": "Medium with hat and face in upper frame and barrel foreground fits b2 loosely, but the brim is not a wide hat across the frame and the man leans off to the right of a large barrel that crowds him.",
+   "fix": "Recentre the gambler filling lower two thirds, shrink or lower the barrel so it does not cover his body."
+  },
+  "s02_end": {
+   "score": 6.0,
+   "rationale": "Coin appears as an unexplained yellow dot top-right, disconnected from his hand, and a dark lamp edge intrudes; the flip is not readable.",
+   "fix": "Show the thumb flick with the coin leaving the hand and rising directly above him, no lamp post at the edge."
+  },
+  "s03_start": {
+   "score": 6.0,
+   "rationale": "Gambler small at the bottom of a big sky with a tiny coin; matches b3_a's object-in-sky idea but the coin is tiny and the lamp post bars the right side.",
+   "fix": "Make the coin larger with a glint trail, place it at the upper third above the street, remove the lamp post."
+  },
+  "s03_end": {
+   "score": 6.0,
+   "rationale": "Nearly identical to s03_start, coin still a small dot and little sense of height or fall; no reaction-free deadpan beat is distinct.",
+   "fix": "Shift the camera (tilt) so the coin descends visibly and the hat grows toward the coin."
+  },
+  "s04_start": {
+   "score": 6.5,
+   "rationale": "Bigger gambler with the coin above the hat clarifies the target, but the hat/coin read is thin and the barrel is huge in the foreground.",
+   "fix": "Frame hat and coin tight in the upper third with a motion cue; reduce the barrel."
+  },
+  "s04_end": {
+   "score": 5.0,
+   "rationale": "The payoff fails: the coin floats above the hat brim instead of sitting on the crown, and a dark lamp post cuts the right edge, so the proof the plan demands is not visible.",
+   "fix": "Place the coin on the crown of the hat with a clank flash and hold it; remove the lamp post."
+  },
+  "char_gambler": {
+   "score": 8.0,
+   "rationale": "Contact sheet is consistent and charming: top hat with red band, long coat, strong silhouette that reads small, with cool/smug/deadInside expressions, though two of seven cards are the same grin and the ref hero is a hat-brim cowboy.",
+   "fix": "Add distinct poses (finger_up, coin flick) in the contact sheet and ensure the top hat reads at phone size in wide shots."
+  },
+  "asset_prop_saloon_barrel": {
+   "score": 6.5,
+   "rationale": "The barrel is warm wood with hoops and matches the requirement and palette, but it sits at the elbow, looks oversized in s02-s04, hides the lower body and the tin cup and chalk are unreadable, so it is partially clutter.",
+   "fix": "Scale to 1.07 m against the man's true height, rotate so the lid and cup read, and keep it from covering the body."
+  },
+  "ref_1": {
+   "score": 6.0,
+   "rationale": "Compared to b1, the low wide with lone figure and sky has the right idea but is less deep, the street does not vanish, the figure is stuck beside a big barrel and a lamp post replaces the telegraph poles and tumbleweed.",
+   "fix": "Pull the camera so the figure is alone in the street with a long vanishing street, mesas, and no lamp post."
+  },
+  "ref_2": {
+   "score": 6.0,
+   "rationale": "Reference is a hat-brim medium filling the lower two thirds; ours is looser, the hat is narrower and the barrel and lamp crowd the figure, and there is no gun-hand low action equivalent.",
+   "fix": "Tighten to chest-up filling the lower two thirds with the hat across the frame top and the coin hand low."
+  },
+  "ref_3": {
+   "score": 5.0,
+   "rationale": "b3_a shows a prop high against the sky over the street; ours has a tiny coin and a final coin floating over the hat, losing both the sky composition and the payoff.",
+   "fix": "Make the sky shot with the coin high and big then land it on the hat in a calm wide."
+  }
+ },
+ "film_level": {
+  "verdict": "FAIL",
+  "notes": "1 Reference match: partial, palette and low-wide idea match but depth, hat-brim medium and sky composition fall short. 2 Story clarity: the coin throw reads only through voice; the flick and landing are not visible. 3 Character: good, strong top hat silhouette and deadpan faces. 4 Asset: barrel is on palette but oversized and crowds the frame. 5 Composition: a dark lamp post at the frame edge is a recurring distraction and the framing barely changes between panels. 6 Camera: little real movement, near-identical start/end pairs. 7 Hierarchy: lamp post and barrel compete with the hat and coin; the coin is tiny. 8 Action readability: the flick is a glint at best, the fall is a small dot. 9 Ending/payoff: the coin floats above the hat rather than sitting in it, so the promised payoff is not delivered. 10 Overall: competent set and character but below the 8.5 bar."
+ },
+ "studio_director": {
+  "verdict": "BACK",
+  "note": "Remove the lamp post, make the flick and the coin landing on the hat visible and large, tighten the b2 medium, shrink the barrel, and add real camera movement between pairs."
+ },
+ "min_panel_score": 5.0,
+ "below_threshold": {
+  "s01_start": 6.5,
+  "s01_end": 6.0,
+  "s02_start": 6.5,
+  "s02_end": 6.0,
+  "s03_start": 6.0,
+  "s03_end": 6.0,
+  "s04_start": 6.5,
+  "s04_end": 5.0,
+  "char_gambler": 8.0,
+  "asset_prop_saloon_barrel": 6.5,
+  "ref_1": 6.0,
+  "ref_2": 6.0,
+  "ref_3": 5.0
+ },
+ "result": "FAIL",
+ "reviewer": "storyboard-judge#r5-1",
+ "score": {
+  "s01_start": 6.5,
+  "s01_end": 6.0,
+  "s02_start": 6.5,
+  "s02_end": 6.0,
+  "s03_start": 6.0,
+  "s03_end": 6.0,
+  "s04_start": 6.5,
+  "s04_end": 5.0,
+  "char_gambler": 8.0,
+  "asset_prop_saloon_barrel": 6.5,
+  "ref_1": 6.0,
+  "ref_2": 6.0,
+  "ref_3": 5.0
+ },
+ "verdict": "FAIL",
+ "fix_list_sha1": "c465a2dad0358e43576f9698d2de7ab0c221b2aa"
+}

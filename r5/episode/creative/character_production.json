@@ -1,0 +1,105 @@
+{
+ "schema": "ricks.character_production.v1",
+ "film": "THE HAT TOSS: R5 reference-driven production-shot proof (original; measured against the Rick Western reference board)",
+ "package_sha1": "9449d17ed8eea57db84438763f5b4ce374fb145d",
+ "resolution": [
+  720,
+  1280
+ ],
+ "fps": 30,
+ "reference_board_sha1": "538bebbbcd5b09fa70d7a782c9f0ef2bf8cde984",
+ "characters": {
+  "gambler": {
+   "character": "char_inspector",
+   "version": "1.0",
+   "puppet": "cast:railway",
+   "spec_sha1": "4f24317ad24203b627ac17e670e2ae6b2cd9c223",
+   "registry_entry_sha1": "61f5b34b1d39b1495983145f56c12f347df0557d",
+   "views": {
+    "front": {
+     "file": "creative/characters/gambler/front.png",
+     "sha1": "029d2147bfa438f1a8fea53fb6d47b0fe4d2e9fd",
+     "golden_sha1": "3a14b3b8c4c5aab5e21eac547ede044891cc59c7",
+     "golden_diff_pct": 0.0818
+    },
+    "34": {
+     "file": "creative/characters/gambler/34.png",
+     "sha1": "952e8f60df5273feb137c673f297238833c47e40",
+     "golden_sha1": "3287616c3d74fb7513f66a1d6dea63229a0da4db",
+     "golden_diff_pct": 0.0842
+    },
+    "side": {
+     "file": "creative/characters/gambler/side.png",
+     "sha1": "8b1651152d7622e5b94e8b496774163d4c638a23",
+     "golden_sha1": "e7836b71dabea0eff7ccbd6672a0131e53604cb5",
+     "golden_diff_pct": 0.0744
+    },
+    "back": {
+     "file": "creative/characters/gambler/back.png",
+     "sha1": "20039e78affaf4c4cbed2707d6a49c83ddb0006b",
+     "golden_sha1": "cdbcba9e19b5b663df0ce908ad045ddd89d2502f",
+     "golden_diff_pct": 0.0
+    }
+   },
+   "performance": {
+    "slot_sha1": "9e502d757ccbc19429c069eb7e046f2b6ffe879e",
+    "frames": 250,
+    "poses": [
+     "cool",
+     "finger_up"
+    ],
+    "faces": [
+     "cool",
+     "deadInside",
+     "proud",
+     "smug"
+    ],
+    "views": [
+     "front"
+    ],
+    "probe": {
+     "states": 6,
+     "warnings": [],
+     "errors": []
+    }
+   },
+   "cards": {
+    "dir": "out/characters/cards/gambler",
+    "index_sha1": "64b8eebc05d6ed6912f6a55d9714d05e50b80421",
+    "count": 6,
+    "px": [
+     1600,
+     3000
+    ],
+    "images": [
+     {
+      "file": "s0001.png",
+      "sha1": "d8fbac10fbb707586831aa6b439847c84d814a4e"
+     },
+     {
+      "file": "s0002.png",
+      "sha1": "faf1198e0b0fde4b5a34cb3acf74db3199bc1db1"
+     },
+     {
+      "file": "s0003.png",
+      "sha1": "a270b58dcc1550afb404d8331500dd0b3aab09f6"
+     },
+     {
+      "file": "s0004.png",
+      "sha1": "0f7fd05342f64cf0d7dd9da1327481b9689993ac"
+     },
+     {
+      "file": "s0005.png",
+      "sha1": "47dfd3f4ed252e8b7021cb531b3a4e3f80e344f7"
+     },
+     {
+      "file": "s0006.png",
+      "sha1": "76c66ef1e95ab98751cb259c62f2cc3773c2d4db"
+     }
+    ],
+    "lock_path": "out/lock/cards/gambler"
+   },
+   "status": "built"
+  }
+ }
+}

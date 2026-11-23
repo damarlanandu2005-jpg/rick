@@ -1,0 +1,128 @@
+{
+ "schema": "ricks.storyboard.v1",
+ "film": "THE HAT TOSS: R5 reference-driven production-shot proof (original; measured against the Rick Western reference board)",
+ "version": 1,
+ "plan_sha1": "a3d771a22ee789c2558d822be6098705c07df780",
+ "baked_sha1": "0ab9d0f28d2e41caab609239f830cf3592a8dbac",
+ "n_frames": 250,
+ "fps": 30,
+ "built_by": {
+  "tool": "render.mjs --storyboard",
+  "context_id": "r5-builder-ctx"
+ },
+ "stations": [
+  {
+   "id": "s01",
+   "take": "t1",
+   "station": 0,
+   "start": 0,
+   "end": 43,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s02",
+   "take": "t1",
+   "station": 1,
+   "start": 65,
+   "end": 114,
+   "framing": "M",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s03",
+   "take": "t1",
+   "station": 2,
+   "start": 142,
+   "end": 164,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s04",
+   "take": "t1",
+   "station": 3,
+   "start": 192,
+   "end": 249,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  }
+ ],
+ "panels": [
+  {
+   "id": "s01_start",
+   "station": "s01",
+   "kind": "START",
+   "frame": 0,
+   "file": "out/storyboard_panels/s01_start_f0.png",
+   "sha1": "85d67e944a5e39558e45352d1f31d75ef2c1b11e"
+  },
+  {
+   "id": "s01_end",
+   "station": "s01",
+   "kind": "END",
+   "frame": 43,
+   "file": "out/storyboard_panels/s01_end_f43.png",
+   "sha1": "51ae12bf4f54b57d65e41716a857bd762935748b"
+  },
+  {
+   "id": "s02_start",
+   "station": "s02",
+   "kind": "START",
+   "frame": 65,
+   "file": "out/storyboard_panels/s02_start_f65.png",
+   "sha1": "3c22b56d34d7f67d53a0c5eae627d16a38d636fd"
+  },
+  {
+   "id": "s02_end",
+   "station": "s02",
+   "kind": "END",
+   "frame": 114,
+   "file": "out/storyboard_panels/s02_end_f114.png",
+   "sha1": "30fa8607f2a32b09e79c6a974439fcc0217c1386"
+  },
+  {
+   "id": "s03_start",
+   "station": "s03",
+   "kind": "START",
+   "frame": 142,
+   "file": "out/storyboard_panels/s03_start_f142.png",
+   "sha1": "e26b594ba09786d614fe6e03bc6637e7262f30f5"
+  },
+  {
+   "id": "s03_end",
+   "station": "s03",
+   "kind": "END",
+   "frame": 164,
+   "file": "out/storyboard_panels/s03_end_f164.png",
+   "sha1": "d7b778a3bb7d2e0e14521ad138096ff195392ea3"
+  },
+  {
+   "id": "s04_start",
+   "station": "s04",
+   "kind": "START",
+   "frame": 192,
+   "file": "out/storyboard_panels/s04_start_f192.png",
+   "sha1": "e7e38af3d1a5e894bbc2c278b6b185e7138d30f4"
+  },
+  {
+   "id": "s04_end",
+   "station": "s04",
+   "kind": "END",
+   "frame": 249,
+   "file": "out/storyboard_panels/s04_end_f249.png",
+   "sha1": "9d90bbe55d90673b9aa9fc39f0dd0694e63eefeb"
+  }
+ ],
+ "assets": {
+  "prop_saloon_barrel": {
+   "version": "1.0",
+   "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb"
+  }
+ },
+ "reference_board_sha1": "83ef8871d35aaf8599b316e9473a1bc2308f96c1"
+}

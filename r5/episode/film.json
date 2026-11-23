@@ -1,0 +1,283 @@
+{
+ "title": "THE HAT TOSS: R5 reference-driven production-shot proof (original; measured against the Rick Western reference board)",
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "words": "voice/words.json",
+ "camera_idea": {
+  "name": "The look up",
+  "why": "The camera keeps to the calm man until the coin leaves his hand; then it looks up with the coin, the one thing he never looks at, and comes down with it into the hat.",
+  "signature": "The tilt-and-return: on 'gravity' the camera tilts up to find the coin high in the blue sky and rides it down; on 'hat' it lands in a close on the hat the coin has just reached."
+ },
+ "cast": {
+  "gambler": {
+   "puppet": "cast:railway",
+   "height": 1.75,
+   "heads_tall": 2.9
+  }
+ },
+ "places": {
+  "street": {
+   "set": "hat_toss_street",
+   "light": "day",
+   "backdrop": 5.5,
+   "recipe": "western_noon",
+   "assets": [
+    "prop_saloon_barrel@1.0"
+   ]
+  }
+ },
+ "props": {},
+ "takes": [
+  {
+   "id": "t1",
+   "place": "street",
+   "stations": [
+    {
+     "at": 0,
+     "pos": [
+      0.3,
+      -3.6,
+      0.55
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      1.15
+     ],
+     "lens": 24,
+     "subject": "gambler",
+     "framing": "W",
+     "hold": 0.0,
+     "drift": [
+      0.5,
+      0,
+      0.05
+     ]
+    },
+    {
+     "at": [
+      "flips",
+      1
+     ],
+     "lead": 8,
+     "pos": [
+      0.1,
+      -1.65,
+      1.25
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      1.5
+     ],
+     "lens": 24,
+     "subject": "gambler",
+     "framing": "M",
+     "word": "flips",
+     "hold": 1.5,
+     "travel": 0.7
+    },
+    {
+     "at": [
+      "gravity",
+      1
+     ],
+     "lead": 8,
+     "pos": [
+      0.3,
+      -3.4,
+      0.8
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      1.8
+     ],
+     "lens": 24,
+     "subject": "gambler",
+     "framing": "W",
+     "word": "gravity",
+     "hold": 0.5,
+     "travel": 0.9,
+     "follow": "flight:coin",
+     "follow_k": 0.4
+    },
+    {
+     "at": [
+      "hat",
+      1
+     ],
+     "lead": 9,
+     "pos": [
+      0.0,
+      -2.4,
+      1.2
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      1.3
+     ],
+     "lens": 24,
+     "subject": "gambler",
+     "framing": "W",
+     "word": "hat",
+     "hold": 1.0,
+     "travel": 0.9
+    }
+   ]
+  }
+ ],
+ "acts": [
+  {
+   "who": "gambler",
+   "at": 0,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "cool",
+   "face": "cool"
+  },
+  {
+   "who": "gambler",
+   "at": [
+    "flips",
+    1
+   ],
+   "pose": "finger_up",
+   "face": "smug"
+  },
+  {
+   "who": "gambler",
+   "at": [
+    "look",
+    1
+   ],
+   "pose": "cool",
+   "face": "deadInside"
+  },
+  {
+   "who": "gambler",
+   "at": [
+    "hat",
+    1
+   ],
+   "pose": "cool",
+   "face": "proud"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "Noon. One dusty street. One very calm gambler.",
+   "words": [
+    0,
+    7
+   ],
+   "subject": "gambler"
+  },
+  {
+   "text": "He flips a single coin straight up, and he doesn't even look.",
+   "words": [
+    8,
+    19
+   ],
+   "subject": "gambler"
+  },
+  {
+   "text": "Gravity does the rest.",
+   "words": [
+    20,
+    23
+   ],
+   "subject": "gambler"
+  },
+  {
+   "text": "Right into the hat. Every single time.",
+   "words": [
+    24,
+    30
+   ],
+   "subject": "gambler"
+  }
+ ],
+ "fx": [
+  {
+   "at": [
+    "flips",
+    1
+   ],
+   "kind": "glow",
+   "on": "gambler"
+  },
+  {
+   "at": 201,
+   "kind": "clank",
+   "on": "coin"
+  }
+ ],
+ "moods": [
+  {
+   "at": [
+    "flips",
+    1
+   ],
+   "look": "spot_hero"
+  },
+  {
+   "at": [
+    "gravity",
+    1
+   ],
+   "look": "warm_up"
+  },
+  {
+   "at": [
+    "hat",
+    1
+   ],
+   "look": "spot_hero"
+  }
+ ],
+ "sound": [],
+ "flights": [
+  {
+   "id": "coin",
+   "leave": [
+    "straight",
+    1
+   ],
+   "fly": 102,
+   "from": [
+    0.32,
+    0.0,
+    1.2
+   ],
+   "to": {
+    "char": "gambler",
+    "h": 1.9,
+    "dx": -0.25
+   },
+   "arc": 2.2,
+   "r": 0.11,
+   "color": "#f2c230",
+   "after": "stay"
+  }
+ ],
+ "layers": [],
+ "kicks": [
+  {
+   "at": [
+    "hat",
+    1
+   ],
+   "amp": 1.2
+  }
+ ]
+}

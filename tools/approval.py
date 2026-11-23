@@ -16,7 +16,7 @@ def current(ep):
     ep = Path(ep); c = ep / "creative"; H = {}
     f = lambda p: sha(p) if Path(p).is_file() else None
     H["plan_sha1"] = f(ep / "film.json"); H["picture_plan_sha1"] = f(c / "PICTURE_PLAN.md"); H["look_bible_sha1"] = f(c / "LOOK_BIBLE.md"); H["storyboard_sha1"] = f(c / "STORYBOARD.json"); H["animatic_sha1"] = f(c / "ANIMATIC.json")
-    H["reference_board_sha1"] = f(c / "reference_board.json")
+    import reference_link as RL; H["reference_board_sha1"] = RL.board_sha(ep)   # R5: json only for a legacy board; json + every reference image once the board has image frames
     pl = ep / "out/plan"; H["baked_sha1"] = _combine([(n, sha(pl / n)) for n in BAKED if (pl / n).is_file()]) if (pl / "camera_baked.json").is_file() and (pl / "performance_baked.json").is_file() else None
     import characters as CH; H["character_sheets_sha1"] = CH.evidence_sha(ep)   # R3: spec + production record (views, performance, card hashes) + contact sheet
     import assets as AS; reg = AS.load()

@@ -32,7 +32,7 @@ def build_artifacts(d, builder="creator-ctx", version=1, step=3, hook_s=3.0):
 def judge_result(d, score=9.0, low=None, ctx="judge-ctx-1", jid="storyboard-judge#1", film="PASS", sd="PASS"):
     S = json.load(open(d / "creative/STORYBOARD.json")); sb, an = RV.sha(d / "creative/STORYBOARD.json"), RV.sha(d / "creative/ANIMATIC.json")
     P = {i: {"score": (low or {}).get(i, score), "rationale": "reads clearly", "fix": "none" if (low or {}).get(i, score) >= 8.5 else "raise the aim 0.2 m"} for i in RV.required_panels(d, S)}
-    return {"judge": {"id": jid, "context_id": ctx, "kind": "fresh-context", "agents": ["storyboard-judge", "studio-director"]}, "evidence_read": {"storyboard_sha1": sb, "animatic_sha1": an, "characters_sha1": RV.char_sha(d), **({"assets_sha1": RV.assets_sha(d)} if RV.assets_sha(d) else {})}, "panels": P, "film_level": {"verdict": film, "notes": "ok"}, "studio_director": {"verdict": sd, "note": "ok"}}
+    return {"judge": {"id": jid, "context_id": ctx, "kind": "fresh-context", "agents": ["storyboard-judge", "studio-director"]}, "evidence_read": {"storyboard_sha1": sb, "animatic_sha1": an, "characters_sha1": RV.char_sha(d), **({"assets_sha1": RV.assets_sha(d)} if RV.assets_sha(d) else {}), **({"reference_board_sha1": RV.ref_sha(d)} if RV.ref_sha(d) else {})}, "panels": P, "film_level": {"verdict": film, "notes": "ok"}, "studio_director": {"verdict": sd, "note": "ok"}}
 def record(d, res):
     f = d / "creative/_result.json"; f.write_text(json.dumps(res)); return RV.judge_record(d, f)
 def complete_episode():

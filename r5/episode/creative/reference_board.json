@@ -1,0 +1,93 @@
+{
+ "schema": "ricks.reference_board.v1",
+ "film": "r5_hat_toss",
+ "note": "PRIVATE Rick reference frames: the measuring stick (the LEVEL to reach), never copied story, characters or shots; never in a published page or video; never read by the renderer.",
+ "beats": [
+  {
+   "id": 1,
+   "kind": "W",
+   "frames": [
+    {
+     "file": "refs/sd_b1_a.jpg",
+     "sha1": "408ac88e3c2b8ec5284dfadb9892dc3922267e0a",
+     "film": "Why the Second Draw Always Wins (private Rick reference, uploads/62eea7d0)",
+     "t": 5.0,
+     "kind": "W",
+     "take": "lone figure small and centred in an empty noon street, low camera, buildings leading left, big blue sky"
+    },
+    {
+     "file": "refs/sd_b1_b.jpg",
+     "sha1": "30f9daedde88e29f11b5a4a3a315ee4e47dae705",
+     "film": "Why the Second Draw Always Wins (private Rick reference, uploads/62eea7d0)",
+     "t": 7.5,
+     "kind": "W",
+     "take": "longer wide down the street: tiny figure at the far end, tumbleweed, red mesas, telegraph poles"
+    }
+   ],
+   "storyboard_stations": [
+    "s01"
+   ]
+  },
+  {
+   "id": 2,
+   "kind": "M",
+   "frames": [
+    {
+     "file": "refs/sd_b2_a.jpg",
+     "sha1": "ead0e3ef54a2a565afaa4d92c558d54385d981e5",
+     "film": "Why the Second Draw Always Wins (private Rick reference, uploads/62eea7d0)",
+     "t": 10.0,
+     "kind": "M",
+     "take": "chest-up hero with wide hat brim against the buildings, holster at the belt, eye-level, subject fills the lower two thirds"
+    },
+    {
+     "file": "refs/sd_b2_b.jpg",
+     "sha1": "c9e5e8e17115d89e42ee411970b52e12c971cb12",
+     "film": "Why the Second Draw Always Wins (private Rick reference, uploads/62eea7d0)",
+     "t": 12.5,
+     "kind": "M",
+     "take": "same kind: hat brim crossing the frame, buildings soft behind, the gun hand low in frame"
+    }
+   ],
+   "storyboard_stations": [
+    "s02"
+   ]
+  },
+  {
+   "id": 3,
+   "kind": "C",
+   "frames": [
+    {
+     "file": "refs/sd_b3_a.jpg",
+     "sha1": "1f8eff6c4ef1c97d11d33acdb25713ee49882bc4",
+     "film": "Why the Second Draw Always Wins (private Rick reference, uploads/62eea7d0)",
+     "t": 17.5,
+     "kind": "C",
+     "take": "object high against the sky over the street (a hat in his film): take the composition only, the small prop near the top of frame, the street behind"
+    },
+    {
+     "file": "refs/sd_b3_b.jpg",
+     "sha1": "edacac0dcba27fe066e8349de214ebeaa1f29972",
+     "film": "Why the Second Draw Always Wins (private Rick reference, uploads/62eea7d0)",
+     "t": 20.0,
+     "kind": "C",
+     "take": "character close-up low in frame with a hat on the ground beside him, street vanishing behind"
+    }
+   ],
+   "storyboard_stations": [
+    "s03",
+    "s04"
+   ]
+  }
+ ],
+ "department_index": {
+  "camera": "b1 low wide camera (about 0.9 m high, 24 mm) then b2 chest-height medium; b3 low close push for the payoff",
+  "set": "b1_a/b1_b: wooden Western street, false-front shops leading to a vanishing point, telegraph poles, packed sand; the same noon street for every beat",
+  "light": "b1-b3: hard noon sun from the upper left, saturated blue sky with white clouds, warm sand, long soft contact shadows",
+  "character": "b2_a/b2_b: one hat-wearing hero as the only figure, hat brim reads at phone size, face calm and deadpan",
+  "prop": "b3_a: a small prop high in the sky as the payoff object (here: the coin); b1_a left-foreground wood structures give depth (here: a water trough)",
+  "color": "cool blue sky against warm orange sand and red/brown shop fronts; one accent colour on the hero",
+  "animator": "b2: stillness, then a small sharp action; b3: reaction held for a beat",
+  "vfx": "b3_a: small dust motes and a glint on the moving object"
+ }
+}

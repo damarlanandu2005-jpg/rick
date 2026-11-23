@@ -33,6 +33,7 @@ def g3(ep):
     p = Path(ep) / "creative/reference_board.json"
     if not p.is_file(): return "FAIL", "creative/reference_board.json missing"
     B = json.load(open(p)); beats = B.get("beats") or []; bad = ["beat %s has %d refs" % (b.get("id", "?"), len(b.get("frames") or [])) for b in beats if len(b.get("frames") or []) < MIN_REFS]
+    import reference_link as RL; bad += RL.image_problems(ep)   # R5: image frames must exist, match their sha1 and carry film/t/kind/take evidence
     if not beats: bad.append("no beats")
     if not B.get("department_index"): bad.append("department_index empty")
     return ("FAIL", "; ".join(bad[:6])) if bad else ("PASS", "%d beats, each >= %d refs, department index filled" % (len(beats), MIN_REFS))
@@ -46,6 +47,7 @@ def g4(ep):
         if not m or m.group(1).upper() not in VERDICT: bad.append("row %s: shown cell must start CLOSE / IN SCENE / NOT SHOWN" % r[0])
         elif len(m.group(2).split()) < 3: bad.append("row %s: no reason given" % r[0])
     txt = p.read_text().upper(); [bad.append("no %s row marked" % k) for k in ("HOOK", "TWIST", "LAST") if k not in txt]
+    import reference_link as RL; bad += RL.plan_problems(ep)   # R5: every row cites a reference-board beat and frames that exist
     if not rows: bad.append("no table rows")
     return ("FAIL", "; ".join(bad[:6])) if bad else ("PASS", "%d rows, each with a verdict and reason; HOOK/TWIST/LAST marked" % len(rows))
 def g5(ep):
@@ -58,7 +60,10 @@ def g6(ep):
 def g7(ep):
     r = subprocess.run([sys.executable, str(HERE / "assets.py"), "check"], capture_output=True, text=True)
     if r.returncode: return "FAIL", (r.stdout + r.stderr).strip()[-120:]
-    import assets; return assets.g7(ep)   # R4: real for declared GLB assets (id, version, valid GLB contract, approved); SKIP when the film declares none
+    import assets, reference_link as RL
+    rb = RL.asset_problems(ep)
+    if rb: return "FAIL", "; ".join(rb)[:200]
+    return assets.g7(ep)   # R4: real for declared GLB assets (id, version, valid GLB contract, approved); SKIP when the film declares none
 def g8(ep):
     import review; return review.g8(ep)   # R2: storyboard + whole-film rough + hook + fresh-context judge >= 8.5 on every panel + one-fix-round + freshness (tools/review.py)
 GATES = [("G1", "Script", g1), ("G2", "Words", g2), ("G3", "Reference board", g3), ("G4", "Picture plan", g4), ("G5", "Plan", g5), ("G6", "Characters", g6), ("G7", "Assets/sets", g7), ("G8", "Rough gate", g8)]

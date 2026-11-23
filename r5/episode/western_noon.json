@@ -1,0 +1,11 @@
+{"name": "western_noon", "half_width": 5.4, "seed": 3,
+ "street": {"y_start": 6, "y_end": 72, "gap": [1.4, 3.2], "widths": [8, 9, 7, 9, 8, 9],
+            "styles_left": ["saloon", "general", "barber", "bank", "livery", "undertaker", "hotel", "jail"],
+            "styles_right": ["hotel", "jail", "general", "saloon", "undertaker", "bank", "barber", "livery"]},
+ "landmarks": {"church_y": 88, "water_tower": [-18.5, 32], "windmill": [20.5, 52], "flag": [-4.2, 58], "wagons": [[3.2, 36, 0.3], [-3.0, 19, -0.2]], "wanted_board": [4.2, 12.5]},
+ "street_props": {"hitch_posts": 6, "troughs": 4, "wheels": 3},
+ "scatter": {"tufts": 280, "pebbles": 220, "bushes": 45},
+ "desert": {"rock_clusters": 24, "saguaro": 14, "barrel_cactus": 18, "dead_trees": 6, "skulls": 3, "mesas": 5},
+ "motion": ["windmill_blades", "flag"],
+ "density": {"kinds": 30, "instances": 600},
+ "look": "day"}

@@ -487,6 +487,171 @@
     "builder_sha1": "dc4b24d7c7d306a508eb038773f678b93d93f8fb",
     "blender_version": "5.3.0"
    }
+  },
+  {
+   "name": "prop_saloon_barrel",
+   "category": "prop/set",
+   "source": "original, procedural Blender builder (library/assets/builders/prop_saloon_barrel.py)",
+   "version": "1.0",
+   "dependencies": [
+    "film.json places.<p>.assets",
+    "out/plan/assets_baked.json"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/prop_saloon_barrel.png",
+   "blender": {
+    "kind": "bpy_builder",
+    "file": "library/assets/builders/prop_saloon_barrel.py",
+    "entry": "build"
+   },
+   "requirement": {
+    "role": "scale and depth object beside the gambler on the Western street, where he rests his elbow while he waits; not the story object (the coin is)",
+    "reference_beats": [
+     1
+    ],
+    "visual_properties": "round wooden whiskey barrel with a bulged waist, three dark iron hoops, a plank lid with a tin cup and chalk tally marks; warm wood so it sits in the sand and shop-front palette",
+    "materials": [
+     "mat:wood_grain",
+     "mat:wood_grain.a67c4a",
+     "mat:painted_metal_chipped.3a3d46",
+     "mat:metal",
+     "mat:sign_flat"
+    ],
+    "anchors": [
+     "elbow_rest"
+    ],
+    "scale": {
+     "height_m": 1.066,
+     "tol_pct": 1.0
+    },
+    "orientation": {
+     "up": "Y",
+     "forward": "rotationally symmetric; the tin cup is on the +X/+Z side of the lid",
+     "origin": "base centre, floor on y = 0"
+    },
+    "provenance": "original procedural model, library/assets/builders/prop_saloon_barrel.py (no external asset)"
+   },
+   "glb": {
+    "file": "library/assets/glb/prop_saloon_barrel/1.0/prop_saloon_barrel.glb",
+    "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb",
+    "bytes": 173916,
+    "status": "candidate",
+    "contract": {
+     "up": "Y",
+     "units": "m",
+     "materials": [
+      "mat:metal",
+      "mat:painted_metal_chipped.3a3d46",
+      "mat:sign_flat",
+      "mat:wood_grain",
+      "mat:wood_grain.a67c4a"
+     ],
+     "anchors": {
+      "elbow_rest": [
+       0.0,
+       0.985,
+       0.0
+      ]
+     },
+     "roles": {
+      "bung": "metal",
+      "chalk_tally_1": "sign",
+      "chalk_tally_2": "sign",
+      "chalk_tally_3": "sign",
+      "chalk_tally_4": "sign",
+      "cup_handle": "metal",
+      "iron_hoop_1": "metal",
+      "iron_hoop_2": "metal",
+      "iron_hoop_3": "metal",
+      "lid_plank_1": "wood",
+      "lid_plank_2": "wood",
+      "lid_plank_3": "wood",
+      "stave_01_0": "wood",
+      "stave_01_1": "wood",
+      "stave_02_0": "wood",
+      "stave_02_1": "wood",
+      "stave_03_0": "wood",
+      "stave_03_1": "wood",
+      "stave_04_0": "wood",
+      "stave_04_1": "wood",
+      "stave_05_0": "wood",
+      "stave_05_1": "wood",
+      "stave_06_0": "wood",
+      "stave_06_1": "wood",
+      "stave_07_0": "wood",
+      "stave_07_1": "wood",
+      "stave_08_0": "wood",
+      "stave_08_1": "wood",
+      "stave_09_0": "wood",
+      "stave_09_1": "wood",
+      "stave_10_0": "wood",
+      "stave_10_1": "wood",
+      "stave_11_0": "wood",
+      "stave_11_1": "wood",
+      "stave_12_0": "wood",
+      "stave_12_1": "wood",
+      "stave_13_0": "wood",
+      "stave_13_1": "wood",
+      "stave_14_0": "wood",
+      "stave_14_1": "wood",
+      "tin_cup": "metal"
+     },
+     "bbox_m": [
+      0.736,
+      1.0663,
+      0.736
+     ],
+     "height_m": 1.0663,
+     "base_y": 0.00117,
+     "nodes": [
+      "bung",
+      "chalk_tally_1",
+      "chalk_tally_2",
+      "chalk_tally_3",
+      "chalk_tally_4",
+      "cup_handle",
+      "elbow_rest",
+      "iron_hoop_1",
+      "iron_hoop_2",
+      "iron_hoop_3",
+      "lid_plank_1",
+      "lid_plank_2",
+      "lid_plank_3",
+      "stave_01_0",
+      "stave_01_1",
+      "stave_02_0",
+      "stave_02_1",
+      "stave_03_0",
+      "stave_03_1",
+      "stave_04_0",
+      "stave_04_1",
+      "stave_05_0",
+      "stave_05_1",
+      "stave_06_0",
+      "stave_06_1",
+      "stave_07_0",
+      "stave_07_1",
+      "stave_08_0",
+      "stave_08_1",
+      "stave_09_0",
+      "stave_09_1",
+      "stave_10_0",
+      "stave_10_1",
+      "stave_11_0",
+      "stave_11_1",
+      "stave_12_0",
+      "stave_12_1",
+      "stave_13_0",
+      "stave_13_1",
+      "stave_14_0",
+      "stave_14_1",
+      "tin_cup"
+     ]
+    },
+    "source_blender": "library/assets/builders/prop_saloon_barrel.py",
+    "builder_sha1": "7998a158ab76bd89328e8ad62ea4ecbf200b784a",
+    "blender_version": "5.3.0"
+   }
   }
  ]
 }

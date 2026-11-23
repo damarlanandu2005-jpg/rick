@@ -1,0 +1,22 @@
+[
+ {
+  "version": 1,
+  "fix_round": 0,
+  "plan_sha1": "a3d771a22ee789c2558d822be6098705c07df780",
+  "storyboard_sha1": "6fe85e1de17f7db1d55657079fd0d8bdb94dfbf4",
+  "animatic_sha1": "15a795c234a710bb48c3f99302a3a1946f658198",
+  "result": "FAIL",
+  "judge_context_id": "r5-judge-ctx-7f3a91c2",
+  "timestamp": "2026-11-23T16:33:44+00:00"
+ },
+ {
+  "version": 2,
+  "fix_round": 1,
+  "plan_sha1": "0de609d0ef9dcaf7e42777f360e362fd3912d722",
+  "storyboard_sha1": "8edd0b9c24e03f329a98d281bece4e20cbba1d3c",
+  "animatic_sha1": "e83ad355e1b869f5fb25603b03c2f569aa7ea5f2",
+  "result": "FAIL",
+  "judge_context_id": "r5-judge-ctx-v2-7f3a91c4",
+  "timestamp": "2026-11-23T16:36:42+00:00"
+ }
+]

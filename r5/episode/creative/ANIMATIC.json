@@ -1,0 +1,50 @@
+{
+ "schema": "ricks.animatic.v1",
+ "film": "THE HAT TOSS: R5 reference-driven production-shot proof (original; measured against the Rick Western reference board)",
+ "plan_sha1": "0de609d0ef9dcaf7e42777f360e362fd3912d722",
+ "baked_sha1": "2fb0cabc088aae786d83c56534a551298dca94e2",
+ "n_frames": 250,
+ "fps": 30,
+ "built_by": {
+  "tool": "render.mjs --animatic",
+  "context_id": "r5-builder-ctx-v2"
+ },
+ "artifacts": [
+  {
+   "kind": "whole-film-rough",
+   "video": "out/animatic.mp4",
+   "video_sha1": "ef9aaba9a7a0762806cfcd9123f1dc425108554b",
+   "video_frames": 252,
+   "frames_per_sample": 3,
+   "frame_set": {
+    "first": 0,
+    "last": 249,
+    "step": 3,
+    "count": 84
+   },
+   "covers_whole_film": true,
+   "label": "WHOLE-FILM ROUGH, frames 0-249"
+  },
+  {
+   "kind": "hook-partial",
+   "video": "out/animatic_hook.mp4",
+   "video_sha1": "9b0cef7e0a9753cf62f96caa917383304afbf056",
+   "video_frames": 90,
+   "frames_per_sample": 3,
+   "frame_set": {
+    "first": 0,
+    "last": 87,
+    "step": 3,
+    "count": 30
+   },
+   "covers_whole_film": false,
+   "label": "HOOK-PARTIAL, frames 0-87 of 0-249: NOT a full-film review"
+  }
+ ],
+ "assets": {
+  "prop_saloon_barrel": {
+   "version": "1.0",
+   "sha1": "5545042183a6c6a4e26843683b2cbdb7572dafeb"
+  }
+ }
+}
