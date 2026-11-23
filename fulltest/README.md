@@ -1,3 +1,5 @@
+> **HISTORICAL (superseded by `docs/PRODUCTION_BLUEPRINT_LOCKED.md`).** This Pass A path used its own intent/compile planning schema, a duplicate of `film.json`; `film.json` is the only production planning schema. Kept as evidence only. Its wording that the pipeline "never reads" the reference video is withdrawn: reference material is mandatory creative input before lock and an answer key afterwards, never a render-time dependency.
+
 # fulltest: Pass A (0-14 s of the reference "Why the Second Draw Always Wins"), silent
 
 Goal: prove the pipeline can stage a script, not just render one shot. Input is `script_passA.json` (11 shots: camera framing, characters, props).

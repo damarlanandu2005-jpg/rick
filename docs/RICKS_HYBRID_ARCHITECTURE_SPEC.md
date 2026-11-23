@@ -191,7 +191,7 @@ One vertical Shorts MP4 (frame size and fps follow `camera_baked.json`; Ricks pr
 2. The one-camera rule is made explicit (section 12).
 3. The flight bridge and the composite step are added (sections 13, 19).
 4. Audio is separated into reusable and film-specific parts (section 15).
-5. Reference board: Ricks asks 2–4 frames per beat; our rule says the pipeline never reads the reference video. Quality targets come from the measured bands (`gates_film.json`) and approved stills; the reference video is an answer key only.
+5. Reference board: Ricks asks 2–4 frames per beat and makes it a hard gate. **Amended by blueprint D-2 (2026-11-23): reference material is mandatory creative input before lock and an answer key for QA afterwards; it is not a render-time dependency.** (The earlier wording here, "the pipeline never reads the reference video", is withdrawn.) Measured bands (`gates_film.json`) and approved stills remain quality targets.
 6. Render machine is Colab T4 for Blender layers; the three.js base on CPU SwiftShader runs ~1 s/frame at half size here (measured), GPU speed unmeasured.
 7. Silent video and no captions for now.
 

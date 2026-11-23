@@ -1,3 +1,5 @@
+> **HISTORICAL (superseded by `docs/PRODUCTION_BLUEPRINT_LOCKED.md`).** This Pass A path used its own intent/compile planning schema, a duplicate of `film.json`; `film.json` is the only production planning schema. Kept as evidence only. Its wording that the pipeline "never reads" the reference video is withdrawn: reference material is mandatory creative input before lock and an answer key afterwards, never a render-time dependency.
+
 # Director playbook: script text -> intent spec
 
 Claude (the director) writes ONLY words in `intent_<video>.json`. `compile_intent.py` turns them into numbers (rules in its `RULES` dict), `validate_plan.py` checks every shot, then Blender renders. Never put coordinates in an intent; if a shot looks wrong, fix the RULES or the vocabulary, not one video.

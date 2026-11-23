@@ -1,3 +1,5 @@
+> **HISTORICAL (superseded by `docs/PRODUCTION_BLUEPRINT_LOCKED.md`).** This Pass A path used its own intent/compile planning schema, a duplicate of `film.json`; `film.json` is the only production planning schema. Kept as evidence only. Its wording that the pipeline "never reads" the reference video is withdrawn: reference material is mandatory creative input before lock and an answer key afterwards, never a render-time dependency.
+
 # Plan and audit: YouTube Shorts system on branch `ricks-2d-core`
 Date 2026-11-21. Nothing in the pipeline was built or changed for this document. Every "checked" item was checked against files on the branch or the Ricks zips, not memory. Labels: MEASURED = run and timed; ESTIMATE = not run, a guess; UNVERIFIED = I did not check it.
 
