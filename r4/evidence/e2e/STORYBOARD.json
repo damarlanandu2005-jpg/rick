@@ -1,0 +1,127 @@
+{
+ "schema": "ricks.storyboard.v1",
+ "film": "CANYON RAIL: first 10 s of a railroad short, recreated through the hybrid pipeline (Phase 8 second-script test; the script is read from a reference short's captions, not fact-checked)",
+ "version": 1,
+ "plan_sha1": "24efadda6251b23cc3638244ecd0ed599f48ccf6",
+ "baked_sha1": "5e70a7edfbfb3bc2b0a064a9c11ad4d1db7cfb60",
+ "n_frames": 299,
+ "fps": 30,
+ "built_by": {
+  "tool": "render.mjs --storyboard",
+  "context_id": "builder-ctx-r4"
+ },
+ "stations": [
+  {
+   "id": "s01",
+   "take": "t1",
+   "station": 0,
+   "start": 0,
+   "end": 36,
+   "framing": "M",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s02",
+   "take": "t1",
+   "station": 1,
+   "start": 91,
+   "end": 109,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s03",
+   "take": "t1",
+   "station": 2,
+   "start": 176,
+   "end": 206,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s04",
+   "take": "t1",
+   "station": 3,
+   "start": 297,
+   "end": 298,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  }
+ ],
+ "panels": [
+  {
+   "id": "s01_start",
+   "station": "s01",
+   "kind": "START",
+   "frame": 0,
+   "file": "out/storyboard_panels/s01_start_f0.png",
+   "sha1": "ba81cbf23eb2a600e7dcdb8816fe08136708249c"
+  },
+  {
+   "id": "s01_end",
+   "station": "s01",
+   "kind": "END",
+   "frame": 36,
+   "file": "out/storyboard_panels/s01_end_f36.png",
+   "sha1": "331a0cbab08384525216ffabc73094b31e20f729"
+  },
+  {
+   "id": "s02_start",
+   "station": "s02",
+   "kind": "START",
+   "frame": 91,
+   "file": "out/storyboard_panels/s02_start_f91.png",
+   "sha1": "16ec7d1363052946eb8f041f9727274fd3a74459"
+  },
+  {
+   "id": "s02_end",
+   "station": "s02",
+   "kind": "END",
+   "frame": 109,
+   "file": "out/storyboard_panels/s02_end_f109.png",
+   "sha1": "5aa08bda20f347e17196a876fd7e71f1d4367704"
+  },
+  {
+   "id": "s03_start",
+   "station": "s03",
+   "kind": "START",
+   "frame": 176,
+   "file": "out/storyboard_panels/s03_start_f176.png",
+   "sha1": "a953b9684da1c0f2656b49703802efcc2d3911d5"
+  },
+  {
+   "id": "s03_end",
+   "station": "s03",
+   "kind": "END",
+   "frame": 206,
+   "file": "out/storyboard_panels/s03_end_f206.png",
+   "sha1": "ec97a6e3c695893a23fd6b8cb795ed8f048e25ae"
+  },
+  {
+   "id": "s04_start",
+   "station": "s04",
+   "kind": "START",
+   "frame": 297,
+   "file": "out/storyboard_panels/s04_start_f297.png",
+   "sha1": "95e7a91daba0cede0e89884ab247a952419e127a"
+  },
+  {
+   "id": "s04_end",
+   "station": "s04",
+   "kind": "END",
+   "frame": 298,
+   "file": "out/storyboard_panels/s04_end_f298.png",
+   "sha1": "1e5c92a6919b643ce13df0fc31e62234b26ee0a7"
+  }
+ ],
+ "assets": {
+  "prop_rail_handcar": {
+   "version": "1.0",
+   "sha1": "2f43d71d035925b3706a3a862150c76585994335"
+  }
+ }
+}

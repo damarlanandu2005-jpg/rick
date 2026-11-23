@@ -1,0 +1,20 @@
+{
+ "three_load_log": [
+  "asset prop_rail_handcar: 180852 bytes, fetch+hash 3.6 ms, parse 8.9 ms"
+ ],
+ "one_frame_with_asset_s": [
+  2.18,
+  2.09,
+  2.12
+ ],
+ "one_frame_without_asset_s": [
+  2.05,
+  2.07,
+  1.98
+ ],
+ "storyboard_with_asset_s": 8.14,
+ "storyboard_without_asset_s": 8.17,
+ "glb_bytes": 180852,
+ "blender_build_s": 0.193,
+ "blender_export_s": 0.104
+}

@@ -1,0 +1,50 @@
+{
+ "schema": "ricks.animatic.v1",
+ "film": "CANYON RAIL: first 10 s of a railroad short, recreated through the hybrid pipeline (Phase 8 second-script test; the script is read from a reference short's captions, not fact-checked)",
+ "plan_sha1": "24efadda6251b23cc3638244ecd0ed599f48ccf6",
+ "baked_sha1": "5e70a7edfbfb3bc2b0a064a9c11ad4d1db7cfb60",
+ "n_frames": 299,
+ "fps": 30,
+ "built_by": {
+  "tool": "render.mjs --animatic",
+  "context_id": "builder-ctx-r4"
+ },
+ "artifacts": [
+  {
+   "kind": "whole-film-rough",
+   "video": "out/animatic.mp4",
+   "video_sha1": "d7cbe12cc4b388a9de83595d32fba1c163cc7a9b",
+   "video_frames": 300,
+   "frames_per_sample": 3,
+   "frame_set": {
+    "first": 0,
+    "last": 298,
+    "step": 3,
+    "count": 100
+   },
+   "covers_whole_film": true,
+   "label": "WHOLE-FILM ROUGH, frames 0-298"
+  },
+  {
+   "kind": "hook-partial",
+   "video": "out/animatic_hook.mp4",
+   "video_sha1": "f1c45fac8f230d01dbfb2b5b79f93fa23edafc06",
+   "video_frames": 90,
+   "frames_per_sample": 3,
+   "frame_set": {
+    "first": 0,
+    "last": 87,
+    "step": 3,
+    "count": 30
+   },
+   "covers_whole_film": false,
+   "label": "HOOK-PARTIAL, frames 0-87 of 0-298: NOT a full-film review"
+  }
+ ],
+ "assets": {
+  "prop_rail_handcar": {
+   "version": "1.0",
+   "sha1": "2f43d71d035925b3706a3a862150c76585994335"
+  }
+ }
+}
