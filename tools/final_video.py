@@ -12,9 +12,19 @@ from frames import check_range
 def comp(base_u8, layer_png):
     b = base_u8.astype(np.float32) / 255; L = np.asarray(Image.open(layer_png).convert("RGBA")).astype(np.float32) / 255
     return (np.clip(b + L[..., :3] * L[..., 3:4], 0, 1) * 255 + .5).astype(np.uint8)
+def production_gate(ep):
+    """R6: the final video is a production output. Without a valid, fresh approval.json AND a lock that froze exactly that approval, it is REFUSED; only the explicit test bypass (RICKS_UNAPPROVED_TEST_RUN=1, stamped production:false) may assemble."""
+    import os, approval as AP, lock_stamp as LS
+    if os.environ.get("RICKS_UNAPPROVED_TEST_RUN") == "1": return False
+    bad = AP.check(ep) or LS.problems(ep)
+    if bad: raise SystemExit("REFUSED final video (G9/lock): " + "; ".join(bad[:3]))
+    return True
 def assemble(ep, f0=None, f1=None, W=720, H=1280):
-    ep = Path(ep); film = json.load(open(ep / "film.json")); fps = film["fps"]; cam = json.load(open(ep / "out/plan/camera_baked.json"))["frames"]; n = len(cam)
-    f0 = 0 if f0 is None else f0; f1 = n - 1 if f1 is None else f1; check_range(f0, f1, n); out = ep / "out/final"; fd = out / "frames"; fd.mkdir(parents=True, exist_ok=True)
+    ep = Path(ep)
+    film = json.load(open(ep / "film.json")); fps = film["fps"]; cam = json.load(open(ep / "out/plan/camera_baked.json"))["frames"]; n = len(cam)
+    f0 = 0 if f0 is None else f0; f1 = n - 1 if f1 is None else f1; check_range(f0, f1, n)
+    gated = production_gate(ep); import approval as _AP; production = gated and not _AP.is_test_fixture(ep)   # a TEST_FIXTURE_ONLY goes through every gate but is stamped production:false
+    out = ep / "out/final"; fd = out / "frames"; fd.mkdir(parents=True, exist_ok=True)
     for q in fd.glob("*.png"): q.unlink()
     LP = ep / "out/plan/layers_baked.json"; lay = json.load(open(LP)) if LP.exists() else {}; used = {}
     stale = LY.lock_fresh(ep)
@@ -27,7 +37,8 @@ def assemble(ep, f0=None, f1=None, W=720, H=1280):
         if st[lid] != "FRESH": raise SystemExit("layer %s is %s: re-run tools/layers.py run" % (lid, st[lid]))
         if not json.load(open(ep / "out/layers" / lid / "layer_report.json"))["PASS"]: raise SystemExit("layer %s did not pass its gate" % lid)
         used[lid] = S["frames"]
-    man = {"fps": fps, "frames": [f0, f1], "resolution": [W, H], "layers": used, "inputs": {}}
+    man = {"fps": fps, "frames": [f0, f1], "resolution": [W, H], "layers": used, "inputs": {}, "production": production, "gated": gated}
+    if gated: man["approval_sha1"] = hashlib.sha1((ep / "approval.json").read_bytes()).hexdigest(); man["lock_sha1"] = hashlib.sha1((ep / "out/lock/lock.json").read_bytes()).hexdigest()
     for f in range(f0, f1 + 1):
         sp = ep / "out/stills" / ("f_%05d.png" % f)
         if not sp.exists(): raise SystemExit("base still missing: frame %d (render the base for this range first)" % f)
@@ -38,6 +49,7 @@ def assemble(ep, f0=None, f1=None, W=720, H=1280):
         Image.fromarray(im).save(fd / ("f_%05d.png" % f))
     mp4 = out / "final.mp4"; r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(fps), "-start_number", str(f0), "-i", str(fd / "f_%05d.png"), "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", "-an", str(mp4)], capture_output=True, text=True)
     if r.returncode: raise SystemExit("ffmpeg failed: " + r.stderr[-500:])
+    man["mp4_sha1"] = hashlib.sha1(mp4.read_bytes()).hexdigest()   # R6: QA proves the MP4 on disk is the one assembled here (a modified video is caught by hash, not only by pixels)
     json.dump(man, open(out / "final_manifest.json", "w"), indent=1); return mp4, man
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("ep"); ap.add_argument("--frames"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args(); W, H = map(int, a.res.split("x"))

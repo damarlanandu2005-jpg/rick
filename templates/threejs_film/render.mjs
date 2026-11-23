@@ -11,6 +11,18 @@ const KIT = path.dirname(fileURLToPath(import.meta.url)), require = createRequir
 const A = process.argv.slice(2), has = k => A.includes(k), val = (k, d) => { const i = A.indexOf(k); return i >= 0 && A[i + 1] && !A[i + 1].startsWith('--') ? A[i + 1] : d; };
 if (!A[0] || A[0].startsWith('--')) { console.log('usage: node render.mjs <film.json> --storyboard | --animatic | --frames a,b | --visibility | --export-lock | --overlay | --serve'); process.exit(1); }
 const FILM = path.resolve(A[0]), EP = path.dirname(FILM), film = JSON.parse(fs.readFileSync(FILM, 'utf8')), OUT = path.join(EP, 'out');
+
+// R6 render gate (machine-enforced, not documentation): the EXPENSIVE production outputs (base stills in out/stills, the overlay, the lock) need a valid, fresh approval.json (G9) and, for stills/overlay, a lock that froze exactly that approval (lock_stamp check).
+// Cheap preview renders (--storyboard, --animatic, --export-cards, --visibility, --stills-dir <private folder>) are NOT gated. The test bypass RICKS_UNAPPROVED_TEST_RUN=1 is set only by pipeline.py --unapproved-test-run (stamped production:false) and by the test suites.
+const guard = (what, needLock) => {
+  if (process.env.RICKS_UNAPPROVED_TEST_RUN === '1') return;
+  const g = spawnSync('python3', [path.join(KIT, '../../tools/approval.py'), 'check', EP], { encoding: 'utf8' });
+  if (g.status !== 0) { console.error('REFUSED ' + what + ' (G9): approval.json is missing or stale.\n' + (g.stdout || '') + (g.stderr || '')); process.exit(3); }
+  if (needLock) { const l = spawnSync('python3', [path.join(KIT, '../../tools/lock_stamp.py'), 'check', EP], { encoding: 'utf8' }); if (l.status !== 0) { console.error('REFUSED ' + what + ' (lock): no lock that froze the approved production.\n' + (l.stdout || '') + (l.stderr || '')); process.exit(3); } }
+};
+if (has('--frames') && !has('--stills-dir')) guard('--frames into out/stills (the production base render)', true);
+if (has('--overlay')) guard('--overlay (production overlay frames)', true);
+if (has('--export-instances')) guard('--export-instances (writes into the lock)', false);
 if (!fs.existsSync(path.join(OUT, 'plan', 'camera_baked.json'))) { console.error('No out/plan/camera_baked.json. Run: python tools/film_plan.py check ' + A[0]); process.exit(1); }
 
 // ---- character package: copied into a cache so their folder is never touched and relative imports ('./char2d.mjs') still work.

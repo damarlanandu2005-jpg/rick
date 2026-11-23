@@ -91,10 +91,23 @@ def main():
     ok = bool(v) and (v[0]["width"], v[0]["height"]) == (W, H) and int(v[0]["nb_read_frames"]) == len(frames) and abs(eval(v[0]["r_frame_rate"]) - fps) < 0.01
     add("5 VIDEO", "ffprobe: %dx%d, %d frames, %g fps" % (W, H, len(frames), fps), ok, json.dumps([{k: x[k] for k in x if k != "codec_type"} for x in v]))
     add("5 VIDEO", "silent for now (no audio stream)", not au)
-    pick = sorted(set([0, len(frames) // 2, len(frames) - 1] + [f - f0 for lid, (a0, a1) in M["layers"].items() for f in (a0, (a0 + a1) // 2, a1) if f0 <= f <= f1])); ps = []
-    for i in pick:
-        dv = decode(mp4, i, W, H).astype(float); fr_ = np.asarray(Image.open(fd / ("f_%05d.png" % (f0 + i))).convert("RGB")).astype(float); mse = ((dv - fr_) ** 2).mean(); ps.append(99.0 if mse == 0 else 10 * math.log10(255 ** 2 / mse))
-    add("5 VIDEO", "decoded video frames == composite PNGs (PSNR >= 35 dB)", min(ps) >= 35, "min %.1f dB over frames %s" % (min(ps), [f0 + i for i in pick]))
+    # R6: EVERY decoded video frame is compared with its composite PNG (streamed, one frame in memory), not a sample
+    ps = []; nd = 0; fsz = W * H * 3; pr = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-i", str(mp4), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+    for i, f in enumerate(frames):
+        raw = pr.stdout.read(fsz)
+        if len(raw) < fsz: break
+        nd += 1; dv = np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(float); fr_ = np.asarray(Image.open(fd / ("f_%05d.png" % f)).convert("RGB")).astype(float); mse = ((dv - fr_) ** 2).mean(); ps.append(99.0 if mse == 0 else 10 * math.log10(255 ** 2 / mse))
+    pr.stdout.close(); pr.wait()
+    add("5 VIDEO", "decoded video frames == composite PNGs, ALL %d frames (PSNR >= 35 dB each)" % len(frames), nd == len(frames) and min(ps or [0]) >= 35, "decoded %d/%d, min %.1f dB" % (nd, len(frames), min(ps or [0])))
+    if "mp4_sha1" in M: add("5 VIDEO", "the MP4 on disk is the assembled one (sha1 == manifest)", sha(mp4) == M["mp4_sha1"], "")
+    # ---- 6 PRODUCTION (R6): a production video needs the approval + the lock that froze it; a test video is labelled and can never read as production
+    import approval as AP, lock_stamp as LS
+    if M.get("gated") is True:
+        bad = AP.check(ep) or LS.problems(ep); add("6 PRODUCTION", "valid fresh approval.json and a lock that froze it", not bad, "", "; ".join(bad[:3]))
+        add("6 PRODUCTION", "the video was assembled under THIS approval and lock", M.get("approval_sha1") == sha(ep / "approval.json") and M.get("lock_sha1") == sha(ep / "out/lock/lock.json"))
+        add("6 PRODUCTION", "a TEST_FIXTURE_ONLY episode is stamped production:false, a real episode production:true", M.get("production") is (not AP.is_test_fixture(ep)))
+        if M.get("production") is not True: add("6 PRODUCTION", "production:false: TEST_FIXTURE_ONLY output, never creative approval", None, "", "mechanical proof only")
+    else: add("6 PRODUCTION", "production:false: TEST OUTPUT, NOT A PRODUCTION RENDER", None, "", "assembled with the explicit test bypass or from a TEST_FIXTURE_ONLY episode: never creative approval")
     full = is_full(f0, f1, N)
     if a.no_film_check or not full: add("5 VIDEO", "check_film.py (camera, plan vs picture, frozen/flicker, faces)", None, "", "needs the full-film video (the plan numbers are whole-film); this video is frames %d-%d" % (f0, f1) if not full else "disabled")
     else:
