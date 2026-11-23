@@ -139,5 +139,32 @@ Known limitation (R4H): when a set uses one library material in several colours 
 - The reference is a creative input / QA answer key only; the renderer never reads it (tested). Reference frames are private Rick frames, not published.
 - Reused unchanged: R3 `char_inspector` v1.0, R4 asset system (new `prop_saloon_barrel@1.0`, left `candidate`: never owner-approved, so G7 FAIL), plan bake, R1 camera/words gates (no threshold changed), R2 storyboard/animatic/judge.
 - words.json is script-timed (no TTS/ASR here), labelled as such.
-- Known limitation: approving an asset after review changes the `assets_baked.json` status line and would stale the review artifacts. Fix proposed (drop `status` from the baked file), not applied.
+- Known limitation: approving an asset after review changes the `assets_baked.json` status line and would stale the review artifacts. Fixed in R5-closure A8 (below).
 - Tests: `r5/test_reference.py` (60 PASS / 0 FAIL, fixture-based plus read-only checks of the real shot's evidence).
+
+## R5 mechanical closure + R6 (2026-11-24) - synthetic fixture, machine-enforced render gate, thin orchestrator
+**R5 creative work stays CLOSED as a FAIL.** The Hat Toss was not rescued, the 8.5 threshold was not lowered, no approval exists for it (test `R6O`). The machinery after the judge was proven on a different, clearly labelled film.
+
+**R5 closure (A1-A9).** `r6/fixture_mech.py` builds a `TEST_FIXTURE_ONLY` canyon-rail film (marker `creative/TEST_FIXTURE_ONLY.json`; synthetic reference frames, script, words, plan, look bible, character production, asset evidence, stand-in storyboard/animatic, synthetic judge PASS, approval) through the EXISTING code paths (`r2/fixture.py` builders, `characters.py`, `assets.py`, `approval.py create`). All G1-G8 pass at the REAL thresholds. The asset is approved in a registry COPY; the committed registry is untouched. `approval.py` stamps `production:false, test_fixture_only:true` for a fixture and rejects a relabelled one. `lock_stamp.py` now also freezes camera, performance, flights, timing (words + film), set GLBs, effects, lights/highlights (`approved.frozen`); any change is reported by `problems()`. `final_video.py` has `production_gate` and writes `production/gated/approval_sha1/lock_sha1/mp4_sha1` to the manifest. `qa_hybrid.py` decodes EVERY frame (PSNR >= 35 vs the composite), checks the MP4 sha1 against the manifest, and has a production stage. A8: `assets.py` no longer writes `status` into `assets_baked.json` and `approval.asset_entry_sha` ignores only `status/approved_by/approval_note/approved_at` of the GLB block; GLB bytes, version, materials, anchors, transforms or contract still invalidate (tested).
+
+**Render gate (R6G/R6Q).** `render.mjs` and `render_gpu.mjs` call `approval.py check` (+ `lock_stamp.py check`) before the browser starts for: `--frames` into the default `out/stills`, `--overlay`, `--export-instances`, `--export-lock`. Previews (`--stills-dir`, `--storyboard`, `--animatic`, `--export-cards`, `--visibility`) stay ungated. `final_video.py` refuses without approval + lock stamp. Only the named `--unapproved-test-run` / `RICKS_UNAPPROVED_TEST_RUN=1` bypasses, and everything it produces is `production:false`.
+
+**R6A ownership (nothing moved).**
+| Concern | Owner (unchanged) | pipeline.py role |
+|---|---|---|
+| reference, story, script, words, reference board, picture plan, look bible | human/LLM creative work, `reference_link.py` | explicit INPUT; missing/stale = FAIL, never regenerated |
+| plan bake, G1-G7 | `film_plan.py`, `creative_gates.py` | invoke, record |
+| storyboard, animatic, judge, G8 | `review.py` (independent judge) | validate; build only with `--build-review`; judge FAIL stops |
+| human approval, G9 | `approval.py` (human only) | check; WAIT (exit 2) when missing |
+| character cards / assets | `characters.py`, `assets.py` | check hashes |
+| lock + freeze | `render.mjs --export-lock`, `lock_stamp.py` | invoke + verify |
+| base render | three.js `render.mjs`/`render_gpu.mjs` | invoke once, cache by key |
+| layers, composite, MP4, QA | `layers.py`, `final_video.py`, `qa_hybrid.py`, `check_film.py` | invoke |
+| sound | reserved (R8) | `sound RESERVED` stage only |
+`pipeline.py` never calls `approval.py create`, `review.py judge-record` or any writer of a creative artifact (test `R6F`); `--accept-layers` is refused outside the named test mode.
+
+**Stage graph:** `0 inputs -> 1 plan -> G1..G7 -> 2 storyboard -> 3 animatic -> 4 judge -> G8 -> G9 -> 5 assets -> 6 lock -> 6b cards -> 6c freeze -> 7 base -> 8 flight/layers -> 9 final -> 10 qa -> sound(reserved)`. The first FAIL/WAIT stops the run and prints failed stage, not-run downstream stages and "Expensive render happened: YES/NO". `out/pipeline/stages.json` has name, owner, inputs/outputs hashes, status, seconds, failure reason, cache key; `production_manifest.json` is the single per-run manifest (evidence, not a plan). Cache keys include the approval, the lock and the mode, so stale work is never reused; resume is re-running the same command. R1 frame semantics are unchanged (`all` = `0..N-1`, `0-N` is an error, a partial range is labelled PARTIAL and never a full PASS). No GPU is required (`--renderer cpu`).
+
+**Modes.** production (default); `TEST_FIXTURE_ONLY` (every gate enforced, stamped `production:false`); `--unapproved-test-run` (named bypass, `NOT_A_PRODUCTION_RENDER.txt`). There are no `--skip-*` flags.
+
+**Tests:** `r6/test_orchestrator.py` (103 checks: A1-A8, R6B-R6Q; ~23 min on 2 CPUs including one real 430-frame render). Measurements: `r6/MEASUREMENTS.md`. Limitations: the fixture is canyon-based and synthetic (the real `check_film` camera-speed gate needed a textured set and a 28 mm lens); the Blender layer stage is optional and was skipped; the GPU path is not exercised; sound is reserved.

@@ -74,7 +74,7 @@ mutate(lambda e: e["glb"].pop("approved_by")); t("approved without approved_by -
 mutate(lambda e: e.pop("requirement")); t("asset with a GLB but no requirement is not silently accepted", has(AS.resolve(episode()), "requirement block missing")); restore()
 # ---- R4F loader seam in the real three.js page
 def render(d, frame=0):
-    r = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(d / "film.json"), "--frames", str(frame), "--scale", "0.4"], capture_output=True, text=True); return r, d / ("out/stills/f_%05d.png" % frame)
+    r = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(d / "film.json"), "--frames", str(frame), "--scale", "0.4", "--stills-dir", str(d / "out/preview")], capture_output=True, text=True); return r, d / ("out/preview/f_%05d.png" % frame)   # R6: an un-approved episode may only render a PREVIEW (--stills-dir)
 def with_set(d):
     (d / "sets").mkdir(exist_ok=True); s = (ROOT / "templates/threejs_film/sets/canyon_rail.js").read_text().replace("export function build(", "export async function build(").replace("  return { anchors: {", "  const handcar = await ctx.asset('%s', { at: [0, 1.4, 0.07] }); window.__handcar = handcar.anchors_plan;\n  return { anchors: {" % ID, 1); (d / "sets/canyon_rail.js").write_text(s)
 d = episode(); with_set(d); AS.resolve(d); r, png = render(d); dw = d
@@ -118,5 +118,5 @@ Lc = copy.deepcopy(Lb); Lc.pop("approved"); json.dump(Lc, open(lj, "w")); t("an 
 open(d / "approval.json", "a").write(" "); t("approval.json changed after the stamp -> lock check fails", has(LS.problems(d), "approval.json changed"))
 # ---- R4O/P resolution + measurement record
 dd = episode(); with_set(dd); AS.resolve(dd); sc = 720 / json.load(open(dd / "film.json")).get("size", [1080, 1920])[0]
-rr = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(dd / "film.json"), "--frames", "0", "--scale", str(sc)], capture_output=True, text=True); im = Image.open(dd / "out/stills/f_00000.png"); t("720x1280 final-resolution render works with the asset (%dx%d)" % im.size, im.size == (720, 1280))
+rr = subprocess.run(["node", str(ROOT / "templates/threejs_film/render.mjs"), str(dd / "film.json"), "--frames", "0", "--scale", str(sc), "--stills-dir", str(dd / "out/preview")], capture_output=True, text=True); im = Image.open(dd / "out/preview/f_00000.png"); t("720x1280 final-resolution render works with the asset (%dx%d)" % im.size, im.size == (720, 1280))
 print("\n%d FAIL" % len(fails)); [print("  FAILED:", x) for x in fails]; sys.exit(1 if fails else 0)

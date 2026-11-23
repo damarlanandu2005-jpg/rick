@@ -92,7 +92,7 @@ import re; src = (ROOT / "tools/review.py").read_text(); t("F review.py contains
 # ---- R2G pipeline chain: production pipeline must stop before any expensive render for each missing/invalid R2 artifact
 def pipeline_stop(d, expect):
     env = dict(os.environ); env.pop("RICKS_UNAPPROVED_TEST_RUN", None); r = subprocess.run([sys.executable, str(ROOT / "tools/pipeline.py"), str(d), "--frames", "0-1", "--renderer", "cpu"], capture_output=True, text=True, env=env)
-    return r.returncode != 0 and expect in r.stdout and "2 base" not in r.stdout and not (d / "out/stills/_base_key.json").exists()
+    import re; return r.returncode != 0 and "STOPPED" in r.stdout and "Expensive render happened: NO" in r.stdout and not re.search(r"^(7 base|9 final)\s+(PASS|FAIL)", r.stdout, re.M) and not (d / "out/stills/_base_key.json").exists()
 for name, mut in [("no storyboard", lambda d: (d / "creative/STORYBOARD.json").unlink()), ("no animatic", lambda d: (d / "creative/ANIMATIC.json").unlink()), ("no judge record", lambda d: (d / "creative/JUDGE.json").unlink()), ("stale plan", lambda d: (d / "film.json").write_bytes((d / "film.json").read_bytes() + b" "))]:
     d = FX.complete_episode(); mut(d); t("G pipeline stops before base render: %s" % name, pipeline_stop(d, "G1-G8"))
 d = FX.complete_episode(); t("G pipeline stops before base render on the real canyon thresholds (G2/G5 FAIL, no approval)", pipeline_stop(d, "G1-G8"))
