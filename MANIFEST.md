@@ -4,8 +4,11 @@ Nothing here was rewritten. Files were copied unchanged, with their original rel
 imports keep working (checked: the puppet modules, the motion library and the Python tools load).
 The three original zips are still on `main` as the untouched source.
 
-Decision behind this branch: 2D Ricks puppets as the only characters; 3D environments, lighting, camera,
-physics and rendering in Blender (EEVEE); no 3D characters for now.
+**Architecture authority: `docs/PRODUCTION_BLUEPRINT_LOCKED.md`.** This file only records where files came
+from. Its original branch-creation note (2026-11-19) said "3D environments, lighting, camera, physics and
+rendering in Blender (EEVEE)" and called three.js "not our renderer"; that was superseded (Spec v2, then the
+blueprint) and is corrected here: **three.js is the final base renderer, Blender is the asset workshop and
+optional masked-layer renderer, 2D Ricks puppets are the only characters, no 3D characters for now.**
 
 ## ACTIVE (code and assets we use as they are)
 
@@ -14,7 +17,7 @@ physics and rendering in Blender (EEVEE); no 3D characters for now.
 | `templates/vector2d_characters/` | The 2D puppet kit: `code/` (rig, 150-character cast, 13 body forms, faces, mouths, outfits), `sheets_png/` (15 cast sheets), `faces_png/`, `views_golden/` (front, 3/4, side, back views) |
 | `templates/motion_styles/` | Move library (about 45 actions, `library.mjs` `pick()`) |
 | `templates/pieces/` | Proven moves and effects, each with "when it fits" |
-| `templates/threejs_film/` | Kept only for `puppets.mjs` and `poses.mjs` (puppet state to card drawing) and the plan baker / card exporter. Run `npm install` in this folder. Not our renderer |
+| `templates/threejs_film/` | Kept only for `puppets.mjs` and `poses.mjs` (puppet state to card drawing) and the plan baker / card exporter. Run `npm install` in this folder. (Branch-creation note, superseded: it is now the final base renderer, see the blueprint) |
 | `templates/blender_look/` | Reusable Blender parts only: `from_lock.py` (puppet cards as PNG-sequence planes, camera keys), `materials.py`, `lights.py`, `look.py`, `cards.py`, `card_edge_shadow.py`, `render.py`, `grade.py`, `scatter.py`, `gpu_waiter.py`, `face_fix.py` |
 | `templates/blender_cine/` | Deterministic baked camera rigs (`cine.py`) |
 | `templates/film_example/` | A `film.json` that passes the plan gates (shows the spec format) |

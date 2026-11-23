@@ -1,4 +1,6 @@
 # Implementation (what actually exists; updated per phase)
+> **Architecture authority: `docs/PRODUCTION_BLUEPRINT_LOCKED.md`.** This file is the log of what exists. Where it differs from the blueprint, the blueprint wins and the difference is a conflict to report. Findings recorded after the forensic audit (2026-11-23): the A/B comparison was confounded (Route B rendered a lock whose geometry is three.js toon boxes), so it does not show that Blender-first lost; the creative front half (reference board, PICTURE_PLAN, look bible, character production, judge, approval) is NOT implemented; the `--frames` off-by-one with a silent full-film-check skip is an open engine bug; the "2.14 s/frame" figure has no raw evidence in the repo and is not a baseline.
+
 Branch `ricks-2d-core`. Phase 1C (`phase1c/`) is the frozen baseline: three.js base + one masked Blender layer at 720x1280 proved the seam; not modified.
 
 ## Phase 2: flight bridge (gate PASS, Colab T4 run, evidence in `phase2/evidence/`)

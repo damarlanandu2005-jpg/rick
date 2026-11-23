@@ -1,4 +1,5 @@
 # RICKS + THREE.JS + BLENDER HYBRID — PRODUCTION SPECIFICATION (v2, after the forensic pass)
+> **Subordinate to `docs/PRODUCTION_BLUEPRINT_LOCKED.md`.** v2 is kept as the reasoning record. Corrections since v2: (1) the three.js-final-base / Blender-masked-layers split is Ricks' own newest rule (CB_RULES §3, §11a), not only our decision; (2) §9 item 5 (reference board) is amended by blueprint D-2; (3) §11/§13 flight and lock text stands; (4) the creative front half and the Blender-asset-to-glb-to-three.js seam are required, not optional.
 
 Date 2026-11-21. Branch `ricks-2d-core`. Specification only: no code, no validators, no resolver, no render, no Pass A fix.
 
