@@ -41,7 +41,7 @@ def asset_evidence(ep):
     import assets as AS
     ev = {}
     for _, i, _v in AS.film_assets(ep):
-        a = AS._lookup(i); ev[i] = dict(version=str(a["version"]), sha1=(a.get("glb") or {}).get("sha1")) if a else dict(version=None, sha1=None)
+        a = AS.entry(i, _v); ev[i] = dict(version=str(a["version"]), sha1=(a.get("glb") or {}).get("sha1")) if a else dict(version=None, sha1=None)
     return ev
 def assets_sha(ep):
     ev = asset_evidence(ep); return hashlib.sha1(json.dumps(ev, sort_keys=True).encode()).hexdigest() if ev else None

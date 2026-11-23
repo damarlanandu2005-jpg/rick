@@ -74,7 +74,7 @@ def asset_problems(ep, reg=None):
     if not B or not images(B): return bad
     ids = {b["id"] for b in B["beats"]}
     for _, i, _v in AS.film_assets(ep):
-        a = AS._lookup(i); rb = ((a or {}).get("requirement") or {}).get("reference_beats") or []
+        a = AS.entry(i, _v); rb = ((a or {}).get("requirement") or {}).get("reference_beats") or []
         if not rb: bad.append("asset %s: requirement.reference_beats is empty (no link to the reference board)" % i)
         bad += ["asset %s: reference beat %s is not on the board" % (i, x) for x in rb if x not in ids]
     return bad

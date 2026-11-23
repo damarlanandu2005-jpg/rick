@@ -11,7 +11,7 @@ FLAGS = ["creative", "storyboard", "characters", "assets", "camera", "look"]
 BAKED = ["camera_baked.json", "performance_baked.json", "flights_baked.json", "layers_baked.json", "assets_baked.json"]
 def sha(p): return hashlib.sha1(Path(p).read_bytes()).hexdigest()
 def _combine(items): return hashlib.sha1("|".join("%s:%s" % kv for kv in sorted(items)).encode()).hexdigest()
-APPROVAL_META = ("status", "approved_by", "approval_note", "approved_at")
+from assets import LIFECYCLE_META as APPROVAL_META   # R7: status/owner/approval/validation/deprecation/evidence are lifecycle METADATA (one definition, tools/assets.py)
 def asset_entry_sha(a):
     """R6/A8: the hash of a registry entry that the approval signs. For a GLB asset the owner's candidate -> approved transition (status/approved_by/approval_note) is METADATA: it changes no GLB byte, version, material, anchor, transform or contract, so it must not stale creative evidence.
     Every genuine change (glb sha1/bytes/file, version, contract, requirement, builder, anything else) still changes this hash. The approved-ness itself stays enforced by assets.resolve / G7 at pipeline time."""
@@ -27,10 +27,13 @@ def current(ep):
     pl = ep / "out/plan"; H["baked_sha1"] = _combine([(n, sha(pl / n)) for n in BAKED if (pl / n).is_file()]) if (pl / "camera_baked.json").is_file() and (pl / "performance_baked.json").is_file() else None
     import characters as CH; H["character_sheets_sha1"] = CH.evidence_sha(ep)   # R3: spec + production record (views, performance, card hashes) + contact sheet
     import assets as AS; reg = AS.load()
-    used = {i for _, i, _v in AS.film_assets(ep)} if (ep / "film.json").is_file() else set()
+    used = [(i, v) for _, i, v in AS.film_assets(ep)] if (ep / "film.json").is_file() else []
     cj = ep / "creative/characters.json"
-    if cj.is_file(): used |= {str(v.get("character")) for v in (json.load(open(cj)).get("characters") or {}).values()}
-    H["asset_versions"] = {a["name"]: {"version": a["version"], "sha1": asset_entry_sha(a)} for a in reg if a["name"] in used}   # R4: the assets THIS film uses (declared GLB assets + its cast characters), so registering an unrelated asset does not stale an approval
+    if cj.is_file(): used += [(str(c.get("character")), None) for c in (json.load(open(cj)).get("characters") or {}).values()]
+    H["asset_versions"] = {}
+    for i, v in used:   # R7: the version the FILM pins (several versions of one asset may be registered)
+        a = AS.entry(i, v, reg)
+        if a: H["asset_versions"][a["name"]] = {"version": a["version"], "sha1": asset_entry_sha(a)}   # R4: the assets THIS film uses (declared GLB assets + its cast characters), so registering an unrelated asset does not stale an approval
     return H
 def is_test_fixture(ep):
     """R5/R6: a TEST_FIXTURE_ONLY episode carries creative/TEST_FIXTURE_ONLY.json. Its approval is stamped production:false and can never be mistaken for (or substitute) a production approval."""
@@ -55,7 +58,8 @@ def check(ep):
     for k in FLAGS:
         e = ap.get(k)
         if not isinstance(e, dict) or e.get("value") is not True or not e.get("reviewer") or not e.get("at"): bad.append("approval flag %s is not true with reviewer and timestamp" % k)
-    import review as RV; g8b, _ = RV.g8_problems(ep); bad += ["G8 no longer passes: " + x for x in g8b[:3]]   # R2: the judged evidence must still be current at G9
+    import review as RV; g8b, _ = RV.g8_problems(ep); bad += ["G8 no longer passes: " + x for x in g8b[:3]]
+    import assets as AS; g7b, _ = AS.resolve_problems(ep); bad += ["G7 no longer passes: " + x for x in g7b[:3]]   # R7: a tampered, deprecated or no-longer-approved asset invalidates the approval at G9 too   # R2: the judged evidence must still be current at G9
     j = A["judge"]
     if not all(j.get(k) for k in ("reviewer", "score", "verdict", "fix_list_sha1")): bad.append("judge record incomplete")
     elif A["reviewer"] in (j["reviewer"], (json.load(open(Path(ep) / "creative/JUDGE.json")).get("judge") or {}).get("context_id")): bad.append("the judge cannot be the approver (section 14)")

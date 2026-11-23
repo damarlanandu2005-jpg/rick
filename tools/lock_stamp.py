@@ -40,8 +40,8 @@ def stamp(ep):
     if bad: return ["cannot stamp an unapproved/stale episode: " + "; ".join(bad[:3])]
     lk = ep / "out/lock/lock.json"
     if not lk.is_file(): return ["no lock yet (render.mjs --export-lock first)"]
-    L = json.load(open(lk)); A = json.load(open(ep / "approval.json")); decl = {i for _, i, _v in AS.film_assets(ep)}
-    L["approved"] = dict(approval_sha1=sha(ep / "approval.json"), assets={i: dict(version=A["asset_versions"][i]["version"], glb_sha1=AS._lookup(i)["glb"]["sha1"], registry_sha1=A["asset_versions"][i]["sha1"]) for i in sorted(decl)}, cards=card_hashes(ep), frozen=frozen(ep, L))
+    L = json.load(open(lk)); A = json.load(open(ep / "approval.json")); decl = {i: v for _, i, v in AS.film_assets(ep)}
+    L["approved"] = dict(approval_sha1=sha(ep / "approval.json"), assets={i: dict(version=A["asset_versions"][i]["version"], glb_sha1=AS.entry(i, decl[i])["glb"]["sha1"], registry_sha1=A["asset_versions"][i]["sha1"]) for i in sorted(decl)}, cards=card_hashes(ep), frozen=frozen(ep, L))
     lk.write_text(json.dumps(L)); return []
 def problems(ep):
     import approval as AP, assets as AS
@@ -50,13 +50,16 @@ def problems(ep):
     L = json.load(open(lk)); a = L.get("approved"); bad = []
     if not a: return ["the lock carries no approved block (lock_stamp.py stamp): it does not say what it froze"]
     if a["approval_sha1"] != sha(ep / "approval.json"): bad.append("approval.json changed after the lock was stamped")
-    decl = {i for _, i, _v in AS.film_assets(ep)}
-    if set(a["assets"]) != decl: bad.append("lock asset set %s != declared %s" % (sorted(a["assets"]), sorted(decl)))
+    decl = {i: v for _, i, v in AS.film_assets(ep)}
+    if set(a["assets"]) != set(decl): bad.append("lock asset set %s != declared %s" % (sorted(a["assets"]), sorted(decl)))
     present = lock_assets(ep)
     for i in sorted(decl):
-        e = AS._lookup(i); fz = a["assets"].get(i)
+        e = AS.entry(i, decl[i]); fz = a["assets"].get(i)
         if not e or not fz: bad.append("asset %s not frozen in the lock" % i); continue
         if fz["glb_sha1"] != (e.get("glb") or {}).get("sha1") or fz["version"] != str(e["version"]): bad.append("asset %s changed in the registry after the lock froze it (frozen v%s %s)" % (i, fz["version"], fz["glb_sha1"][:10]))
+        lib = AS.glb_path(e.get("glb")); stg = ep / "out/assets" / i / fz["version"] / (i + ".glb")   # R7: the BYTES must still be the frozen ones, in the library and in the film's staged copy
+        if not lib or not lib.is_file() or sha(lib) != fz["glb_sha1"]: bad.append("asset %s: the library GLB bytes are no longer the frozen sha1 %s (modified after the lock: approve a NEW version)" % (i, fz["glb_sha1"][:10]))
+        if not stg.is_file() or sha(stg) != fz["glb_sha1"]: bad.append("asset %s: the film's staged GLB %s is missing or not the frozen bytes" % (i, stg.relative_to(ep)))
         p = present.get(i)
         if not p: bad.append("asset %s is not in the lock's set GLB (silent substitution or a missing asset)" % i); continue
         if p["sha1"] != fz["glb_sha1"] or p["version"] != fz["version"]: bad.append("the lock's set GLB carries asset %s v%s sha1 %s, not the frozen v%s %s" % (i, p["version"], str(p["sha1"])[:10], fz["version"], fz["glb_sha1"][:10]))
