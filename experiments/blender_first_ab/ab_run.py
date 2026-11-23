@@ -28,7 +28,7 @@ def route_a():
     T["A"] = {}
     for r in RS:
         ep = mkep("epA_" + r); t = time.perf_counter()
-        rc, secs, p = sh([sys.executable, ROOT / "tools/pipeline.py", ep, "--frames", r, "--blender", a.blender, "--gpu-backend", a.gpu_backend, "--renderer", a.renderer, "--accept-layers", "--res", a.res], EV / ("routeA_%s.log" % r))
+        rc, secs, p = sh([sys.executable, ROOT / "tools/pipeline.py", ep, "--frames", r, "--blender", a.blender, "--gpu-backend", a.gpu_backend, "--renderer", a.renderer, "--unapproved-test-run", "--accept-layers", "--res", a.res], EV / ("routeA_%s.log" % r))
         rep = json.load(open(ep / "out/pipeline/pipeline_report.json")) if (ep / "out/pipeline/pipeline_report.json").exists() else []
         n = int(r.split("-")[1]) - int(r.split("-")[0]) + 1; base = next((x for x in rep if x["stage"] == "2 base"), {}); lay = [x for x in rep if x["stage"] == "5 layers"]
         T["A"][r] = {"pipeline_rc": rc, "wall_s": round(secs, 1), "frames": n, "base_s": base.get("seconds"), "base_s_per_frame": round(base["seconds"] / n, 3) if base.get("seconds") else None, "base_status": base.get("status"),

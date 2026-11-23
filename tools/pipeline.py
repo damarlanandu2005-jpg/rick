@@ -34,7 +34,7 @@ def finish():
 def main():
     global OUT
     ap = argparse.ArgumentParser(); ap.add_argument("ep"); ap.add_argument("--frames", default="all"); ap.add_argument("--blender"); ap.add_argument("--gpu-backend", default="opengl"); ap.add_argument("--renderer", default="auto", choices=["auto", "cpu", "gpu"])
-    ap.add_argument("--accept-layers", action="store_true"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args(); ep = Path(a.ep).resolve(); W, H = map(int, a.res.split("x")); OUT = ep / "out/pipeline"; OUT.mkdir(parents=True, exist_ok=True)
+    ap.add_argument("--accept-layers", action="store_true"); ap.add_argument("--unapproved-test-run", action="store_true", help="legacy example films / tests only: skip G9 (approval.json); stamps NOT A PRODUCTION RENDER"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args(); ep = Path(a.ep).resolve(); W, H = map(int, a.res.split("x")); OUT = ep / "out/pipeline"; OUT.mkdir(parents=True, exist_ok=True)
     film = ep / "film.json"; stage("C1-C3", "creative", "INPUT" if film.exists() else "MISSING", note="film.json (script, picture plan, layers[], flights[]) is the creative output; layer review = review.json")
     if not film.exists(): finish(); sys.exit("no film.json: the creative step has not produced the plan")
     node = ROOT / "templates/threejs_film"
@@ -42,6 +42,11 @@ def main():
     try: n = film_frame_count(ep); f0, f1 = parse_range(a.frames, n)
     except SystemExit as e: finish(); sys.exit(str(e))
     frames = list(range(f0, f1 + 1)); stage("0 scope", "scripted", "FULL" if is_full(f0, f1, n) else "PARTIAL", 0, scope_label(f0, f1, n))   # R1a: valid indices 0..N-1; 0-N is an error; a partial range is labelled partial
+    # ---- G9 (blueprint section 19): no approval.json, or a stale one, means no expensive render. Before base, lock, layers, final.
+    if a.unapproved_test_run:
+        os.environ["RICKS_UNAPPROVED_TEST_RUN"] = "1"; (OUT / "NOT_A_PRODUCTION_RENDER.txt").write_text("rendered with --unapproved-test-run: creative gates and approval.json were NOT enforced\n"); stage("G9", "creative", "BYPASS", 0, "NOT A PRODUCTION RENDER (--unapproved-test-run)")
+    else:
+        (OUT / "NOT_A_PRODUCTION_RENDER.txt").unlink(missing_ok=True); rc, t, p = sh([sys.executable, str(HERE / "approval.py"), "check", str(ep)], OUT / "approval.log"); stage("G9", "creative", "PASS" if rc == 0 else "FAIL", t, " | ".join(l.strip("- ") for l in p.stdout.splitlines()[:3])[:160]); done(rc, "G9 approval")
     # ---- 2 base (cache key of every input; a changed key re-renders the whole range, nothing half-stale)
     rend = "gpu" if a.renderer == "gpu" else "cpu"; key = kit_key(ep, W, H, a.renderer); kp = ep / "out/stills/_base_key.json"; st = ep / "out/stills"; st.mkdir(parents=True, exist_ok=True)
     have = all((st / ("f_%05d.png" % f)).exists() for f in frames); fresh = kp.exists() and json.load(open(kp)).get("key") == key
@@ -76,7 +81,7 @@ def main():
         if a.accept_layers and not rv.exists(): rv.write_text(json.dumps({"keep": True, "by": "--accept-layers (not a creative review: flagged)", "note": "auto-accepted for a test run"}))
         stage("6 review", "creative", "KEEP" if rv.exists() and json.load(open(rv)).get("keep") else "OMIT", 0, "%s: %s" % (lid, "review.json " + (json.load(open(rv)).get("by", "") if rv.exists() else "missing (layer will be omitted: Ricks keeps a layer only if it clearly adds)")))
     t = time.perf_counter()
-    try: mp4, M = FV.assemble(ep, f0, f1, W, H); stage("7 final", "scripted", "PASS", time.perf_counter() - t, "%s, layers %s" % (mp4.name, list(M["layers"])))
+    try: mp4, M = FV.assemble(ep, f0, f1, W, H); (M.update(production=False), (ep / "out/final/final_manifest.json").write_text(json.dumps(M, indent=1))) if a.unapproved_test_run else None; stage("7 final", "scripted", "PASS", time.perf_counter() - t, "%s, layers %s" % (mp4.name, list(M["layers"])))
     except SystemExit as e: stage("7 final", "scripted", "FAIL", time.perf_counter() - t, str(e)); done(1, "final")
     rc, t, p = sh([sys.executable, str(HERE / "qa_hybrid.py"), str(ep), "--res", a.res], OUT / "qa.log"); stage("8 qa", "scripted", "PASS" if rc == 0 else "FAIL", t, ("; ".join(l for l in p.stdout.splitlines() if l.startswith("- **FAIL**")) or "all checks PASS")[:200]); finish()
     if rc: sys.exit("STOP: QA FAILED (see %s)" % (ep / "out/qa/qa_report.md"))

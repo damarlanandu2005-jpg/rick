@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parent.parent
 ap = argparse.ArgumentParser(); ap.add_argument("--blender"); ap.add_argument("--gpu-backend", default="opengl"); ap.add_argument("--renderer", default="cpu"); ap.add_argument("--out", default="/content/p7_out"); ap.add_argument("--frames", default="all"); ap.add_argument("--res", default="720x1280"); a = ap.parse_args()
 W, H = map(int, a.res.split("x")); out = Path(a.out); shutil.rmtree(out, ignore_errors=True); out.mkdir(parents=True); ep = out / "ep"; shutil.copytree(ROOT / "templates/film_western_example", ep, ignore=shutil.ignore_patterns("out"))
-cmd = [sys.executable, str(ROOT / "tools/pipeline.py"), str(ep), "--frames", a.frames, "--renderer", a.renderer, "--res", a.res, "--accept-layers"] + (["--blender", a.blender, "--gpu-backend", a.gpu_backend] if a.blender else [])
+cmd = [sys.executable, str(ROOT / "tools/pipeline.py"), str(ep), "--frames", a.frames, "--renderer", a.renderer, "--res", a.res, "--unapproved-test-run", "--accept-layers"] + (["--blender", a.blender, "--gpu-backend", a.gpu_backend] if a.blender else [])
 t0 = time.time(); p = subprocess.run(cmd, capture_output=True, text=True, errors="replace"); wall = time.time() - t0; (out / "pipeline.log").write_text(p.stdout + p.stderr); print(p.stdout[-2500:]); print(p.stderr[-1000:])
 R = {"command": " ".join(cmd), "pipeline_rc": p.returncode, "total_pipeline_wall_s": round(wall, 1), "resolution": [W, H]}
 rp = ep / "out/pipeline/pipeline_report.json"; rep = json.load(open(rp)) if rp.exists() else []; R["stages"] = rep

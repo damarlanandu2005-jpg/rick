@@ -118,6 +118,8 @@ if (has('--overlay')) {
   console.log('overlay ->', d, `(${n} frames)`);
 }
 if (has('--export-lock')) {
+  // G9 (blueprint section 19, R1): fail closed. No valid, fresh approval.json = no lock. Legacy example films / tests set RICKS_UNAPPROVED_TEST_RUN=1 (pipeline.py --unapproved-test-run).
+  if (process.env.RICKS_UNAPPROVED_TEST_RUN !== '1') { const g = spawnSync('python3', [path.join(KIT, '../../tools/approval.py'), 'check', EP], { encoding: 'utf8' }); if (g.status !== 0) { console.error('REFUSED --export-lock (G9): approval.json is missing or stale.\n' + (g.stdout || '') + (g.stderr || '')); process.exit(3); } }
   // Freeze the approved layout for the look pass. Everything is written from the same page state that drew the animatic.
   const LOCK = path.join(OUT, 'lock'), plan = path.join(OUT, 'plan'), sha = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(plan, f))).digest('hex');
   fs.rmSync(LOCK, { recursive: true, force: true }); fs.mkdirSync(path.join(LOCK, 'sets'), { recursive: true });

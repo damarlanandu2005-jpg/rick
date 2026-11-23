@@ -7,7 +7,7 @@ import json, shutil, subprocess, sys, time
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent; W = Path(sys.argv[1] if len(sys.argv) > 1 else "/tmp/p6_cpu"); ep = W / "ep"; res = []
 def ok(n, c, m=""): res.append(bool(c)); print("PASS" if c else "FAIL", n, m)
-def pipe(): t = time.perf_counter(); p = subprocess.run([sys.executable, str(ROOT / "tools/pipeline.py"), str(ep), "--frames", "0-9", "--renderer", "cpu"], capture_output=True, text=True); return p, time.perf_counter() - t
+def pipe(): t = time.perf_counter(); p = subprocess.run([sys.executable, str(ROOT / "tools/pipeline.py"), str(ep), "--frames", "0-9", "--renderer", "cpu", "--unapproved-test-run"], capture_output=True, text=True); return p, time.perf_counter() - t
 def rep(): return {r["stage"]: r for r in json.loads((ep / "out/pipeline/pipeline_report.json").read_text())}
 shutil.rmtree(W, ignore_errors=True); shutil.copytree(ROOT / "templates/film_western_example", ep, ignore=shutil.ignore_patterns("out"))
 p, t = pipe(); r = rep(); ok("P1 first run PASS end to end", p.returncode == 0 and r["8 qa"]["status"] == "PASS" and (ep / "out/final/final.mp4").exists() and r["C1-C3"]["kind"] == "creative" and r["C1-C3"]["status"] == "INPUT", "%.0fs" % t)
