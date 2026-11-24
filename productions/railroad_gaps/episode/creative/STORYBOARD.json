@@ -1,9 +1,9 @@
 {
  "schema": "ricks.storyboard.v1",
- "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
- "version": 1,
- "plan_sha1": "d038ea438de11761d8f0cd0131166be9501e81c4",
- "baked_sha1": "24781e82e94f54c294b88b6c4eabec7999831995",
+ "film": "THE GAP V1.1: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "version": 2,
+ "plan_sha1": "3faa219706f9db101e66cfa51d22e577f166611d",
+ "baked_sha1": "dd916abb4e222b100efac5118a391b9614aa771f",
  "n_frames": 300,
  "fps": 30,
  "built_by": {
@@ -16,8 +16,8 @@
    "take": "t1",
    "station": 0,
    "start": 0,
-   "end": 47,
-   "framing": "M",
+   "end": 41,
+   "framing": "W",
    "lens": 24,
    "passes": false
   },
@@ -25,8 +25,8 @@
    "id": "s02",
    "take": "t1",
    "station": 1,
-   "start": 78,
-   "end": 106,
+   "start": 82,
+   "end": 96,
    "framing": "W",
    "lens": 24,
    "passes": false
@@ -35,9 +35,9 @@
    "id": "s03",
    "take": "t1",
    "station": 2,
-   "start": 209,
-   "end": 233,
-   "framing": "O",
+   "start": 201,
+   "end": 235,
+   "framing": "P",
    "lens": 24,
    "passes": false
   },
@@ -45,7 +45,7 @@
    "id": "s04",
    "take": "t2",
    "station": 0,
-   "start": 234,
+   "start": 236,
    "end": 299,
    "framing": "W",
    "lens": 24,
@@ -59,55 +59,55 @@
    "kind": "START",
    "frame": 0,
    "file": "out/storyboard_panels/s01_start_f0.png",
-   "sha1": "1a89ce5574454422287720f7a4a59eff0586370b"
+   "sha1": "6f642018c1cac003f5aae591e77a300c4a75abe0"
   },
   {
    "id": "s01_end",
    "station": "s01",
    "kind": "END",
-   "frame": 47,
-   "file": "out/storyboard_panels/s01_end_f47.png",
-   "sha1": "575fe9881a8fbf80d227633eada19e74b9ccb5b8"
+   "frame": 41,
+   "file": "out/storyboard_panels/s01_end_f41.png",
+   "sha1": "6cb3759631f81b5d3e69b5caf88bc6eda14266b6"
   },
   {
    "id": "s02_start",
    "station": "s02",
    "kind": "START",
-   "frame": 78,
-   "file": "out/storyboard_panels/s02_start_f78.png",
-   "sha1": "1a181396d3ffb54fa515b1de68c8405bd2340a10"
+   "frame": 82,
+   "file": "out/storyboard_panels/s02_start_f82.png",
+   "sha1": "852bd7e88e408952cf1195b9c2b603a3f49f46bb"
   },
   {
    "id": "s02_end",
    "station": "s02",
    "kind": "END",
-   "frame": 106,
-   "file": "out/storyboard_panels/s02_end_f106.png",
-   "sha1": "66c32a83d98980f13db7088451ead9834b35c291"
+   "frame": 96,
+   "file": "out/storyboard_panels/s02_end_f96.png",
+   "sha1": "0d9b7413caf5e30b2d9ba5556b1867b525d077de"
   },
   {
    "id": "s03_start",
    "station": "s03",
    "kind": "START",
-   "frame": 209,
-   "file": "out/storyboard_panels/s03_start_f209.png",
-   "sha1": "ef3a22eab488217bde0c9e92d5f742422e188737"
+   "frame": 201,
+   "file": "out/storyboard_panels/s03_start_f201.png",
+   "sha1": "b78274faed32504a6fa300fbd65c9f6f757e457f"
   },
   {
    "id": "s03_end",
    "station": "s03",
    "kind": "END",
-   "frame": 233,
-   "file": "out/storyboard_panels/s03_end_f233.png",
-   "sha1": "a1a9853e841c6d0211b67fe6cae745492bd7319b"
+   "frame": 235,
+   "file": "out/storyboard_panels/s03_end_f235.png",
+   "sha1": "5525bc939c705bfce41064365c0fa6f0c48a00e0"
   },
   {
    "id": "s04_start",
    "station": "s04",
    "kind": "START",
-   "frame": 234,
-   "file": "out/storyboard_panels/s04_start_f234.png",
-   "sha1": "5b2987f5f23edd12511914ee9fd84ea924382582"
+   "frame": 236,
+   "file": "out/storyboard_panels/s04_start_f236.png",
+   "sha1": "9a8bdb0677aa17aba60845778c0033818a4c5ba4"
   },
   {
    "id": "s04_end",
@@ -115,17 +115,17 @@
    "kind": "END",
    "frame": 299,
    "file": "out/storyboard_panels/s04_end_f299.png",
-   "sha1": "1dbdaef171588fb766729b29e443746a0b047c0e"
+   "sha1": "a7211eb0da8bc6f82a86f375b85e0ba888813f0d"
   }
  ],
  "assets": {
   "prop_rail_joint_gapped": {
-   "version": "1.0",
-   "sha1": "95e7e4ce3e5cece9e3f5928d784d1c8748bd0294"
+   "version": "1.1",
+   "sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13"
   },
   "prop_track_buckled": {
-   "version": "1.0",
-   "sha1": "5260a8482abbd4611ceb019adf77c6862fd9e0d6"
+   "version": "1.1",
+   "sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9"
   }
  }
 }

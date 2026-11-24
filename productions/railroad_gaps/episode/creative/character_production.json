@@ -1,6 +1,6 @@
 {
  "schema": "ricks.character_production.v1",
- "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "film": "THE GAP V1.1: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
  "package_sha1": "71e45e83fdb6867166ef449e8b308fe62bf3f468",
  "resolution": [
   720,
@@ -13,7 +13,7 @@
    "character": "char_trackkeeper",
    "version": "1.0",
    "puppet": "cast:trackkeeper",
-   "spec_sha1": "9c39248a5386ca66711821ec8e876cd0e9ce2d29",
+   "spec_sha1": "e9956dd1cc84a4a7e6d8286e838e3eb0821998ba",
    "registry_entry_sha1": "00ae6fe03b301594c5c286f9a95e513efcd2524b",
    "views": {
     "front": {
@@ -42,33 +42,34 @@
     }
    },
    "performance": {
-    "slot_sha1": "0331f189732c41cf0239fb5f0a7edbdde3e33a68",
+    "slot_sha1": "be7602b9f8a6120eea0e11eb6cb3629e919f2fe9",
     "frames": 300,
     "poses": [
-     "hands_hips",
-     "kneel_work",
-     "point_out"
+     "lean_in",
+     "point_out",
+     "stand"
     ],
     "faces": [
-     "jawdrop",
      "proud",
+     "smug",
      "standard",
-     "sus"
+     "sus",
+     "tired"
     ],
     "views": [
      "34",
      "front"
     ],
     "probe": {
-     "states": 6,
+     "states": 9,
      "warnings": [],
      "errors": []
     }
    },
    "cards": {
     "dir": "out/characters/cards/mara",
-    "index_sha1": "c9ef05375e56f579cf4218b05b0c57713eb9169b",
-    "count": 14,
+    "index_sha1": "61616a9326847014bc784157b171b3c3a11406a9",
+    "count": 18,
     "px": [
      1600,
      3000
@@ -76,59 +77,75 @@
     "images": [
      {
       "file": "s0001.png",
-      "sha1": "307b69602e3ce508424fc1691af43d43238fe128"
+      "sha1": "26850d10b75b3175cc23a2a45023e3ec7937257c"
      },
      {
       "file": "s0002.png",
-      "sha1": "19cbdac2ad43049322b8eb0689edc44b3d597d28"
+      "sha1": "0d52aa639cba725631526b0af921d03a5a24d7e7"
      },
      {
       "file": "s0003.png",
-      "sha1": "31d16544d669f35ef2a37d0090f0f3f76c556ac0"
+      "sha1": "2b8b19cc25724fcf4ce4ec4210e1e04cdb3b6312"
      },
      {
       "file": "s0004.png",
-      "sha1": "ca06b00c9a78368d828e93acff3ffcd34031e511"
+      "sha1": "2b8b19cc25724fcf4ce4ec4210e1e04cdb3b6312"
      },
      {
       "file": "s0005.png",
-      "sha1": "ca06b00c9a78368d828e93acff3ffcd34031e511"
+      "sha1": "2b8b19cc25724fcf4ce4ec4210e1e04cdb3b6312"
      },
      {
       "file": "s0006.png",
-      "sha1": "ca06b00c9a78368d828e93acff3ffcd34031e511"
+      "sha1": "a01623838a0c3bc819539a207809274ea95dad4a"
      },
      {
       "file": "s0007.png",
-      "sha1": "32036ae74b4301b10e1bd25ed666ca44d768b040"
+      "sha1": "1015a2a35af750764adc7154ec42242922936842"
      },
      {
       "file": "s0008.png",
-      "sha1": "f9b6939f7295ba8eeb4416580468cb64703418d9"
+      "sha1": "1015a2a35af750764adc7154ec42242922936842"
      },
      {
       "file": "s0009.png",
-      "sha1": "f9b6939f7295ba8eeb4416580468cb64703418d9"
+      "sha1": "1015a2a35af750764adc7154ec42242922936842"
      },
      {
       "file": "s0010.png",
-      "sha1": "f9b6939f7295ba8eeb4416580468cb64703418d9"
+      "sha1": "0ae45c21e8a8bc4313e04f2e20471015a99f70d0"
      },
      {
       "file": "s0011.png",
-      "sha1": "5dd99ab04cd1e7da941e11e016be249235e8ac16"
+      "sha1": "775f6fb4fec10f79e7a28a8712684a95596a631b"
      },
      {
       "file": "s0012.png",
-      "sha1": "d91cdfe96afc81ccb3f6f4dc6e0e1892697cbd96"
+      "sha1": "775f6fb4fec10f79e7a28a8712684a95596a631b"
      },
      {
       "file": "s0013.png",
-      "sha1": "d91cdfe96afc81ccb3f6f4dc6e0e1892697cbd96"
+      "sha1": "775f6fb4fec10f79e7a28a8712684a95596a631b"
      },
      {
       "file": "s0014.png",
-      "sha1": "d91cdfe96afc81ccb3f6f4dc6e0e1892697cbd96"
+      "sha1": "5dd99ab04cd1e7da941e11e016be249235e8ac16"
+     },
+     {
+      "file": "s0015.png",
+      "sha1": "02594edb1af3ea6a49066d7f47a195c60e118a06"
+     },
+     {
+      "file": "s0016.png",
+      "sha1": "02594edb1af3ea6a49066d7f47a195c60e118a06"
+     },
+     {
+      "file": "s0017.png",
+      "sha1": "02594edb1af3ea6a49066d7f47a195c60e118a06"
+     },
+     {
+      "file": "s0018.png",
+      "sha1": "d77c965acf7cd774fa2c8e8f5733250550d3afba"
      }
     ],
     "lock_path": "out/lock/cards/mara"

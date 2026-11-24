@@ -1323,7 +1323,7 @@
     "file": "library/assets/glb/prop_rail_joint_gapped/1.1/prop_rail_joint_gapped.glb",
     "sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13",
     "bytes": 48656,
-    "status": "validated",
+    "status": "approved",
     "contract": {
      "up": "Y",
      "units": "m",
@@ -1430,7 +1430,10 @@
        "builder_unchanged": true
       }
      }
-    }
+    },
+    "approved_by": "owner damarlanandu2005-jpg (chat approval 2026-11-24 23:26 IST)",
+    "approval_note": "V1.1 19 cm cartoon gap, approved as previewed (both.png)",
+    "approved_at": "2026-11-24T17:56:59+00:00"
    }
   },
   {
@@ -1490,7 +1493,7 @@
     "file": "library/assets/glb/prop_track_buckled/1.1/prop_track_buckled.glb",
     "sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9",
     "bytes": 151104,
-    "status": "validated",
+    "status": "approved",
     "contract": {
      "up": "Y",
      "units": "m",
@@ -1570,7 +1573,10 @@
        "builder_unchanged": true
       }
      }
-    }
+    },
+    "approved_by": "owner damarlanandu2005-jpg (chat approval 2026-11-24 23:26 IST)",
+    "approval_note": "V1.1 buckled track, approved as previewed (both.png)",
+    "approved_at": "2026-11-24T17:57:00+00:00"
    }
   }
  ]

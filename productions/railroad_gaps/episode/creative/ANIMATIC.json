@@ -1,8 +1,8 @@
 {
  "schema": "ricks.animatic.v1",
- "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
- "plan_sha1": "d038ea438de11761d8f0cd0131166be9501e81c4",
- "baked_sha1": "24781e82e94f54c294b88b6c4eabec7999831995",
+ "film": "THE GAP V1.1: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "plan_sha1": "3faa219706f9db101e66cfa51d22e577f166611d",
+ "baked_sha1": "dd916abb4e222b100efac5118a391b9614aa771f",
  "n_frames": 300,
  "fps": 30,
  "built_by": {
@@ -13,7 +13,7 @@
   {
    "kind": "whole-film-rough",
    "video": "out/animatic.mp4",
-   "video_sha1": "e6f79340bcaada9eb789ad0874afaebc730c9fcb",
+   "video_sha1": "eb71a4e88cb063b08bf21373b23454ce4adc6cb9",
    "video_frames": 300,
    "frames_per_sample": 1,
    "frame_set": {
@@ -28,7 +28,7 @@
   {
    "kind": "hook-partial",
    "video": "out/animatic_hook.mp4",
-   "video_sha1": "fd0ea98b3a1bc143ce590a71f7d04ae75ae94ed3",
+   "video_sha1": "f22e2271f926cb95c096a29ef1dfdeacb6950eb2",
    "video_frames": 90,
    "frames_per_sample": 1,
    "frame_set": {
@@ -43,12 +43,12 @@
  ],
  "assets": {
   "prop_rail_joint_gapped": {
-   "version": "1.0",
-   "sha1": "95e7e4ce3e5cece9e3f5928d784d1c8748bd0294"
+   "version": "1.1",
+   "sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13"
   },
   "prop_track_buckled": {
-   "version": "1.0",
-   "sha1": "5260a8482abbd4611ceb019adf77c6862fd9e0d6"
+   "version": "1.1",
+   "sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9"
   }
  }
 }
