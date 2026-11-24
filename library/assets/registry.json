@@ -1262,6 +1262,316 @@
     },
     "max_diff_pct": 0.05
    }
+  },
+  {
+   "name": "prop_rail_joint_gapped",
+   "category": "prop/hero",
+   "source": "original, procedural Blender builder (production 1, The Gap) | new version 1.1 of prop_rail_joint_gapped@1.0",
+   "version": "1.1",
+   "dependencies": [
+    "film.json places.<p>.assets",
+    "out/plan/assets_baked.json"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/prop_rail_joint_gapped.png",
+   "blender": {
+    "kind": "bpy_builder",
+    "file": "library/assets/builders/prop_rail_joint_gapped_v1_1.py",
+    "entry": "build"
+   },
+   "requirement": {
+    "role": "hero prop of 'The Gap': the open rail joint our story is about (a deliberate expansion gap); reusable for any railway film",
+    "reference_beats": [
+     1,
+     4
+    ],
+    "visual_properties": "6 m of standard-gauge track: dark timber sleepers with steel tie plates, two flat-bottom steel rails each broken by an open CARTOON-scale 19 cm joint at the middle (v1.1: readable at phone size), polished end faces framing the gap, dark fishplates with four large bolts; no sleeper under the joint",
+    "materials": [
+     "mat:metal.767c83",
+     "mat:metal.d4d9de",
+     "mat:metal.3d4146",
+     "mat:wood_grain.4a3626"
+    ],
+    "anchors": [
+     "gap",
+     "gap_far"
+    ],
+    "scale": {
+     "height_m": 0.29,
+     "tol_pct": 1.0
+    },
+    "orientation": {
+     "up": "Y",
+     "forward": "the track runs along glTF -Z / Blender +Y (plan Y)",
+     "origin": "base centre, sleeper bottoms on y = 0"
+    },
+    "provenance": "original procedural model, library/assets/builders/prop_rail_joint_gapped_v1_1.py (no external asset); v1.1 after independent judge v1 (gap unreadable at 8 cm)"
+   },
+   "capabilities": {
+    "static_prop": {},
+    "anchor_target": {
+     "anchors": [
+      "gap",
+      "gap_far"
+     ]
+    }
+   },
+   "environments": [
+    "heat_line (episode set; production 1)"
+   ],
+   "glb": {
+    "file": "library/assets/glb/prop_rail_joint_gapped/1.1/prop_rail_joint_gapped.glb",
+    "sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13",
+    "bytes": 48656,
+    "status": "validated",
+    "contract": {
+     "up": "Y",
+     "units": "m",
+     "materials": [
+      "mat:metal.3d4146",
+      "mat:metal.767c83",
+      "mat:metal.d4d9de",
+      "mat:wood_grain.4a3626"
+     ],
+     "anchors": {
+      "gap": [
+       -0.72,
+       0.29,
+       0.0
+      ],
+      "gap_far": [
+       0.72,
+       0.29,
+       0.0
+      ]
+     },
+     "roles": {
+      "bolts_far": "metal",
+      "bolts_near": "metal",
+      "fishplates_far": "metal",
+      "fishplates_near": "metal",
+      "rail_ends_far": "metal",
+      "rail_ends_near": "metal",
+      "rail_far_a": "metal",
+      "rail_far_b": "metal",
+      "rail_near_a": "metal",
+      "rail_near_b": "metal",
+      "sleepers": "wood",
+      "tie_plates_far": "metal",
+      "tie_plates_near": "metal"
+     },
+     "bbox_m": [
+      2.5,
+      0.292,
+      6.0
+     ],
+     "height_m": 0.292,
+     "base_y": 0.0,
+     "nodes": [
+      "bolts_far",
+      "bolts_near",
+      "fishplates_far",
+      "fishplates_near",
+      "gap",
+      "gap_far",
+      "rail_ends_far",
+      "rail_ends_near",
+      "rail_far_a",
+      "rail_far_b",
+      "rail_near_a",
+      "rail_near_b",
+      "sleepers",
+      "tie_plates_far",
+      "tie_plates_near"
+     ]
+    },
+    "source_blender": "library/assets/builders/prop_rail_joint_gapped_v1_1.py",
+    "builder_sha1": "91083394ea37d022abffcd3c2ca98f268f785701",
+    "blender_version": "5.3.0",
+    "owner": "Ricks props-hero department",
+    "validation": {
+     "PASS": true,
+     "sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13",
+     "contract_sha1": "11646e247dea4973d8ab1942164442b0c149594c",
+     "at": "2026-11-24T17:29:18+00:00",
+     "tool": "tools/assets.py validate (technical only; NOT a creative approval)",
+     "seconds": 2.39,
+     "checks": {
+      "registry_identity": [],
+      "glb_contract": [],
+      "capabilities": [],
+      "loader": {
+       "ok": true,
+       "seconds": 1.67,
+       "exit": 0,
+       "bytes": 48656,
+       "fetch_hash_ms": 4.6,
+       "parse_ms": 9.5,
+       "errors": [],
+       "anchors": {
+        "gap": {
+         "frames_seen": 129,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        },
+        "gap_far": {
+         "frames_seen": 49,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        }
+       }
+      },
+      "determinism": {
+       "ok": true,
+       "seconds": 0.54,
+       "rebuilt_sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13",
+       "registered_sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13",
+       "blender_version": "5.3.0",
+       "builder_unchanged": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "prop_track_buckled",
+   "category": "prop/hero",
+   "source": "original, procedural Blender builder (production 1, The Gap) | new version 1.1 of prop_track_buckled@1.0",
+   "version": "1.1",
+   "dependencies": [
+    "film.json places.<p>.assets",
+    "out/plan/assets_baked.json"
+   ],
+   "license": "original work, same terms as this repository",
+   "preview": "library/assets/previews/prop_track_buckled.png",
+   "blender": {
+    "kind": "bpy_builder",
+    "file": "library/assets/builders/prop_track_buckled_v1_1.py",
+    "entry": "build"
+   },
+   "requirement": {
+    "role": "hero prop of 'The Gap': gapless track buckled sideways by heat (a sun kink); reusable for any railway film",
+    "reference_beats": [
+     3
+    ],
+    "visual_properties": "6 m of continuous standard-gauge track bent into a sideways S (0.42 m peak), straight at both ends; ten sleepers dragged sideways and twisted with the rails, tie plates, ballast shoved out on the outside of each bend; bright new steel (v1.1)",
+    "materials": [
+     "mat:metal.c3c9cf",
+     "mat:metal.3d4146",
+     "mat:wood_grain.4a3626",
+     "mat:gravel.8f8578"
+    ],
+    "anchors": [
+     "kink"
+    ],
+    "scale": {
+     "height_m": 0.29,
+     "tol_pct": 1.0
+    },
+    "orientation": {
+     "up": "Y",
+     "forward": "the track runs along glTF -Z / Blender +Y (plan Y)",
+     "origin": "base centre, sleeper bottoms on y = 0"
+    },
+    "provenance": "original procedural model, library/assets/builders/prop_track_buckled_v1_1.py (no external asset); v1.1 after independent judge v1"
+   },
+   "capabilities": {
+    "static_prop": {},
+    "anchor_target": {
+     "anchors": [
+      "kink"
+     ]
+    }
+   },
+   "environments": [
+    "heat_line (episode set; production 1)"
+   ],
+   "glb": {
+    "file": "library/assets/glb/prop_track_buckled/1.1/prop_track_buckled.glb",
+    "sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9",
+    "bytes": 151104,
+    "status": "validated",
+    "contract": {
+     "up": "Y",
+     "units": "m",
+     "materials": [
+      "mat:gravel.8f8578",
+      "mat:metal.3d4146",
+      "mat:metal.c3c9cf",
+      "mat:wood_grain.4a3626"
+     ],
+     "anchors": {
+      "kink": [
+       -0.4472,
+       0.29,
+       1.0
+      ]
+     },
+     "roles": {
+      "ballast_spill": "ground",
+      "rail_far": "metal",
+      "rail_near": "metal",
+      "sleepers": "wood",
+      "tie_plates": "metal"
+     },
+     "bbox_m": [
+      4.1687,
+      0.29,
+      6.0002
+     ],
+     "height_m": 0.29,
+     "base_y": 0.0,
+     "nodes": [
+      "ballast_spill",
+      "kink",
+      "rail_far",
+      "rail_near",
+      "sleepers",
+      "tie_plates"
+     ]
+    },
+    "source_blender": "library/assets/builders/prop_track_buckled_v1_1.py",
+    "builder_sha1": "1b01699571b2e779e3aa830db8ba1baff160ce1c",
+    "blender_version": "5.3.0",
+    "owner": "Ricks props-hero department",
+    "validation": {
+     "PASS": true,
+     "sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9",
+     "contract_sha1": "1501ce5be3b06de46978d70e882358a8651095df",
+     "at": "2026-11-24T17:29:20+00:00",
+     "tool": "tools/assets.py validate (technical only; NOT a creative approval)",
+     "seconds": 1.82,
+     "checks": {
+      "registry_identity": [],
+      "glb_contract": [],
+      "capabilities": [],
+      "loader": {
+       "ok": true,
+       "seconds": 0.99,
+       "exit": 0,
+       "bytes": 151104,
+       "fetch_hash_ms": 7.0,
+       "parse_ms": 5.3,
+       "errors": [],
+       "anchors": {
+        "kink": {
+         "frames_seen": 122,
+         "max_err_frac": 0.0,
+         "missing_frames": 0
+        }
+       }
+      },
+      "determinism": {
+       "ok": true,
+       "seconds": 0.71,
+       "rebuilt_sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9",
+       "registered_sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9",
+       "blender_version": "5.3.0",
+       "builder_unchanged": true
+      }
+     }
+    }
+   }
   }
  ]
 }

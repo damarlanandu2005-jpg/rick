@@ -27,3 +27,11 @@ High-summer noon on an open meadow: two railway lines side by side under a hard 
 
 ## Readability rules
 - The gap must read at phone size in the hook and payoff (>= 20 px wide at 720 px). The kink must read as an S in one glance (camera nearly overhead-and-behind, along the line).
+
+## V1.1 changes (after independent judge v1, 2026-11-24)
+- Gap: cartoon scale 19 cm (prop_rail_joint_gapped@1.1), polished end faces frame it; phone-size readability over engineering realism. Our line's other joints match (19 cm).
+- Contrast: ours = older darker steel (#767c83) with joints; the perfect line = bright new steel (#c3c9cf), one unbroken ribbon.
+- Heat: a white-hot sun over the far end of the line, faint shimmer rising off both lines from "Steel" on, the existing warm wash on "heat". Original treatment, no borrowed effect.
+- Mechanism: the perfect line shivers and bows from "pushes", throws into the S on "snaps" (8 frames, small overshoot), sleepers dragged and twisted, ballast shoved out (prop_track_buckled@1.1).
+- Room: in the last shot the rail end grows into our open joint with a hot tip and stops short; the gap that is left is the answer.
+- Track build: tie plates under every rail seat, sleepers bedded in crib ballast, darker timber (#4a3626).

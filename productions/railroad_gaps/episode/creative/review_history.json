@@ -1,0 +1,12 @@
+[
+ {
+  "version": 1,
+  "fix_round": 0,
+  "plan_sha1": "d038ea438de11761d8f0cd0131166be9501e81c4",
+  "storyboard_sha1": "0d4358533e9e6bde6b957d382a7e57b5185a91fc",
+  "animatic_sha1": "3830fa1927c3b7052bf084d2d25d35394ee3c5cf",
+  "result": "FAIL",
+  "judge_context_id": "judge-fresh-7f3a91c2e5",
+  "timestamp": "2026-11-24T17:16:51+00:00"
+ }
+]

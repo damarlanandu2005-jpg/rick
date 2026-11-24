@@ -1,0 +1,61 @@
+{
+ "anchors": {
+  "gap": [
+   -0.72,
+   0.29,
+   0.0
+  ],
+  "gap_far": [
+   0.72,
+   0.29,
+   0.0
+  ]
+ },
+ "base_y": 0.0,
+ "bbox_m": [
+  2.5,
+  0.292,
+  6.0
+ ],
+ "height_m": 0.292,
+ "materials": [
+  "mat:metal.3d4146",
+  "mat:metal.767c83",
+  "mat:metal.d4d9de",
+  "mat:wood_grain.4a3626"
+ ],
+ "nodes": [
+  "bolts_far",
+  "bolts_near",
+  "fishplates_far",
+  "fishplates_near",
+  "gap",
+  "gap_far",
+  "rail_ends_far",
+  "rail_ends_near",
+  "rail_far_a",
+  "rail_far_b",
+  "rail_near_a",
+  "rail_near_b",
+  "sleepers",
+  "tie_plates_far",
+  "tie_plates_near"
+ ],
+ "roles": {
+  "bolts_far": "metal",
+  "bolts_near": "metal",
+  "fishplates_far": "metal",
+  "fishplates_near": "metal",
+  "rail_ends_far": "metal",
+  "rail_ends_near": "metal",
+  "rail_far_a": "metal",
+  "rail_far_b": "metal",
+  "rail_near_a": "metal",
+  "rail_near_b": "metal",
+  "sleepers": "wood",
+  "tie_plates_far": "metal",
+  "tie_plates_near": "metal"
+ },
+ "units": "m",
+ "up": "Y"
+}

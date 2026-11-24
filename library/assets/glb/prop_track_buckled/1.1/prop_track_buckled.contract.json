@@ -1,0 +1,39 @@
+{
+ "anchors": {
+  "kink": [
+   -0.4472,
+   0.29,
+   1.0
+  ]
+ },
+ "base_y": 0.0,
+ "bbox_m": [
+  4.1687,
+  0.29,
+  6.0002
+ ],
+ "height_m": 0.29,
+ "materials": [
+  "mat:gravel.8f8578",
+  "mat:metal.3d4146",
+  "mat:metal.c3c9cf",
+  "mat:wood_grain.4a3626"
+ ],
+ "nodes": [
+  "ballast_spill",
+  "kink",
+  "rail_far",
+  "rail_near",
+  "sleepers",
+  "tie_plates"
+ ],
+ "roles": {
+  "ballast_spill": "ground",
+  "rail_far": "metal",
+  "rail_near": "metal",
+  "sleepers": "wood",
+  "tie_plates": "metal"
+ },
+ "units": "m",
+ "up": "Y"
+}

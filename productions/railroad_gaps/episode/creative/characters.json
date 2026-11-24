@@ -7,9 +7,10 @@
    "version": "1.0",
    "role": "track keeper who leaves the rail joint open on purpose",
    "traits": [
-    "kneels at the joint",
-    "points down the line",
-    "stands proud at the payoff"
+    "leans over her open joint",
+    "wilts in the heat",
+    "points at the perfect line before it fails",
+    "stands proud and smug at the payoff"
    ],
    "outfit": "roadWorker (locked outfit library), straw sunHat, ponytail",
    "views_required": [
@@ -21,13 +22,15 @@
    "expressions_required": [
     "standard",
     "sus",
-    "jawdrop",
-    "proud"
+    "tired",
+    "proud",
+    "smug"
    ],
    "poses_required": [
-    "kneel_work",
+    "lean_in",
+    "stand",
     "point_out",
-    "hands_hips"
+    "cool"
    ],
    "reference_beats": [
     1,
