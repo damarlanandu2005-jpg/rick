@@ -1,0 +1,139 @@
+{
+ "schema": "ricks.character_production.v1",
+ "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "package_sha1": "71e45e83fdb6867166ef449e8b308fe62bf3f468",
+ "resolution": [
+  720,
+  1280
+ ],
+ "fps": 30,
+ "reference_board_sha1": "a15d0dabf320f2d0395312994e5ba5795313ff72",
+ "characters": {
+  "mara": {
+   "character": "char_trackkeeper",
+   "version": "1.0",
+   "puppet": "cast:trackkeeper",
+   "spec_sha1": "9c39248a5386ca66711821ec8e876cd0e9ce2d29",
+   "registry_entry_sha1": "00ae6fe03b301594c5c286f9a95e513efcd2524b",
+   "views": {
+    "front": {
+     "file": "creative/characters/mara/front.png",
+     "sha1": "5b664c127d5060e4decffe45e463d42859071f14",
+     "golden_sha1": "5b664c127d5060e4decffe45e463d42859071f14",
+     "golden_diff_pct": 0.0
+    },
+    "34": {
+     "file": "creative/characters/mara/34.png",
+     "sha1": "2754c7698e724a07373bbec525adee3b2b1fd1e0",
+     "golden_sha1": "2754c7698e724a07373bbec525adee3b2b1fd1e0",
+     "golden_diff_pct": 0.0
+    },
+    "side": {
+     "file": "creative/characters/mara/side.png",
+     "sha1": "b9692245aa89710245ff175ab55bdf665f1490a8",
+     "golden_sha1": "b9692245aa89710245ff175ab55bdf665f1490a8",
+     "golden_diff_pct": 0.0
+    },
+    "back": {
+     "file": "creative/characters/mara/back.png",
+     "sha1": "d8927fe3f2317e850f69a7eac226f3e854bf9d01",
+     "golden_sha1": "d8927fe3f2317e850f69a7eac226f3e854bf9d01",
+     "golden_diff_pct": 0.0
+    }
+   },
+   "performance": {
+    "slot_sha1": "0331f189732c41cf0239fb5f0a7edbdde3e33a68",
+    "frames": 300,
+    "poses": [
+     "hands_hips",
+     "kneel_work",
+     "point_out"
+    ],
+    "faces": [
+     "jawdrop",
+     "proud",
+     "standard",
+     "sus"
+    ],
+    "views": [
+     "34",
+     "front"
+    ],
+    "probe": {
+     "states": 6,
+     "warnings": [],
+     "errors": []
+    }
+   },
+   "cards": {
+    "dir": "out/characters/cards/mara",
+    "index_sha1": "c9ef05375e56f579cf4218b05b0c57713eb9169b",
+    "count": 14,
+    "px": [
+     1600,
+     3000
+    ],
+    "images": [
+     {
+      "file": "s0001.png",
+      "sha1": "307b69602e3ce508424fc1691af43d43238fe128"
+     },
+     {
+      "file": "s0002.png",
+      "sha1": "19cbdac2ad43049322b8eb0689edc44b3d597d28"
+     },
+     {
+      "file": "s0003.png",
+      "sha1": "31d16544d669f35ef2a37d0090f0f3f76c556ac0"
+     },
+     {
+      "file": "s0004.png",
+      "sha1": "ca06b00c9a78368d828e93acff3ffcd34031e511"
+     },
+     {
+      "file": "s0005.png",
+      "sha1": "ca06b00c9a78368d828e93acff3ffcd34031e511"
+     },
+     {
+      "file": "s0006.png",
+      "sha1": "ca06b00c9a78368d828e93acff3ffcd34031e511"
+     },
+     {
+      "file": "s0007.png",
+      "sha1": "32036ae74b4301b10e1bd25ed666ca44d768b040"
+     },
+     {
+      "file": "s0008.png",
+      "sha1": "f9b6939f7295ba8eeb4416580468cb64703418d9"
+     },
+     {
+      "file": "s0009.png",
+      "sha1": "f9b6939f7295ba8eeb4416580468cb64703418d9"
+     },
+     {
+      "file": "s0010.png",
+      "sha1": "f9b6939f7295ba8eeb4416580468cb64703418d9"
+     },
+     {
+      "file": "s0011.png",
+      "sha1": "5dd99ab04cd1e7da941e11e016be249235e8ac16"
+     },
+     {
+      "file": "s0012.png",
+      "sha1": "d91cdfe96afc81ccb3f6f4dc6e0e1892697cbd96"
+     },
+     {
+      "file": "s0013.png",
+      "sha1": "d91cdfe96afc81ccb3f6f4dc6e0e1892697cbd96"
+     },
+     {
+      "file": "s0014.png",
+      "sha1": "d91cdfe96afc81ccb3f6f4dc6e0e1892697cbd96"
+     }
+    ],
+    "lock_path": "out/lock/cards/mara"
+   },
+   "status": "built"
+  }
+ }
+}

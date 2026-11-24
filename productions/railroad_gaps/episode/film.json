@@ -245,12 +245,12 @@
    "pose": "point_out",
    "view": "34",
    "dir": 1,
-   "face": "talk"
+   "face": "jawdrop"
   },
   {
    "who": "mara",
    "at": [
-    "The",
+    "sideways",
     1
    ],
    "pose": "hands_hips",

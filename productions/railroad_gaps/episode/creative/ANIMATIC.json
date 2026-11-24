@@ -1,0 +1,54 @@
+{
+ "schema": "ricks.animatic.v1",
+ "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "plan_sha1": "d038ea438de11761d8f0cd0131166be9501e81c4",
+ "baked_sha1": "24781e82e94f54c294b88b6c4eabec7999831995",
+ "n_frames": 300,
+ "fps": 30,
+ "built_by": {
+  "tool": "render.mjs --animatic",
+  "context_id": "claude-production-ctx"
+ },
+ "artifacts": [
+  {
+   "kind": "whole-film-rough",
+   "video": "out/animatic.mp4",
+   "video_sha1": "e6f79340bcaada9eb789ad0874afaebc730c9fcb",
+   "video_frames": 300,
+   "frames_per_sample": 1,
+   "frame_set": {
+    "first": 0,
+    "last": 299,
+    "step": 1,
+    "count": 300
+   },
+   "covers_whole_film": true,
+   "label": "WHOLE-FILM ROUGH, frames 0-299"
+  },
+  {
+   "kind": "hook-partial",
+   "video": "out/animatic_hook.mp4",
+   "video_sha1": "fd0ea98b3a1bc143ce590a71f7d04ae75ae94ed3",
+   "video_frames": 90,
+   "frames_per_sample": 1,
+   "frame_set": {
+    "first": 0,
+    "last": 89,
+    "step": 1,
+    "count": 90
+   },
+   "covers_whole_film": false,
+   "label": "HOOK-PARTIAL, frames 0-89 of 0-299: NOT a full-film review"
+  }
+ ],
+ "assets": {
+  "prop_rail_joint_gapped": {
+   "version": "1.0",
+   "sha1": "95e7e4ce3e5cece9e3f5928d784d1c8748bd0294"
+  },
+  "prop_track_buckled": {
+   "version": "1.0",
+   "sha1": "5260a8482abbd4611ceb019adf77c6862fd9e0d6"
+  }
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "schema": "ricks.storyboard.v1",
+ "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "version": 1,
+ "plan_sha1": "d038ea438de11761d8f0cd0131166be9501e81c4",
+ "baked_sha1": "24781e82e94f54c294b88b6c4eabec7999831995",
+ "n_frames": 300,
+ "fps": 30,
+ "built_by": {
+  "tool": "render.mjs --storyboard",
+  "context_id": "claude-production-ctx"
+ },
+ "stations": [
+  {
+   "id": "s01",
+   "take": "t1",
+   "station": 0,
+   "start": 0,
+   "end": 47,
+   "framing": "M",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s02",
+   "take": "t1",
+   "station": 1,
+   "start": 78,
+   "end": 106,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s03",
+   "take": "t1",
+   "station": 2,
+   "start": 209,
+   "end": 233,
+   "framing": "O",
+   "lens": 24,
+   "passes": false
+  },
+  {
+   "id": "s04",
+   "take": "t2",
+   "station": 0,
+   "start": 234,
+   "end": 299,
+   "framing": "W",
+   "lens": 24,
+   "passes": false
+  }
+ ],
+ "panels": [
+  {
+   "id": "s01_start",
+   "station": "s01",
+   "kind": "START",
+   "frame": 0,
+   "file": "out/storyboard_panels/s01_start_f0.png",
+   "sha1": "1a89ce5574454422287720f7a4a59eff0586370b"
+  },
+  {
+   "id": "s01_end",
+   "station": "s01",
+   "kind": "END",
+   "frame": 47,
+   "file": "out/storyboard_panels/s01_end_f47.png",
+   "sha1": "575fe9881a8fbf80d227633eada19e74b9ccb5b8"
+  },
+  {
+   "id": "s02_start",
+   "station": "s02",
+   "kind": "START",
+   "frame": 78,
+   "file": "out/storyboard_panels/s02_start_f78.png",
+   "sha1": "1a181396d3ffb54fa515b1de68c8405bd2340a10"
+  },
+  {
+   "id": "s02_end",
+   "station": "s02",
+   "kind": "END",
+   "frame": 106,
+   "file": "out/storyboard_panels/s02_end_f106.png",
+   "sha1": "66c32a83d98980f13db7088451ead9834b35c291"
+  },
+  {
+   "id": "s03_start",
+   "station": "s03",
+   "kind": "START",
+   "frame": 209,
+   "file": "out/storyboard_panels/s03_start_f209.png",
+   "sha1": "ef3a22eab488217bde0c9e92d5f742422e188737"
+  },
+  {
+   "id": "s03_end",
+   "station": "s03",
+   "kind": "END",
+   "frame": 233,
+   "file": "out/storyboard_panels/s03_end_f233.png",
+   "sha1": "a1a9853e841c6d0211b67fe6cae745492bd7319b"
+  },
+  {
+   "id": "s04_start",
+   "station": "s04",
+   "kind": "START",
+   "frame": 234,
+   "file": "out/storyboard_panels/s04_start_f234.png",
+   "sha1": "5b2987f5f23edd12511914ee9fd84ea924382582"
+  },
+  {
+   "id": "s04_end",
+   "station": "s04",
+   "kind": "END",
+   "frame": 299,
+   "file": "out/storyboard_panels/s04_end_f299.png",
+   "sha1": "1dbdaef171588fb766729b29e443746a0b047c0e"
+  }
+ ],
+ "assets": {
+  "prop_rail_joint_gapped": {
+   "version": "1.0",
+   "sha1": "95e7e4ce3e5cece9e3f5928d784d1c8748bd0294"
+  },
+  "prop_track_buckled": {
+   "version": "1.0",
+   "sha1": "5260a8482abbd4611ceb019adf77c6862fd9e0d6"
+  }
+ }
+}

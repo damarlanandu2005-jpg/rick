@@ -1,4 +1,38 @@
-{"schema": "ricks.character_spec.v1", "film": "the_gap",
- "characters": {"mara": {"character": "char_trackkeeper", "version": "1.0", "role": "track keeper who leaves the rail joint open on purpose",
-   "traits": ["kneels at the joint", "points down the line", "stands proud at the payoff"], "outfit": "roadWorker (locked outfit library), straw sunHat, ponytail",
-   "views_required": ["front", "34", "side", "back"], "expressions_required": ["standard", "sus", "proud"], "poses_required": ["kneel_work", "point_out", "hands_hips"], "reference_beats": [1, 4]}}}
+{
+ "schema": "ricks.character_spec.v1",
+ "film": "the_gap",
+ "characters": {
+  "mara": {
+   "character": "char_trackkeeper",
+   "version": "1.0",
+   "role": "track keeper who leaves the rail joint open on purpose",
+   "traits": [
+    "kneels at the joint",
+    "points down the line",
+    "stands proud at the payoff"
+   ],
+   "outfit": "roadWorker (locked outfit library), straw sunHat, ponytail",
+   "views_required": [
+    "front",
+    "34",
+    "side",
+    "back"
+   ],
+   "expressions_required": [
+    "standard",
+    "sus",
+    "jawdrop",
+    "proud"
+   ],
+   "poses_required": [
+    "kneel_work",
+    "point_out",
+    "hands_hips"
+   ],
+   "reference_beats": [
+    1,
+    4
+   ]
+  }
+ }
+}

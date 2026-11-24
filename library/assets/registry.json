@@ -974,7 +974,7 @@
     "file": "library/assets/glb/prop_rail_joint_gapped/1.0/prop_rail_joint_gapped.glb",
     "sha1": "95e7e4ce3e5cece9e3f5928d784d1c8748bd0294",
     "bytes": 32416,
-    "status": "validated",
+    "status": "approved",
     "contract": {
      "up": "Y",
      "units": "m",
@@ -1072,7 +1072,10 @@
        "builder_unchanged": true
       }
      }
-    }
+    },
+    "approved_by": "owner damarlanandu2005-jpg (chat approval 2026-11-24 22:28 IST)",
+    "approval_note": "hero open rail joint for The Gap, approved as previewed",
+    "approved_at": "2026-11-24T16:58:53+00:00"
    },
    "capabilities": {
     "static_prop": {},
@@ -1131,7 +1134,7 @@
     "file": "library/assets/glb/prop_track_buckled/1.0/prop_track_buckled.glb",
     "sha1": "5260a8482abbd4611ceb019adf77c6862fd9e0d6",
     "bytes": 131848,
-    "status": "validated",
+    "status": "approved",
     "contract": {
      "up": "Y",
      "units": "m",
@@ -1205,7 +1208,10 @@
        "builder_unchanged": true
       }
      }
-    }
+    },
+    "approved_by": "owner damarlanandu2005-jpg (chat approval 2026-11-24 22:28 IST)",
+    "approval_note": "buckled continuous track for The Gap, approved as previewed",
+    "approved_at": "2026-11-24T16:58:53+00:00"
    },
    "capabilities": {
     "static_prop": {},
@@ -1233,9 +1239,9 @@
    "preview": "library/characters/char_trackkeeper/1.0/front.png",
    "character": {
     "puppet": "cast:trackkeeper",
-    "status": "candidate",
-    "approved_by": null,
-    "approval_note": null,
+    "status": "approved",
+    "approved_by": "owner damarlanandu2005-jpg (chat approval 2026-11-24 22:28 IST)",
+    "approval_note": "Mara for The Gap: approved as shown on APPROVAL_REQUEST_sheet (front/34/side/back); candidate entry promoted by re-registering the same views",
     "views": {
      "front": {
       "file": "library/characters/char_trackkeeper/1.0/front.png",
