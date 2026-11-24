@@ -1,0 +1,391 @@
+{
+ "title": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "words": "voice/words.json",
+ "end": 300,
+ "kit3d": true,
+ "camera_idea": {
+  "name": "Down the other line",
+  "why": "We start at rail height with Mara and the open joint she keeps, rise to show the two lines side by side in the heat, then leave her and run down the perfect line until it gives way; then we cut back to her and her gap.",
+  "signature": "The run: on 'Track' the camera leaves Mara and travels low along the gapless line, arriving at the stretch that buckles exactly on 'snaps'."
+ },
+ "cast": {
+  "mara": {
+   "puppet": "cast:trackkeeper",
+   "height": 1.68,
+   "heads_tall": 2.9
+  }
+ },
+ "places": {
+  "meadow": {
+   "set": "heat_line",
+   "light": "day",
+   "backdrop": 5.5,
+   "assets": [
+    {
+     "id": "prop_rail_joint_gapped",
+     "version": "1.0",
+     "name": "joint",
+     "at": [
+      -1.8,
+      0,
+      0.12
+     ],
+     "rot": 0,
+     "scale": 1,
+     "needs": [
+      "static_prop",
+      "anchor_target"
+     ]
+    },
+    {
+     "id": "prop_track_buckled",
+     "version": "1.0",
+     "name": "kink",
+     "at": [
+      1.8,
+      13.0,
+      0.12
+     ],
+     "rot": 0,
+     "scale": 1,
+     "needs": [
+      "static_prop",
+      "anchor_target"
+     ]
+    }
+   ]
+  }
+ },
+ "props": {
+  "joint": {
+   "pos": [
+    -1.08,
+    0,
+    0.41
+   ],
+   "h": 0
+  },
+  "line_b": {
+   "pos": [
+    1.8,
+    7.0,
+    0.4
+   ],
+   "h": 0
+  },
+  "kink": {
+   "pos": [
+    1.8,
+    12.0,
+    0.41
+   ],
+   "h": 0
+  }
+ },
+ "takes": [
+  {
+   "id": "t1",
+   "place": "meadow",
+   "stations": [
+    {
+     "at": 0,
+     "pos": [
+      0.5,
+      -1.3,
+      1.9
+     ],
+     "aim": [
+      -1.4,
+      0.3,
+      0.66
+     ],
+     "lens": 24,
+     "subject": "mara",
+     "framing": "M",
+     "shows": [
+      "joint"
+     ],
+     "hold": 1.2,
+     "creep": 0.003
+    },
+    {
+     "at": [
+      "heat",
+      1
+     ],
+     "lead": 6,
+     "pos": [
+      -0.6,
+      -4.8,
+      1.8
+     ],
+     "aim": [
+      -0.6,
+      1.5,
+      0.7
+     ],
+     "lens": 24,
+     "subject": "mara",
+     "framing": "W",
+     "shows": [
+      "joint",
+      "line_b"
+     ],
+     "word": "heat",
+     "hold": 0.7,
+     "travel": 1.0,
+     "creep": 0.005
+    },
+    {
+     "at": [
+      "snaps",
+      1
+     ],
+     "lead": 0,
+     "pos": [
+      3.3,
+      8.6,
+      1.35
+     ],
+     "aim": [
+      1.9,
+      12.3,
+      0.3
+     ],
+     "lens": 24,
+     "subject": "mara",
+     "framing": "O",
+     "shows": [
+      "kink",
+      "line_b"
+     ],
+     "word": "snaps",
+     "hold": 0.9,
+     "travel": 3.4,
+     "via": [
+      [
+       2.6,
+       4.5,
+       1.6
+      ]
+     ],
+     "creep": 0.005
+    }
+   ]
+  },
+  {
+   "id": "t2",
+   "place": "meadow",
+   "stations": [
+    {
+     "at": [
+      "The",
+      1
+     ],
+     "pos": [
+      0.2,
+      0.4,
+      0.9
+     ],
+     "aim": [
+      -1.6,
+      -0.4,
+      1.1
+     ],
+     "lens": 24,
+     "subject": "mara",
+     "framing": "W",
+     "shows": [
+      "joint"
+     ],
+     "hold": 1.6,
+     "creep": 0.0015,
+     "drift": [
+      0,
+      0.12,
+      0
+     ]
+    }
+   ]
+  }
+ ],
+ "acts": [
+  {
+   "who": "mara",
+   "at": 0,
+   "pos": [
+    -1.75,
+    0.35,
+    0.12
+   ],
+   "view": "34",
+   "dir": -1,
+   "pose": "kneel_work",
+   "face": "standard"
+  },
+  {
+   "who": "mara",
+   "at": [
+    "heat",
+    1
+   ],
+   "face": "sus"
+  },
+  {
+   "who": "mara",
+   "at": [
+    "Track",
+    1
+   ],
+   "pose": "point_out",
+   "view": "34",
+   "dir": 1,
+   "face": "talk"
+  },
+  {
+   "who": "mara",
+   "at": [
+    "The",
+    1
+   ],
+   "pose": "hands_hips",
+   "view": "front",
+   "dir": 1,
+   "face": "proud",
+   "pos": [
+    -1.75,
+    -0.8,
+    0.12
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "text": "Why do railroads have gaps?",
+   "words": [
+    0,
+    4
+   ],
+   "subject": "mara",
+   "show": [
+    "joint"
+   ],
+   "nouns": [
+    {
+     "word": "gaps",
+     "show": "joint"
+    }
+   ]
+  },
+  {
+   "text": "Steel grows in summer heat.",
+   "words": [
+    5,
+    9
+   ],
+   "subject": "mara",
+   "show": [
+    "line_b"
+   ],
+   "nouns": [
+    {
+     "word": "heat",
+     "show": "line_b"
+    }
+   ]
+  },
+  {
+   "text": "Track laid perfectly end to end has nowhere to go, so it pushes until it snaps sideways.",
+   "words": [
+    10,
+    26
+   ],
+   "subject": "line_b",
+   "show": [
+    "line_b",
+    "kink"
+   ],
+   "nouns": [
+    {
+     "word": "snaps",
+     "show": "kink"
+    }
+   ]
+  },
+  {
+   "text": "The gap gives it room.",
+   "words": [
+    27,
+    31
+   ],
+   "subject": "mara",
+   "show": [
+    "joint"
+   ],
+   "nouns": [
+    {
+     "word": "gap",
+     "show": "joint"
+    }
+   ]
+  }
+ ],
+ "fx": [
+  {
+   "at": [
+    "heat",
+    1
+   ],
+   "kind": "sweat",
+   "on": "mara"
+  },
+  {
+   "at": [
+    "snaps",
+    1
+   ],
+   "kind": "dust",
+   "on": "kink"
+  }
+ ],
+ "moods": [
+  {
+   "at": [
+    "heat",
+    1
+   ],
+   "look": "warm_up"
+  },
+  {
+   "at": [
+    "snaps",
+    1
+   ],
+   "look": "red_alarm"
+  },
+  {
+   "at": [
+    "gap",
+    1
+   ],
+   "look": "warm_gold"
+  }
+ ],
+ "sound": [],
+ "flights": [],
+ "layers": [],
+ "kicks": [
+  {
+   "at": [
+    "snaps",
+    1
+   ],
+   "amp": 1.3
+  }
+ ]
+}

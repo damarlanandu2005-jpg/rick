@@ -1,0 +1,7 @@
+{"schema": "story-only reference board (production 1)", "source": "Why Perfect Railroads Don't Work (uploaded video) - STORY ONLY: no frames from it are used as visual targets",
+ "beats": [
+  {"id": 1, "kind": "hook", "story": "a railway with deliberate gaps looks like a mistake", "frames": ["b1_a: our design - Mara at an open rail joint", "b1_b: our design - the dark gap, fishplates and bolts"]},
+  {"id": 2, "kind": "problem", "story": "steel expands in summer heat", "frames": ["b2_a: our design - two lines under the noon sun", "b2_b: our design - glint on the steel, warm wash"]},
+  {"id": 3, "kind": "explanation", "story": "gapless rail has nowhere to expand, pushes and buckles sideways", "frames": ["b3_a: our design - the unbroken line", "b3_b: our design - the sideways S kink"]},
+  {"id": 4, "kind": "payoff", "story": "the gap gives the steel room: the imperfection is the design", "frames": ["b4_a: our design - Mara proud at her gap", "b4_b: our design - the gap readable at phone size"]}],
+ "department_index": {"set": "heat_line (new, episode set)", "props": "prop_rail_joint_gapped, prop_track_buckled (new Blender assets)", "character": "char_trackkeeper (new)"}}

@@ -1,0 +1,33 @@
+{
+ "anchors": {
+  "kink": [
+   -0.4472,
+   0.29,
+   1.0
+  ]
+ },
+ "base_y": 0.0,
+ "bbox_m": [
+  2.9999,
+  0.29,
+  6.0002
+ ],
+ "height_m": 0.29,
+ "materials": [
+  "mat:metal.9aa0a6",
+  "mat:wood_grain.6b4a2e"
+ ],
+ "nodes": [
+  "kink",
+  "rail_far",
+  "rail_near",
+  "sleepers"
+ ],
+ "roles": {
+  "rail_far": "metal",
+  "rail_near": "metal",
+  "sleepers": "wood"
+ },
+ "units": "m",
+ "up": "Y"
+}
