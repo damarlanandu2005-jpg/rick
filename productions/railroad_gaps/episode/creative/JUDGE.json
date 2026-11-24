@@ -1,28 +1,28 @@
 {
  "schema": "ricks.judge.v1",
- "film": "THE GAP: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
- "version": 1,
- "fix_round": 0,
- "plan_sha1": "d038ea438de11761d8f0cd0131166be9501e81c4",
- "baked_sha1": "24781e82e94f54c294b88b6c4eabec7999831995",
- "storyboard_sha1": "0d4358533e9e6bde6b957d382a7e57b5185a91fc",
- "animatic_sha1": "3830fa1927c3b7052bf084d2d25d35394ee3c5cf",
- "characters_sha1": "07c91ca9679995cb92234d9f4a07b3c172a61ae7",
- "assets_sha1": "522b721a28c97ba26e9ded8dabc8b3c8d4555d35",
+ "film": "THE GAP V1.1: first real 10 s production (story-only reference: why railroads leave gaps; original design)",
+ "version": 2,
+ "fix_round": 1,
+ "plan_sha1": "3faa219706f9db101e66cfa51d22e577f166611d",
+ "baked_sha1": "dd916abb4e222b100efac5118a391b9614aa771f",
+ "storyboard_sha1": "cb02f44368436c6c6c4127d1b92fb62920350bce",
+ "animatic_sha1": "2c02c9b43d636522b754da96dec66d3f063999d4",
+ "characters_sha1": "ed7a0c007eb3fdced2e1f5ff003615fde0a815d1",
+ "assets_sha1": "ac466ee522228da5776f1836fbb5834d92e7205b",
  "assets": {
   "prop_rail_joint_gapped": {
-   "version": "1.0",
-   "sha1": "95e7e4ce3e5cece9e3f5928d784d1c8748bd0294"
+   "version": "1.1",
+   "sha1": "9fd384e77f72b043e6441ed6c479ddab1ea78c13"
   },
   "prop_track_buckled": {
-   "version": "1.0",
-   "sha1": "5260a8482abbd4611ceb019adf77c6862fd9e0d6"
+   "version": "1.1",
+   "sha1": "7554e80796cfbb7939c7759386a397dd518fd5d9"
   }
  },
  "reference_board_sha1": null,
  "judge": {
-  "id": "ricks-fresh-judge-7f3a91",
-  "context_id": "judge-fresh-7f3a91c2e5",
+  "id": "storyboard-judge+studio-director",
+  "context_id": "judge-fresh-7f3a91c2",
   "kind": "fresh-context",
   "agents": [
    "storyboard-judge",
@@ -33,107 +33,107 @@
   "claude-production-ctx"
  ],
  "evidence_read": {
-  "storyboard_sha1": "0d4358533e9e6bde6b957d382a7e57b5185a91fc",
-  "animatic_sha1": "3830fa1927c3b7052bf084d2d25d35394ee3c5cf",
-  "characters_sha1": "07c91ca9679995cb92234d9f4a07b3c172a61ae7",
-  "assets_sha1": "522b721a28c97ba26e9ded8dabc8b3c8d4555d35"
+  "storyboard_sha1": "cb02f44368436c6c6c4127d1b92fb62920350bce",
+  "animatic_sha1": "2c02c9b43d636522b754da96dec66d3f063999d4",
+  "characters_sha1": "ed7a0c007eb3fdced2e1f5ff003615fde0a815d1",
+  "assets_sha1": "ac466ee522228da5776f1836fbb5834d92e7205b"
  },
- "timestamp": "2026-11-24T17:16:51+00:00",
+ "timestamp": "2026-11-24T18:30:46+00:00",
  "threshold": 8.5,
  "panels": {
   "s01_start": {
    "score": 5.0,
-   "rationale": "Face at f0 is good, but the subject of the question (the gap) does not read: the joint is a thin dark sliver under a fishplate, not an open break; the kneel_work pose reads as a stiff figure standing between the rails with stick arms near the rail, no hand on the joint, no contact shadow; plain-box sleepers, carpet-texture ballast and a generic box shed fail Hard Rule No. 2 (caps at 6).",
-   "fix": "Drop the camera to 0.4 m and push in so the open joint is the biggest dark shape in the lower-middle third (>= 40 px wide at 720), with Mara truly kneeling on one knee behind it, one gloved hand pointing into the gap and a contact shadow under knee and boot."
+   "rationale": "Mara fills the frame and owns the eye; the open joint is only a defocused break in the grey rail band along the bottom, so muted it reads as 'woman on a track', not 'look at this gap'. Left arm cut by the frame edge, arms float in a hanger pose, feet hidden behind the near rail with no contact shadow; generic red hut behind.",
+   "fix": "Drop the camera to rail-head height 0.6 m in front of the joint and focus on it, so the two polished rail ends and the dark 19 cm hole sit sharp in the lower third (>=40 px wide at 720), with Mara smaller behind it, bent over it, one hand pointing into the gap and soles planted with a contact shadow on the ballast."
   },
   "s01_end": {
-   "score": 5.0,
-   "rationale": "Same framing as the start with 'gaps?' landing: nothing changed between start and end, the gap is still not visible as a gap, the caption sits on the rail where the gap should be the focal point, the sus face does not point at anything.",
-   "fix": "On 'gaps?' tilt down/push 30 % onto the joint so the caption sits on ballast below a clearly open 8 cm break, and have Mara tap the rail end beside it (hand ends on the rail)."
+   "score": 5.5,
+   "rationale": "The wink and sly smile on 'gaps?' are a clear, specific beat change, but the question noun is still not the focus: the gap is blurred and partly behind her legs, and the caption lands on her vest.",
+   "fix": "On 'gaps?' have her point down into the joint (hand ending at the rail end) and rack focus from her face to the gap; keep the caption over plain ballast, not over the vest."
   },
   "s02_start": {
-   "score": 5.0,
-   "rationale": "Clean leading lines to the horizon, but the beat is HEAT and nothing in the picture says hot (no sun, no shimmer, normal blue sky); the two lines look identical, so the core contrast (jointed vs. one unbroken ribbon) is invisible; Mara is tiny and half cut by the left edge against the shed.",
-   "fix": "Put a blown-out white sun high in frame with visible heat shimmer over line B, make line B's rail a bright continuous ribbon and line A's joints dark breaks every 12 m, and bring Mara 15 % in from the left edge, wiping sweat."
+   "score": 5.5,
+   "rationale": "The two lines under a bright sun and a tiny Mara are readable as a place, but heat is not: the 'tired' face with a zZ glyph reads as sleepy, no shimmer is visible, and the left line's joints are not visible at this distance, so 'ours has gaps, that one doesn't' does not read. Nothing shows steel growing.",
+   "fix": "Replace the zZ with big sweat drops and a wilting pose, add visible heat-shimmer distortion over both rails, and push a short insert of a rail end creeping forward (with a red-orange glow) so 'steel grows' is shown, not said."
   },
   "s02_end": {
-   "score": 4.5,
-   "rationale": "Jawdrop + point lands on 'laid' but nothing has happened yet to shout at; her pointing arm is cut by the frame edge and points off-screen, so the reaction has no motivated event (acting check fail); the frame is otherwise identical to the start.",
-   "fix": "Replace the jawdrop here with a 'sus' squint and have her point down line B at a visible heat shimmer and a rail visibly creeping/lengthening, keeping her whole arm inside the frame."
+   "score": 5.5,
+   "rationale": "Practically identical to s02_start: same framing, same pose, same face; the warm wash is too faint to register, so the station adds no new information on 'heat'.",
+   "fix": "Make the 'heat' landing visible: hard warm wash plus a glint flaring along the bright rail and Mara fanning herself with her hat, or cut the rest and let the camera keep travelling."
   },
   "s03_start": {
    "score": 6.0,
-   "rationale": "Best story frame: the sideways S kink reads in one glance with a dust puff and red wash. But the buckle pops in on one frame with no build-up (no push, no strain, no gap-less ends straining), the sleepers stay square under the bent rails so the rails float over them, and the 3.3 s run before it shows only straight track with no event.",
-   "fix": "Spend frames 150-208 on the push: rail ends visibly squeezed, sleepers creaking, a 6-frame anticipation shiver; then on 'snaps' bend the rails with the sleepers dragged and twisted as in the asset preview, ballast spray, and a dark contact shadow under the kink."
+   "rationale": "Good choice of view: low along the bright unbroken line with the jointed line beside it, and the first bow is visible. But the bright rail is a flat white extruded bar with a sawtooth top edge, has no tie plates and hovers over the sleepers, so it looks like a render glitch rather than steel under compression.",
+   "fix": "Give the perfect line a real rail profile and tie plates on every sleeper like line A, kill the sawtooth edge artifact, and add tiny compression arrows or squash lines at both far ends so 'pushes' reads before the bow."
   },
   "s03_end": {
-   "score": 6.0,
-   "rationale": "Kink is held and readable at phone size, but the picture is static after the pop, sleepers are undisturbed and orange plain boxes, no consequence or reaction (no face for 3.4 s), and the jointed line next to it is not contrasted.",
-   "fix": "Hold on the kink with dust settling and the sleepers dragged out of line, and pan 10 % left so line A's intact dark joint sits in the same frame as the kink (cause and contrast in one picture)."
+   "score": 6.5,
+   "rationale": "The strongest panel: the sideways S reads at a glance and the dust puff marks the snap. But in the live set the rails slide over static, straight sleepers (they are not dragged or twisted), faint ghost lines trail across the ties, and no ballast is shoved out, so the physical violence of the buckle is missing.",
+   "fix": "Make the sleepers move with the rails (rotate and shift them under the S, as the prop_track_buckled asset does), throw ballast out on the outside of each bend, remove the ghost-line artifact, and add a bigger dust burst plus a 2-frame camera kick on 'snaps'."
   },
   "s04_start": {
-   "score": 4.0,
-   "rationale": "Payoff frame opens with the stale caption 'sideways.' across Mara's body; the near-rail joint is a blurred grey band in the foreground DOF, so 'the gap' is not visible; the hands_hips fists float beside the body instead of resting on the hips; the shed/trees background is generic.",
-   "fix": "Start the cut on 'The gap' (caption swap on the cut), pull focus to the near rail so the open joint is sharp and >= 40 px wide at the bottom third, and lock both hands onto the hips."
+   "score": 5.0,
+   "rationale": "A hard cut back to the opening frame with a proud face, but the answer object (the gap) is again a blurred grey band behind her legs; muted, the payoff reads as 'she is pleased', not 'the gap is why'.",
+   "fix": "Open the last shot on the gap itself, sharp and centred in the lower third, with Mara crouched beside it tapping the rail end; only then reveal her proud face."
   },
   "s04_end": {
    "score": 4.5,
-   "rationale": "Last frame has no caption and no payoff image: the 'room' idea (the gap absorbing the growth) is never shown, the gap stays out of focus, and Mara holds one static pose for 2.2 s; it does not loop back to the hook.",
-   "fix": "Show the payoff: on 'room' the near rail end visibly slides into the gap and stops short of touching (gap closes from 8 cm to 2 cm) while Mara gives a thumbs-down-at-the-gap/nod, ending on the hook's joint framing for a loop."
+   "rationale": "The 'room' growth is a small orange block that pops out of the rail end and reads like a floating flag or texture glitch, half lost at the bottom edge and in defocus; it is not clear the steel grew and still has room left, so the film's answer is not shown. Smug blush face is fine.",
+   "fix": "Show the growth as the rail end itself sliding 60% across the gap with a red-hot glow, stopping with a clearly visible dark gap left, framed sharp mid-frame with a small 'still room' bracket or Mara's thumb-and-finger gesture measuring it."
   },
   "char_mara": {
-   "score": 6.5,
-   "rationale": "Consistent across front/34/side/back and cards; orange hi-vis vest, straw hat with rose band and ponytail read at phone size and match the look bible; expressions are big and distinct. But the kneel_work pose reads as a standing lean (no bent knee on the ground), the hands_hips fists float off the hips, she never touches or uses the joint or a tool, and in the film she is a flat billboard with no contact shadow.",
-   "fix": "Rebuild kneel_work as a true one-knee kneel with a hand on the rail end and add a track gauge or spanner prop in hand; fix hands_hips so the fists sit on the hip line; add a dark contact shadow at boots/knee in every set placement."
+   "score": 7.0,
+   "rationale": "On model and consistent across front, 3/4, side, back and the cards; the hi-vis vest, straw hat with rose band and ponytail fit the track-keeper role and read at phone size; expressions sus/proud/smug are distinct. But the lean_in pose has a detached-looking back arm and a coat-hanger front arm and actually leans away, the 'tired' face reads as sleepy, and in-film she is repeatedly cut by the frame edge with no foot contact.",
+   "fix": "Rebuild lean_in as a real lean toward the joint (hips back, chest over the gap, one hand on the knee, one pointing down), swap the tired zZ glyph for sweat drops, and keep the whole figure inside the frame with a contact shadow at the soles."
   },
   "asset_prop_rail_joint_gapped": {
-   "score": 4.0,
-   "rationale": "The hero asset fails its own purpose: the 8 cm gap is a hairline even in the registry preview and is not readable at 720x1280 in the hook or payoff (look bible demands >= 20 px); fishplates read as dark blocks, the sleepers in the film render bright orange plain boxes, not the dark weathered wood of mat:wood_grain.6b4a2e.",
-   "fix": "Exaggerate the cartoon gap to 18-20 cm with chamfered, sun-glinting rail ends and a dark shadow inside, bevelled fishplates with readable bolt heads, and grain/end-checks on the sleepers so the asset reads as a deliberate gap from 3 m away."
+   "score": 6.0,
+   "rationale": "Preview matches the requirement on parts (dark sleepers, tie plates, fishplates with bolts, no sleeper under the joint, darker steel) and the identity is right, but the gap still reads small relative to gauge, the 'polished end faces' are barely brighter than the rail, sleepers are plain boxes; in the film it sits in the defocused foreground and never becomes the focal point.",
+   "fix": "Make the end faces clearly bright polished steel (mat:metal.d4d9de with a hot specular), widen the visual gap or darken the void under it to near-black ballast, add bevels/grain to sleepers, and stage it in the focus plane in shots 1 and 4."
   },
   "asset_prop_track_buckled": {
    "score": 6.0,
-   "rationale": "The S bend reads in one glance and has the right scale against the track; but in the film the sleepers under it stay square (the preview's dragged/twisted sleepers are lost or covered by set sleepers), so the rails float; steel is not brighter than line A in the shot; it appears instantly with no state change animation.",
-   "fix": "Use the asset's own twisted sleepers in the set (remove the set sleepers under the kink span), raise the steel to a brighter running surface than line A, and drive the bend through a 6-10 frame blend from straight to S on 'snaps'."
+   "rationale": "Preview reads as a sideways S with sleepers dragged and twisted and bright new steel, matching the requirement, but the ballast heaps are flat untextured pyramids and the sleepers plain boxes; in the film the visible buckle is the live set deformation where the sleepers do not move, so the asset's best story detail (dragged sleepers, shoved ballast) is not what the viewer sees.",
+   "fix": "Swap in (or match) the asset's dragged-sleeper geometry at the end of the live buckle, give the ballast heaps gravel texture and scattered stones, and frame the settled kink against plain grass as the look bible asks."
   }
  },
  "film_level": {
   "verdict": "FAIL",
-  "notes": "Sound-off test fails: a muted viewer sees a woman standing on a track, a long straight-track run, a rail that suddenly kinks, and the woman smiling; the cause chain (heat -> steel grows -> no room -> buckle; gap = room) is never pictured, only captioned one word at a time. The gap, the noun of the hook and the payoff, is not readable at phone size in either hero shot. Frames ~120-208 (2.9 s) are straight track with nothing happening. The buckle is a 1-frame swap with no anticipation. Caption 'sideways.' bleeds onto the payoff cut; last frame has no caption and no loop to the hook. Finish reads as video-game/low-poly (plain box sleepers, carpet ballast, box shed, tiled grass) - on the MUST NOT LOOK LIKE list; Hard Rule No. 2 fails on sleepers, shed and ballast. One place, one light (OK for 10 s, but heat is not visible as light). Animatic is 540x960, not 720x1280. Hero ranking: the kink (s03) is the strongest panel; hook and payoff, which should be strongest, are the weakest."
+  "notes": "Sound-off chain: heat reads weakly (sun yes, shimmer/sweat no; the face reads sleepy), 'steel grows' is never shown, 'nowhere to go' is implied by the unbroken bright line, the sideways buckle reads (best beat), and the gap as the room it needs does not read in the payoff (orange block looks like a glitch). Hook: frame 1 shows Mara, not the strange object; the gap is a blurred band at the bottom, so the hook question is carried by the caption only. Shots 1 and 4 are the same framing with the hero cut by the left edge and no contact shadow; s02 start/end are identical. Environment is clean but generic toon (box sleepers, plain hut, flat rail bar with sawtooth artifact, ghost lines over the buckle). Camera idea 'down the other line' is visible and works. Not publishable yet. Note: the animatic.mp4 on disk hashes to eb71a4e88cb063b08bf21373b23454ce4adc6cb9, not the brief's 2c02c9b4...; I judged the file on disk."
  },
  "studio_director": {
   "verdict": "BACK",
-  "note": "BACK to storyboard/layout and asset departments. Not publishable: no panel reaches 8.5 (best 6.5). Required before re-judging: (1) a readable cartoon-scale gap as the darkest shape in hook and payoff; (2) visualise heat and expansion (sun, shimmer, rail creeping) between 1.7 and 7 s instead of an empty track run; (3) animate the buckle with anticipation and dragged sleepers; (4) a payoff image that shows the rail growing into the gap and stopping; (5) fix caption timing at the cut and the hands_hips/kneel body mechanics; (6) detail pass on sleepers, ballast and shed to leave the low-poly look."
+  "note": "BACK to camera-director/props-hero/animator: re-stage shots 1 and 4 around a sharp, focal gap (and a readable rail-end growth that stops short), show expansion and heat in shot 2, and make sleepers move with the live buckle in shot 3; character-artist to fix the lean_in pose and tired face. Every panel is below 8.5; strongest is s03_end at 6.5."
  },
- "min_panel_score": 4.0,
+ "min_panel_score": 4.5,
  "below_threshold": {
   "s01_start": 5.0,
-  "s01_end": 5.0,
-  "s02_start": 5.0,
-  "s02_end": 4.5,
+  "s01_end": 5.5,
+  "s02_start": 5.5,
+  "s02_end": 5.5,
   "s03_start": 6.0,
-  "s03_end": 6.0,
-  "s04_start": 4.0,
+  "s03_end": 6.5,
+  "s04_start": 5.0,
   "s04_end": 4.5,
-  "char_mara": 6.5,
-  "asset_prop_rail_joint_gapped": 4.0,
+  "char_mara": 7.0,
+  "asset_prop_rail_joint_gapped": 6.0,
   "asset_prop_track_buckled": 6.0
  },
  "result": "FAIL",
- "reviewer": "ricks-fresh-judge-7f3a91",
+ "reviewer": "storyboard-judge+studio-director",
  "score": {
   "s01_start": 5.0,
-  "s01_end": 5.0,
-  "s02_start": 5.0,
-  "s02_end": 4.5,
+  "s01_end": 5.5,
+  "s02_start": 5.5,
+  "s02_end": 5.5,
   "s03_start": 6.0,
-  "s03_end": 6.0,
-  "s04_start": 4.0,
+  "s03_end": 6.5,
+  "s04_start": 5.0,
   "s04_end": 4.5,
-  "char_mara": 6.5,
-  "asset_prop_rail_joint_gapped": 4.0,
+  "char_mara": 7.0,
+  "asset_prop_rail_joint_gapped": 6.0,
   "asset_prop_track_buckled": 6.0
  },
  "verdict": "FAIL",
- "fix_list_sha1": "5a640d9161c424da06399e58e5c79171c934724b"
+ "fix_list_sha1": "4d1d4e4c07d28e350a8f7d2ebd17e7e08f134551"
 }

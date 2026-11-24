@@ -8,5 +8,15 @@
   "result": "FAIL",
   "judge_context_id": "judge-fresh-7f3a91c2e5",
   "timestamp": "2026-11-24T17:16:51+00:00"
+ },
+ {
+  "version": 2,
+  "fix_round": 1,
+  "plan_sha1": "3faa219706f9db101e66cfa51d22e577f166611d",
+  "storyboard_sha1": "cb02f44368436c6c6c4127d1b92fb62920350bce",
+  "animatic_sha1": "2c02c9b43d636522b754da96dec66d3f063999d4",
+  "result": "FAIL",
+  "judge_context_id": "judge-fresh-7f3a91c2",
+  "timestamp": "2026-11-24T18:30:46+00:00"
  }
 ]
