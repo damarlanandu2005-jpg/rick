@@ -100,9 +100,9 @@ Do not turn small decisions into questions. Stop only at a real owner gate.
 | R6 orchestrator + render gate | PROVEN (103/0) |
 | R7 asset library and capabilities | PROVEN (96/0) |
 | R8 audio layer | PROVEN for its scope (53/0). Ducking, LUFS gates and TTS are NOT IMPLEMENTED |
-| R9 certification | PASS 47/0: a fixture film went end to end to a decoded 720×1280 MP4 with synced AAC. FROZEN |
-| Final MP4 of a **real** (non-fixture) film | **NOT YET DONE** |
-| GPU render path | NOT TESTED (no GPU here; `render_gpu.mjs` refuses SwiftShader/llvmpipe as designed) |
+| R9 certification | PASS 47/0 on CPU. The full chain ran: reference → … → G8 → human approval → G9 → lock → final render → composite → visual QA → audio → mux → delivery QA, giving a decoded 720×1280 MP4 with synced AAC. The film was a **TEST_FIXTURE_ONLY** film (`production:false`). FROZEN |
+| Final MP4 of a **real** (non-fixture) film | **NOT YET DONE**: no real production film has passed the complete creative process and reached a final production render |
+| Three.js hardware-GPU path | NOT CERTIFIED (see RENDERING PATHS) |
 | Optional Blender layers end to end in R6+ | NOT TESTED |
 | Multi-take / flight films in a final render | SUPPORTED (plan, storyboard, animatic), NOT TESTED in a final render |
 | Holding/throwing/moving registry GLBs, physics | NOT IMPLEMENTED |
@@ -122,7 +122,10 @@ Do not keep modifying the railroad film. The next real production is a **Level-1
 - about 5–10 s, one character, one environment, 1–2 LARGE props;
 - an obvious central action and a visual transformation;
 - 2–3 shots with clear cause → effect;
-- no tiny ground-level hero object, no physics, no multi-character interaction, no dependence on focus control or advanced poses.
+- no tiny ground-level hero object, no physics, no multi-character interaction, no dependence on focus control or advanced poses;
+- the current CPU workspace, one expensive final render only after approval, the judge at 8.5 or more on every panel, and the owner as final creative authority.
+
+Steps: (1) record the railroad test in `productions/railroad_gaps/production_test_report.md`; (2) start a new branch `prod/<name>`; (3) run the Level-1 benchmark. The engineering machinery (R1–R9) is finished; the next priority is a real Level-1 film, not more infrastructure.
 
 Testing ladder (not a new engine): L1 simple successful short → L2 more complex action → L3 multiple props / environment complexity → L4 railway / ground-level / focus-critical → L5 physics-heavy.
 
@@ -154,14 +157,28 @@ Goal: **REFERENCE STORY → ORIGINAL ARTWORK → GOOD FILM → FINAL MP4**, not 
 ## NOTEBOOK / COLAB STRATEGY
 GitHub is the source of truth; Colab is a disposable executor. A notebook is a thin launcher (clone → detect environment → install → run `tools/pipeline.py` → QA → MP4), never the engine.
 
-**Measured facts:**
-- **Colab T4 runs exist for Phases 2/3/6/7**, the pre-R1 pipeline (`phase*/colab_*.ipynb`, evidence in `phase*/evidence*`).
-- **three.js on Colab:** Chrome uses SwiftShader there, so it is a **CPU** render at about 4.33–4.35 s/frame.
-- **Blender did use the T4** in the Blender-first A/B experiment (Route B): 3.39 s/frame mean, 79 % GPU utilisation. The hybrid (three.js base) stays the default.
-- **This container (2 vCPU):** about 1.0 s/frame CPU for the three.js base.
-- The existing notebooks are **stale for the R6+ gated pipeline**, which has not been run on Colab.
+**Colab is NOT a proven path for the current gated production pipeline.**
+- **What earlier Colab runs measured (all pre-R1, `phase*/colab_*.ipynb`):**
+  - a Blender-first full-frame render (Route B);
+  - Blender masked enhancement layers;
+  - the three.js base, which fell back to CPU/software rendering there.
+- **Route B is not the layer route.** It was a Blender-first full-frame render, not the Blender masked enhancement/layer technique.
+- **Never certified on Colab:** the R1–R9 gated pipeline end to end; the existing notebooks are stale for it.
+- **How to treat Colab:** an optional, experimental GPU environment, not the current production renderer.
 
-Do not build Kaggle or RTX-3050 infrastructure speculatively.
+**Next production:** keep using the current CPU workspace unless measurement on the real film shows rendering is actually the bottleneck. Do not add Colab, Kaggle or GPU plumbing just because a GPU is available. Revisit GPU integration only when a measured production workload shows it is necessary. Compute is not the current bottleneck; creative quality is.
+
+## RENDERING PATHS (keep these separate; numbers from `docs/PRODUCTION_BLUEPRINT_LOCKED.md` §15 and `docs/IMPLEMENTATION.md`)
+| Path | What it is | Status | Measured |
+|---|---|---|---|
+| **Three.js CPU / software** | the production base picture (the R9 certification was CPU-based) | **PROVEN / measured** | this container about 1.0 s/f (R9); local 2-CPU 1.75–1.93 s/f; Colab CPU (SwiftShader) 4.33–5.10 s/f |
+| **Three.js hardware-GPU production path** | `render_gpu.mjs` (ANGLE) | **NOT CERTIFIED** | R9 container: Chromium = llvmpipe (software), refused as designed; Colab T4: SwiftShader, refused. Ricks' own RTX 2070 figure (0.55–0.9 s/f) is not ours |
+| **Route B: Blender-first FULL-FRAME render** | the whole frame rendered in Blender (A/B experiment); NOT a layer pass | previously benchmarked (Colab T4), not the default | EEVEE, 720×1280, 175 f: mean 3.387 s/f, median 3.331, P90 3.801, GPU util mean 78.6 %, VRAM peak 1835 MiB; with compose about 4.3 s/f end to end |
+| **Blender masked enhancement layers** | optional masked layer (glint, reflection…) composited over the three.js base | previously benchmarked (Colab T4); NOT TESTED end to end in R6+ | 0.67–0.77 s/f steady, 49.6–51.2 s cold first frame |
+| **R1–R9 gated pipeline end to end on Colab** | — | **NOT CERTIFIED** | never run |
+| **R1–R9 gated pipeline end to end, CPU workspace** | — | **CERTIFIED on a TEST_FIXTURE_ONLY film only** (R9) | 430-frame MP4, clean run 519.6 s |
+
+No real production film has yet passed the complete creative process and reached a successful final production render.
 
 ## GPU RULE
 GPU present ≠ GPU rendering. When a GPU is used, record:
@@ -200,7 +217,7 @@ LAST_COMPLETED_STAGE: independent judge v2 recorded (commit 39ce70a)
 LAST_JUDGE_RESULT: FAIL, fix round 1, min 4.5 (s04_end), max 6.5 (s03_end), threshold 8.5
 FINAL_RENDER_STATUS: NOT RENDERED (no approval.json, no lock)
 AUDIO_STATUS: none for The Gap (no voice take, no SFX/music); R8 audio layer certified on the fixture only
-GPU_STATUS: NOT TESTED (no GPU in this container; Colab three.js = SwiftShader CPU)
+GPU_STATUS: three.js hardware-GPU path NOT CERTIFIED; three.js CPU PROVEN; Route B (Blender-first full frame) and Blender masked layers only benchmarked pre-R1 on Colab; R1–R9 E2E on Colab NOT CERTIFIED; next film stays on the CPU workspace
 REVIEW_BUDGET_STATUS: The Gap exhausted (2/2 judged); reopening needs owner review.py new-version
 NEXT_RECOMMENDED_ACTION: write productions/railroad_gaps/production_test_report.md (record only), then start the Level-1 benchmark on a new branch prod/<name>
 OWNER_ACTION_REQUIRED: YES — choose/approve the Level-1 benchmark story (or explicitly reopen The Gap with review.py new-version)

@@ -2,7 +2,7 @@
 
 Quick start: `CLAUDE.md`. This file holds the detail behind it.
 If anything here disagrees with the repository, **the repository wins**: update this file.
-Last updated: 2026-11-25, on branch `prod-the-gap` (state after commit `39ce70a` plus this documentation commit).
+Last updated: 2026-11-25, on branch `prod-the-gap` (handoff commit `2b395e4`; rendering-path/Colab correction in the following commit).
 
 ---
 
@@ -34,7 +34,7 @@ Last updated: 2026-11-25, on branch `prod-the-gap` (state after commit `39ce70a`
 
 ## 3. Capability status (PROVEN / SUPPORTED / NOT TESTED / NOT IMPLEMENTED)
 - **PROVEN:**
-  - the whole gated chain to a decoded 720×1280 / 30 fps MP4 with synchronized AAC, **on a TEST_FIXTURE_ONLY film** (`production:false`);
+  - the whole gated chain on CPU (reference → story → script/words → reference board → picture plan → look bible → 2D characters → registry assets → film.json → plan bake → G1–G7 → three.js storyboard → animatic → independent judge → G8 → human approval → G9 → lock → final render → composite → visual QA → audio → mux → delivery QA) to a decoded 720×1280 / 30 fps MP4 with synchronized AAC, **on a TEST_FIXTURE_ONLY film** (`production:false`). The fixture is not a real production film: **no real production film has yet passed the complete creative process and reached a successful final production render**;
   - approval / lock / asset / audio safety, fail-closed (R9 safety matrix);
   - the Blender → GLB → registry → three.js chain;
   - the 2D character pipeline;
@@ -44,9 +44,9 @@ Last updated: 2026-11-25, on branch `prod-the-gap` (state after commit `39ce70a`
   - owner approvals of a character and four asset versions through the real registry commands.
 - **SUPPORTED (storyboard/animatic level, not certified in a final render):** multi-take films with hard cuts (The Gap has one cut), flights.
 - **NOT TESTED:**
-  - the GPU render path (needs the GPU PC: `templates/threejs_film/GPU_RENDER.md`, ANGLE/D3D11);
+  - the three.js hardware-GPU production path: **NOT CERTIFIED** (needs the GPU PC: `templates/threejs_film/GPU_RENDER.md`, ANGLE/D3D11; see §4a);
   - the optional Blender enhancement layers end to end in R6+;
-  - the R6+ pipeline on Colab;
+  - the R1–R9 gated pipeline end to end on Colab: **NOT CERTIFIED**, never run (§4a);
   - dense scenes;
   - a final render of a **real** owner-approved film.
 - **NOT IMPLEMENTED:**
@@ -69,6 +69,36 @@ Last updated: 2026-11-25, on branch `prod-the-gap` (state after commit `39ce70a`
   - asset validate: 2–3.5 s.
 - **Network:** PyPI and the Ubuntu archive are reachable; huggingface.co returns 403. No speech recognizer and no TTS, so words are script-timed and labelled as such.
 - **Local files:** the `*.whl` files and `RicksClips_*.zip` in the repo root are local installers/sources. The wheels must never be committed.
+
+## 4a. Rendering paths and Colab (corrected 2026-11-25; keep these separate)
+Sources: `docs/PRODUCTION_BLUEPRINT_LOCKED.md` §15 (raw-evidence table) and `docs/IMPLEMENTATION.md` (Phases 1C, 5+6, A/B, 7).
+
+| Path | What it is | Status | Measured (only what the repository records) |
+|---|---|---|---|
+| Three.js CPU / software | the production base picture; the R9 certification was CPU-based | **PROVEN / measured** | this container about 1.0 s/f (R9 final render 428.2 s for 430 f); local 2-CPU 1.75 / 1.83 / 1.93 s/f; Colab CPU (Chrome = SwiftShader) 4.33–4.35 s/f (Phases 5/6, 7), 4.52 / 4.78 / 5.10 s/f (A/B ranges) |
+| Three.js hardware-GPU production path | `render_gpu.mjs` (ANGLE) | **NOT CERTIFIED** | R9 container: Chromium reports llvmpipe (software), `render_gpu.mjs` refuses (exit 2); Colab T4: SwiftShader, refused as designed. The 0.55–0.9 s/f figure in `GPU_RENDER.md` is Ricks' RTX 2070 SUPER on another scene: not ours |
+| **Route B = Blender-first FULL-FRAME render** | the entire frame rendered in Blender (`experiments/blender_first_ab/`, A/B vs the hybrid). It is **not** the masked enhancement/layer path and must not be called a layer pass | previously benchmarked on Colab T4; verdict: viable but not clearly better, the hybrid stays default | Blender 5.2.4 EEVEE, 64 samples, 720×1280, 175 frames: first frame 41.9 s, mean 3.387 s/f, median 3.331, P90 3.801, total 592.8 s, GPU util mean 78.6 % (P90 98 %), VRAM peak 1835 MiB of 15360; plus CPU grade/compose 0.891 s/f and overlay about 0.1 s/f: about 4.3 s/f end to end |
+| Blender masked enhancement layers | a separate hybrid technique: three.js is the base picture, Blender renders an optional masked layer (glint, reflection, bounce light, lit smoke…) composited over it (`tools/layers.py`) | previously benchmarked on Colab T4; optional, not in the default path; NOT TESTED end to end in R6+ | 0.67–0.77 s/f steady (Phase 3 generic path reproducing 1C: 0.774; Phases 5+6 Colab runs: 0.661 / 0.669; Phase 7: 0.76), 49.6–51.2 s cold first frame |
+| R1–R9 gated pipeline end to end on Colab | — | **NOT CERTIFIED** (never run; the notebooks predate R1 and are stale) | — |
+| R1–R9 gated pipeline end to end on the CPU workspace | — | **CERTIFIED on a TEST_FIXTURE_ONLY film only** (R9) | 430 frames, clean run 519.6 s, resume 78.8 s |
+
+**Colab status.**
+- Colab is **not a proven path** for the current gated production pipeline.
+- What earlier Colab runs measured:
+  - a Blender-first full-frame render (Route B);
+  - Blender masked enhancement layers;
+  - the three.js base, as CPU/software rendering.
+- Route B was a Blender-first full-frame render, not the Blender masked enhancement/layer route.
+- The current gated R1–R9 pipeline has not been certified end to end on Colab.
+- Treat Colab as an optional, experimental GPU environment, not the current production renderer.
+- Kaggle and the owner's local GPU: no evidence (blueprint §15: UNKNOWN).
+
+**Note on the blueprint.** Blueprint §15 still says "Default: develop and QA on Colab; render farm Kaggle/local only after a GPU path is proven". That was the plan before R6–R9. All actual R6–R9 work and certification ran in the CPU workspace. Its evidence table is correct; this section records the current status.
+
+**Decision for the next production.**
+- Keep using the current CPU workspace unless measurement on the real film shows rendering is actually the bottleneck.
+- Do not add Colab, Kaggle or GPU plumbing merely because GPU rendering is available. Revisit GPU integration only when a measured production workload shows it is necessary.
+- The engineering machinery (R1–R9) is finished. Creative quality, not compute, is the current bottleneck, and the next priority is a real Level-1 production film.
 
 ## 5. Production 1 — "The Gap" (railroad story-only test)
 
@@ -191,7 +221,12 @@ Last updated: 2026-11-25, on branch `prod-the-gap` (state after commit `39ce70a`
   - 5–10 s, one character, one environment, one or two large props;
   - an obvious central action and transformation;
   - 2–3 shots with a clear cause → effect;
-  - no tiny ground-level hero, no physics, no multi-character interaction, no dependence on focus control or ground-interaction poses.
+  - no tiny ground-level hero, no physics, no multi-character interaction, no dependence on focus control or ground-interaction poses;
+  - the current CPU workspace (§4a), one expensive final render only after approval, the judge at 8.5 or more on every panel, and the owner as final creative authority.
+- **Steps:**
+  1. record the railroad test in `productions/railroad_gaps/production_test_report.md`;
+  2. start a new branch `prod/<name>`;
+  3. run the Level-1 benchmark.
 - **Ladder:** L1 simple successful short → L2 more complex action → L3 multiple props/environment → L4 railway / ground-level / focus-critical (The Gap lives here) → L5 physics-heavy.
 - **Success** = all twelve steps, ending in a real MP4:
   1. the story works;
