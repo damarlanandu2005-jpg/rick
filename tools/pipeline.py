@@ -5,7 +5,7 @@ EXPLICIT creative inputs (missing or stale = FAIL, never regenerated); every oth
 
 STAGE GRAPH (authoritative order; the first failure/wait stops the run, nothing downstream runs, no expensive render):
   0 inputs  -> 1 plan -> G1..G7 -> 2 storyboard -> 3 animatic -> 4 judge -> G8 -> HUMAN APPROVAL (G9) -> 5 assets -> 6 lock (+cards, freeze) -> 7 base (three.js, the only expensive render) -> flight -> 8 layers (optional Blender)
-  -> 9 final (composite + mp4) -> 10 QA -> (sound: reserved for R8, not implemented).   Each stage records owner, input/output hashes, cache key, status, seconds, failure reason in out/pipeline/stages.json; one manifest per run in out/pipeline/production_manifest.json.
+  -> 9 final (composite + mp4) -> 10 QA -> 11 sound (R8: validate, mix, mux; SKIP for a film with no audio) -> 12 delivery QA (decoded MP4).   Each stage records owner, input/output hashes, cache key, status, seconds, failure reason in out/pipeline/stages.json; one manifest per run in out/pipeline/production_manifest.json.
 CACHE / RESUME: the base render and the lock are cached by a key of every input INCLUDING the approval, the lock and the mode; a changed upstream artifact changes the key and invalidates everything below it. storyboard/animatic/judge are never regenerated when valid, never faked when stale.
 MODES: production (default: production:true, needs judge + approval + lock + QA) vs --unapproved-test-run (named test mode, production:false, stamps NOT_A_PRODUCTION_RENDER.txt). A TEST_FIXTURE_ONLY episode runs every gate for real but is stamped production:false.
 CREATIVE (LLM / human; NOT run by this script): C1 script + picture plan -> film.json; C2 look / layer decisions -> film.json layers[]; C3 layer review -> out/layers/<id>/review.json {"keep": true|false, "by": ..., "note": ...}; the independent judge; the human approval."""
@@ -14,6 +14,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parent; sys.path.insert(0, str(HERE)); import layers as LY, final_video as FV
 from frames import film_frame_count, parse_range, is_full, scope_label
 REPORT = []; ORDER = ["0 inputs", "1 plan", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "2 storyboard", "3 animatic", "4 judge", "G8", "G9", "5 assets", "6 lock", "6b cards", "6c lock freeze", "7 base", "8 flight", "8 layers", "9 final", "10 qa"]
+DELIVERY = ["11 sound", "12 delivery qa"]   # R8: the audio delivery stages come AFTER the R6 sequence above (which ends at the silent picture QA)
 TEST_ENV = "RICKS_UNAPPROVED_TEST_RUN"; OUT = None; EP = None; MODE = {"production": True, "test_mode": False, "fixture": False}; RUN = {"expensive_render_executed": False, "base_frames_rendered": 0, "failed_stage": None, "waiting": None}
 def stage(name, owner, status, secs=0.0, note="", inputs=None, outputs=None, key=None, reason=None):
     REPORT.append(dict(stage=name, owner=owner, status=status, seconds=round(secs, 2), note=note, inputs=inputs or {}, outputs=outputs or {}, cache_key=key, failure_reason=reason if reason is not None else (note if status in ("FAIL", "WAIT") else None)))
@@ -44,7 +45,7 @@ def manifest(ep, final_status):
     (OUT / "production_manifest.json").write_text(json.dumps(M, indent=1)); return M
 def finish(status="FAIL"):
     json.dump(REPORT, open(OUT / "pipeline_report.json", "w"), indent=1); (OUT / "stages.json").write_text(json.dumps(REPORT, indent=1)); manifest(EP, status)
-def downstream(name): return ORDER[ORDER.index(name) + 1:] if name in ORDER else []
+def downstream(name): S_ = ORDER + DELIVERY; return S_[S_.index(name) + 1:] if name in S_ else []
 def stop(name, status, why, code=1):
     """The first meaningful failure (or wait) stops everything: report the failed stage, the affected downstream stages and whether any expensive render happened."""
     RUN["failed_stage" if status == "FAIL" else "waiting"] = name; ds = [x for x in downstream(name)]
@@ -148,7 +149,20 @@ def main():
     if a.unapproved_test_run:
         fm = ep / "out/final/final_manifest.json"; Mm = json.load(open(fm)); Mm.update(production=False, mode="unapproved-test-run"); fm.write_text(json.dumps(Mm, indent=1))
     rc, t, p = sh([sys.executable, str(HERE / "qa_hybrid.py"), str(ep), "--res", a.res], OUT / "qa.log"); stage("10 qa", "Ricks QA + enforcement (qa_hybrid.py)", "PASS" if rc == 0 else "FAIL", t, ("; ".join(l for l in p.stdout.splitlines() if l.startswith("- **FAIL**")) or "all checks PASS")[:200], outputs={"qa_report.json": sha1(ep / "out/qa/qa_report.json")})
-    stage("sound", "Ricks sound stage (R8)", "RESERVED", 0, "not implemented in R6; no sound system is invented here")
     if rc: stop("10 qa", "FAIL", "QA FAILED (see %s)" % (ep / "out/qa/qa_report.md"))
-    finish("PASS"); print("\nFINAL VIDEO:", ep / "out/final/final.mp4", "(production:%s)" % ("true" if MODE["production"] else "false"))
+    # R8: audio AFTER the approved, locked, rendered and QA'd picture: validate -> mix -> mux (video stream copied) -> decoded delivery QA. A film with no "audio" block stays silent (SKIP).
+    import audio as AU; t = time.perf_counter(); cfg, _F = AU.config(ep); dlv = ep / "out/final/final.mp4"
+    full = json.load(open(ep / "out/final/final_manifest.json")).get("frames") == [0, AU.film_frames(ep) - 1]
+    if cfg is not None and not full: stage("11 sound", "R8 audio layer (tools/audio.py; cues from Ricks film.json sound)", "SKIP", 0, "PARTIAL range: a delivery with audio needs the whole film (never a full PASS)")
+    elif cfg is None: stage("11 sound", "R8 audio layer (tools/audio.py; cues from Ricks film.json sound)", "SKIP", 0, "film.json declares no audio: the delivery is the silent final.mp4")
+    else:
+        try: dv, A = AU.mux(ep)
+        except SystemExit as e: stage("11 sound", "R8 audio layer (tools/audio.py; cues from Ricks film.json sound)", "FAIL", time.perf_counter() - t, str(e)[:300]); stop("11 sound", "FAIL", str(e)[:300])
+        stage("11 sound", "R8 audio layer (tools/audio.py; cues from Ricks film.json sound)", "PASS", time.perf_counter() - t, "%d events, mix peak %s dBFS, rms %s dBFS, production:%s" % (len(A["events"]), A["mix"]["peak_dbfs"], A["mix"]["rms_dbfs"], A["production"]),
+              inputs=dict(A["inputs"], **{"final.mp4": sha1(ep / "out/final/final.mp4")}), outputs={"mix.wav": A["mix"]["sha1"], "final_video.mp4": A["delivery"]["sha1"]})
+        t = time.perf_counter(); R = AU.qa(ep); bad = [k for k, ok, _ in R if not ok]
+        stage("12 delivery qa", "R8 decoded delivery QA (tools/audio.py qa)", "PASS" if not bad else "FAIL", time.perf_counter() - t, ("; ".join(bad) or "%d checks PASS on the decoded MP4" % len(R))[:300], outputs={"final_video.mp4": A["delivery"]["sha1"]})
+        if bad: stop("12 delivery qa", "FAIL", "delivery QA FAILED: " + "; ".join(bad)[:300])
+        dlv = dv
+    finish("PASS"); print("\nFINAL VIDEO:", dlv, "(production:%s)" % ("true" if MODE["production"] else "false"))
 if __name__ == "__main__": main()

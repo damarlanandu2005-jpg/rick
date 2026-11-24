@@ -8,7 +8,7 @@ per-frame data that BOTH the three.js film and the Blender look pass read, so th
 timing can never drift between the two:
     out/plan/camera_baked.json       per frame: pos, aim, roll, lens_mm, fov_v, state (rest / travel), take, station
     out/plan/performance_baked.json  per character: run-length states (view, dir, pose, face, mouth, blink, prop, pos)
-    out/plan/sound_events.json       [{t, name}] for the mix, from the same word anchors
+    out/plan/sound_events.json       [{t, name, gain}] for the mix, from the same word anchors (+ frame/end_frame/type/file/... for an R8 cue: tools/audio.py)
     out/plan/plan_report.md / .json  every gate with value, target, PASS / WARN / FAIL and the fix
 
 Pure Python (math + json only) so Blender's Python can import it:  import film_plan as FP; F = FP.load(path); cam = FP.bake_camera(F)
@@ -66,6 +66,15 @@ def fr(F, t):
     if isinstance(t, dict): return int(round(t["s"] * F["fps"]))
     return T(F, t[0], t[1] if len(t) > 1 else 1) + (t[2] if len(t) > 2 else 0)
 
+AUDIO_KEYS = ("type", "file", "dur", "until", "offset", "fade_in", "fade_out", "loop")
+def sound_event(F, s, n):
+    """One baked sound cue. The R1-R7 fields {t, name, gain} are unchanged; a cue that uses an R8 audio field also gets its exact frame (the timing authority: frame / fps)
+    and, for "until" (a word anchor or "end"), its end frame. Everything else is passed through for tools/audio.py to validate (it fails closed; nothing is fixed up here)."""
+    e = dict(t=round(fr(F, s["at"]) / float(F["fps"]), 3), name=s["name"], gain=s.get("gain", 0))
+    if any(k in s for k in AUDIO_KEYS):
+        e["frame"] = fr(F, s["at"]); e.update({k: s[k] for k in AUDIO_KEYS if k in s and k != "until"})
+        if "until" in s: e["end_frame"] = n if s["until"] == "end" else fr(F, s["until"])
+    return e
 # ------------------------------------------------------------------ camera
 def _basis(pos, aim, up_hint=None):
     f = vnorm(vsub(aim, pos)); up = up_hint or ([0, 1, 0] if abs(f[2]) > 0.97 else [0, 0, 1])   # top-down shots: keep "up" = world Y so the heading cannot spin
@@ -737,7 +746,7 @@ def write(F, R, cam, perf, sp):
     json.dump(perf, open(os.path.join(out, "performance_baked.json"), "w"))
     if F.get("flights"): json.dump(flights_of(F, perf), open(os.path.join(out, "flights_baked.json"), "w"))
     if F.get("layers"): json.dump(bake_layers(F), open(os.path.join(out, "layers_baked.json"), "w"), indent=1)
-    ev = sorted([dict(t=round(fr(F, s["at"]) / float(F["fps"]), 3), name=s["name"], gain=s.get("gain", 0)) for s in F.get("sound", [])], key=lambda e: e["t"])
+    ev = sorted([sound_event(F, s, len(cam)) for s in F.get("sound", [])], key=lambda e: e["t"])
     json.dump(ev, open(os.path.join(out, "sound_events.json"), "w"), indent=1)
     json.dump(dict(gates=R, speed=[round(s, 2) for s in sp]), open(os.path.join(out, "plan_report.json"), "w"))
     fails = sum(r["status"] == "FAIL" for r in R); warns = sum(r["status"] == "WARN" for r in R)
