@@ -199,3 +199,11 @@ Known limitation (R4H): when a set uses one library material in several colours 
 **Production sequence:** approval -> lock -> visual render -> audio mix -> FFmpeg mux -> final QA.
 **Tests:** `r8/test_audio.py` 53 PASS / 0 FAIL (43 s); `r8/e2e_production.py` on the R6 production fixture 8 PASS / 0 FAIL (clean run 503 s, almost all of it the 430-frame render; audio 4.5 s). Regressions: R7 96, R6 103, R5 60, R4 61, R3 79, R2 76, R1 gates 27, R1 frames 33, all 0 FAIL. `pipeline.ORDER` stays the R6 sequence; the delivery stages are `pipeline.DELIVERY` after it. Measurements: `r8/MEASUREMENTS.md`.
 **One R6 assertion changed on purpose:** "R6T sound is RESERVED" now reads "a film with no audio block gets no sound (stage SKIP, no final_video.mp4)": R8 implements the reserved stage.
+
+## R9 (2026-11-24) - final certification and freeze
+See `docs/R9_FINAL_CERTIFICATION.md`. No new subsystem. The certification found three engineering defects, fixed in place:
+- `approval.py` signs `words.json`;
+- `lock_stamp.py` refuses tampered lock card drawings at every lock consumer;
+- `film.js` seeds the dust, so the base render is byte-reproducible.
+
+Certification (`r9/certify.py`): 47 PASS / 0 FAIL. R1-R8 all 0 FAIL. GPU path: NOT EXECUTED (no GPU device). **The framework is frozen**: change only when a real production video exposes a concrete limitation.
