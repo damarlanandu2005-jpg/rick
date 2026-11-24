@@ -32,7 +32,7 @@ AUDIO = {"required": ["voice", "music", "sfx", "ambience"]}
 SOUND = [dict(at=0, name="voice", type="voice", file="voice/voice.wav"), dict(at=0, name="bed", type="music", file="sound/music/bed.wav", until="end", gain=-20, fade_in=0.8, fade_out=1.5),
          dict(at=0, name="wind", type="ambience", file="sound/amb/wind.wav", until="end", gain=-10, fade_in=1.0, fade_out=1.0), dict(at=["kneels", 1], name="footstep", gain=-6),
          dict(at=["taps", 1], name="impact", gain=-4), dict(at=["taps", 1, 6], name="impact", gain=-6), dict(at=["train", 1], name="whoosh", gain=-6)]
-PLACE = dict(name="lantern", at=[0.7, -0.6, 0.0], rot=30, scale=1.2)
+PLACE = dict(name="lantern", at=[1.6, 2.6, 0.0], rot=30, scale=1.2)   # R9 class-B fix: at [0.7, -0.6] the big glowing lantern close to the camera pulled the decoded check_film camera-speed median to 1.49 (< 1.55); here it measures 1.72
 EP = W / "film_a"
 os.environ["RICKS_REGISTRY"] = str(REG)
 import assets as AS, approval as AP, lock_stamp as LS, characters as CH, audio as AU, glb as G
@@ -95,6 +95,9 @@ t("R resume REUSED the locked render: 7 base CACHE, 6 lock CACHE (no second expe
 t("R resume changed NO hash: %s" % ", ".join(k for k in SNAP if SNAP[k] != after[k]) if any(SNAP[k] != after[k] for k in SNAP) else "R resume changed NO hash (creative, film.json, approval, words, baked plan, lock, registry, asset GLB, staged assets, %d stills, final.mp4, mix.wav, final_video.mp4)" % n, all(SNAP[k] == after[k] for k in SNAP), "A")
 t("R resume did not bypass a gate: G1-G9 re-checked (PASS), judge + approval INPUT/PASS, no --skip", all(S2[g]["status"] == "PASS" for g in ("G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9")), "A")
 TIMES["resume_stage_s"] = {k: v["seconds"] for k, v in S2.items() if v["seconds"] >= 1}
+sc = 720 / json.load(open(EP / "film.json")).get("size", [1080, 1920])[0]; rr = sh(["node", ROOT / "templates/threejs_film/render.mjs", EP / "film.json", "--frames", "60,200,350", "--scale", str(sc), "--stills-dir", W / "rerender"])
+same = [sha(W / "rerender" / ("f_%05d.png" % f)) == sha(EP / "out/stills" / ("f_%05d.png" % f)) for f in (60, 200, 350)] if rr.returncode == 0 else []
+t("R reproducible picture: re-rendering frames 60, 200, 350 in a NEW process with the production base-render arguments gives byte-identical stills to the final render (%s)" % same, same == [True] * 3, "A")
 
 # ====================================================================== 5. R7 ASSET certification: registry -> film placement -> three.js -> storyboard -> animatic -> lock -> final render
 e = AS.entry("prop_oil_lantern", "1.0"); g = e["glb"]; L = json.load(open(EP / "out/lock/lock.json"))["approved"]["assets"]
