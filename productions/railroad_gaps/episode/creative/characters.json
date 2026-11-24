@@ -10,7 +10,7 @@
     "leans over her open joint",
     "wilts in the heat",
     "points at the perfect line before it fails",
-    "stands proud and smug at the payoff"
+    "proud, then smug, over her gap at the payoff"
    ],
    "outfit": "roadWorker (locked outfit library), straw sunHat, ponytail",
    "views_required": [
@@ -29,8 +29,7 @@
    "poses_required": [
     "lean_in",
     "stand",
-    "point_out",
-    "cool"
+    "point_out"
    ],
    "reference_beats": [
     1,

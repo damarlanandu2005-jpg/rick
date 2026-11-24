@@ -13,7 +13,7 @@
    "character": "char_trackkeeper",
    "version": "1.0",
    "puppet": "cast:trackkeeper",
-   "spec_sha1": "e9956dd1cc84a4a7e6d8286e838e3eb0821998ba",
+   "spec_sha1": "da91de07f671483d5c03782f48fdfd05725eda26",
    "registry_entry_sha1": "00ae6fe03b301594c5c286f9a95e513efcd2524b",
    "views": {
     "front": {
