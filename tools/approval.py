@@ -23,6 +23,7 @@ def current(ep):
     ep = Path(ep); c = ep / "creative"; H = {}
     f = lambda p: sha(p) if Path(p).is_file() else None
     H["plan_sha1"] = f(ep / "film.json"); H["picture_plan_sha1"] = f(c / "PICTURE_PLAN.md"); H["look_bible_sha1"] = f(c / "LOOK_BIBLE.md"); H["storyboard_sha1"] = f(c / "STORYBOARD.json"); H["animatic_sha1"] = f(c / "ANIMATIC.json")
+    fj = json.load(open(ep / "film.json")) if (ep / "film.json").is_file() else {}; H["words_sha1"] = f(ep / fj.get("words", "voice/words.json"))   # R9 fix: the approved words/timing (Ricks: voice + words come before film.json) are signed directly, not only through the baked plan
     import reference_link as RL; H["reference_board_sha1"] = RL.board_sha(ep)   # R5: json only for a legacy board; json + every reference image once the board has image frames
     pl = ep / "out/plan"; H["baked_sha1"] = _combine([(n, sha(pl / n)) for n in BAKED if (pl / n).is_file()]) if (pl / "camera_baked.json").is_file() and (pl / "performance_baked.json").is_file() else None
     import characters as CH; H["character_sheets_sha1"] = CH.evidence_sha(ep)   # R3: spec + production record (views, performance, card hashes) + contact sheet
@@ -53,7 +54,7 @@ def check(ep):
     H = current(ep)
     for k, v in H.items():
         if v is None: bad.append("%s: the file it hashes is missing now" % k)
-        elif A[k] != v: bad.append("STALE %s: the file changed after approval" % k)
+        elif A.get(k) != v: bad.append("STALE %s: the file changed after approval" % k + ("" if k in A else " (this approval predates the field: re-approve)"))
     ap = A["approvals"]
     for k in FLAGS:
         e = ap.get(k)

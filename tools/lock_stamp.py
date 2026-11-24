@@ -68,6 +68,8 @@ def problems(ep):
     for i in present:
         if i not in decl: bad.append("lock contains undeclared asset %s" % i)
     if a["cards"] != card_hashes(ep): bad.append("the lock's frozen card hashes differ from the approved character cards")
+    if a["cards"] and (ep / "out/lock/cards").is_dir():   # R9 fix: the lock's own card drawings (out/lock/cards) must still be the approved cards, so EVERY lock consumer (render guard, final video, audio mux) refuses a tampered one, not only the pipeline's 6b stage (a lock without drawings is the pipeline 6b check's job: nothing downstream of the base render can read drawings that do not exist)
+        import characters as CH; bad += ["lock cards: " + x for x in CH.lock_problems(ep)]
     fz = a.get("frozen"); cur = frozen(ep, {**L, "lights": L.get("lights")})
     if not fz: bad.append("the lock froze no camera/timing/performance/set/effects/lights block (re-stamp)")
     else:
