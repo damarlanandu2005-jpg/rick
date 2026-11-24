@@ -80,7 +80,7 @@ t("R6C stage ordering follows the authoritative sequence (inputs, plan, G1-G7, s
 ran = [PL.ORDER.index(s["stage"]) for s in S if s["stage"] in PL.ORDER]; t("R6C the real run executed the stages in that order (no stage out of order), lock BEFORE the final base", ran == sorted(ran) and PL.ORDER.index("6 lock") < PL.ORDER.index("7 base") and names(P).index("6 lock") < names(P).index("7 base"))
 t("R6D every stage record carries owner, inputs, outputs, status, duration, failure reason, cache key", all(all(k in s for k in ("stage", "owner", "inputs", "outputs", "status", "seconds", "failure_reason", "cache_key")) for s in S))
 t("R6C creative artifacts are explicit INPUT stage values (never regenerated); judge and approval are separate human/independent stages", sd["0 inputs"]["status"] == "INPUT" and "judge" in sd["4 judge"]["owner"].lower() and "human" in sd["G9"]["owner"].lower())
-t("R6T sound is a RESERVED stage only (no sound system invented)", sd["sound"]["status"] == "RESERVED")
+t("R6T (R8 update) a film with no \"audio\" block gets NO sound: the sound stage is SKIP after QA and the delivery stays the silent final.mp4", sd["11 sound"]["status"] == "SKIP" and "declares no audio" in sd["11 sound"]["note"] and not (P / "out/final/final_video.mp4").exists())
 for k in ("expensive_render_executed", "base_frames_rendered"): pass
 H = Ms["hashes"]; cur = AP.current(P)
 t("R6M manifest: run id, film id, mode, commit, blueprint, status", all(Ms.get(k) is not None for k in ("run_id", "film_id", "mode", "commit", "blueprint_sha1", "status")) and Ms["blueprint_status"] == "LOCKED")
