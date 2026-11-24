@@ -895,7 +895,11 @@ function dustFor(pl, cfg) {
   if (pl.dust !== undefined) return pl.dust; const night = /0b1026|27345c/.test(pl.L.top + pl.L.hor) || (pl.L.si ?? 2) < 1.2;
   const n = Math.round((night ? 260 : 520) * (cfg.dust ?? 1)); if (!n) return (pl.dust = null);
   const g = new THREE.BufferGeometry(), p0 = new Float32Array(n * 3), v = new Float32Array(n * 4);
-  for (let i = 0; i < n; i++) { p0.set([Math.random() * 14, Math.random() * 7, Math.random() * 14], i * 3); v.set([(Math.random() - .5) * .06, .015 + Math.random() * .05, (Math.random() - .5) * .06, Math.random()], i * 4); }
+  // R9 fix: SEEDED (mulberry32 from the place's set + light), not Math.random: the same approved film must render the same pixels in every process (a re-render, a resumed
+  // or a split range); unseeded dust made every render different and could tip the measured check_film camera speed across its band.
+  let a = 0x9e3779b9; for (const ch of String((pl.set || '') + '|' + (pl.L.top || '') + '|' + n)) a = Math.imul(a ^ ch.charCodeAt(0), 2654435761) >>> 0;
+  const rnd = () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  for (let i = 0; i < n; i++) { p0.set([rnd() * 14, rnd() * 7, rnd() * 14], i * 3); v.set([(rnd() - .5) * .06, .015 + rnd() * .05, (rnd() - .5) * .06, rnd()], i * 4); }
   g.setAttribute('position', new THREE.BufferAttribute(p0, 3)); g.setAttribute('vel', new THREE.BufferAttribute(v, 4));
   const col = new THREE.Color(cfg.dust_color || (night ? '#bcd2ff' : '#ffd79a'));
   const mat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false,
